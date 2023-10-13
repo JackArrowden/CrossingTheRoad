@@ -1,9 +1,8 @@
 #pragma once
-#include "CANIMAL.h"
-class CAT
+class CMOUSE
 {
 public:
-	CAT();
+	CMouse();
 	void tell();
 	void Move(int,int);
 };

@@ -5,7 +5,7 @@ private:
 	int mX, mY;
 public:
 	virtual void Move(int, int) = 0;
-	void Stop();
+	virtual void tell();
 
 };
 

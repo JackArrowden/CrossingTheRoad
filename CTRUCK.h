@@ -1,10 +1,10 @@
 #pragma once
-#include "CANIMAL.h"
-class CAT
+class CTRUCK
 {
 public:
-	CAT();
 	void tell();
 	void Move(int,int);
+	
+
 };
 
