@@ -1,5 +1,6 @@
 #pragma once
-class CAR
+#include "CVEHICLE.h"
+class CAR : public CVEHICLE
 {
 public:
 	void tell();

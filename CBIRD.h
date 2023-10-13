@@ -1,5 +1,6 @@
 ﻿#pragma once
-class CBIRD
+#include "CANIMAL.h"
+class CBIRD : public CANIMAL
 {
 public:
 	CBIRD();

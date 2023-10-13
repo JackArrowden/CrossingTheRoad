@@ -1,6 +1,6 @@
 #pragma once
 #include "CANIMAL.h"
-class CAT
+class CAT : public CANIMAL
 {
 public:
 	CAT();
