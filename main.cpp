@@ -1,8 +1,10 @@
-#include <iostream>
+#include "CBIRD.h"
 
-using namespace std;
+
 
 int main() {
 	cout << "HI" << endl;
+	CBIRD *bird = new CBIRD;
+	bird->tell();
 	return 0;
 }
