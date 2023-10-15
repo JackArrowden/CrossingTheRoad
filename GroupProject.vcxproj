@@ -127,7 +127,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CANIMAL.cpp" />
+    <ClCompile Include="CAR.cpp" />
+    <ClCompile Include="CAT.cpp" />
+    <ClCompile Include="CBIRD.cpp" />
+    <ClCompile Include="CGAME.cpp" />
+    <ClCompile Include="CPEOPLE.cpp" />
+    <ClCompile Include="CTRAFFIC_LIGHT.cpp" />
+    <ClCompile Include="CTRAIN.cpp" />
+    <ClCompile Include="CTRUCK.cpp" />
+    <ClCompile Include="CVEHICLE.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="CMOUSE.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CANIMAL.h" />
+    <ClInclude Include="CAR.h" />
+    <ClInclude Include="CAT.h" />
+    <ClInclude Include="CBIRD.h" />
+    <ClInclude Include="CGAME.h" />
+    <ClInclude Include="CPEOPLE.h" />
+    <ClInclude Include="CTRAFFIC_LIGHT.h" />
+    <ClInclude Include="CTRAIN.h" />
+    <ClInclude Include="CTRUCK.h" />
+    <ClInclude Include="CVEHICLE.h" />
+    <ClInclude Include="CMOUSE.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
