@@ -4,6 +4,6 @@ class CAR : public CVEHICLE
 {
 public:
 	void tell();
-	void Move(int, int);
+	//void Move(int, int);
 };
 

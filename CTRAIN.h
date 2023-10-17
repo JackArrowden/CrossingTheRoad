@@ -5,7 +5,7 @@ class CTRAIN : public CVEHICLE
 {
 public:
 	void tell();
-	void Move(int, int);
-	bool IsGreen(CTRAFFIC_LIGHT); // đèn tín hiệu đã cho phép tàu được chạy chưa
+	//void Move(int, int);
+	//bool IsGreen(CTRAFFIC_LIGHT); // đèn tín hiệu đã cho phép tàu được chạy chưa
 };
 
