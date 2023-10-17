@@ -3,7 +3,7 @@
 class CMOUSE : public CANIMAL
 {
 public:
-	CMOUSE();
+	//CMOUSE();
 	void tell();
 	void Move(int,int);
 };

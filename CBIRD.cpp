@@ -6,12 +6,11 @@ void CBIRD::tell()
     //const char* soundFilePath = "Sound\\birds.wav";
 
     // Use PlaySound to play the sound file
-    if (PlaySound(TEXT("Sound\\birds.wav"), NULL, SND_FILENAME | SND_LOOP)) {
+    if (PlaySound(TEXT("Sound\\BIRD.wav"), NULL, SND_FILENAME | SND_LOOP)) {
         // Sound started playing successfully
         // You can add additional code here if needed
     }
     else {
-        cout << "1";
         // Error handling
         DWORD error = GetLastError();
         if (error != MMSYSERR_NOERROR) {

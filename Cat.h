@@ -3,7 +3,7 @@
 class CAT : public CANIMAL
 {
 public:
-	CAT();
+	//CAT();
 	void tell();
 	void Move(int,int);
 };
