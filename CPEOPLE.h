@@ -5,7 +5,7 @@ class CPEOPLE {
 	int mX, mY;
 	bool mState; 
 public:
-	CPEOPLE();
+	/*CPEOPLE();
 	void Up(int);
 	void Left(int);
 	void Right(int);
@@ -13,6 +13,6 @@ public:
 	bool isImpact(const CVEHICLE*&);
 	bool isImpact(const CANIMAL*&);
 	bool isFinish();
-	bool isDead();
+	bool isDead();*/
 };
 

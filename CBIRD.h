@@ -1,5 +1,4 @@
 ﻿#pragma once
-#pragma comment(lib, "winmm.lib")
 #include "CANIMAL.h"
 class CBIRD : public CANIMAL
 {

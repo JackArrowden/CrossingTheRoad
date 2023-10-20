@@ -1,4 +1,5 @@
 #pragma once
+#include "ConsoleHandle.h"
 #pragma comment(lib, "winmm.lib")
 #include <Windows.h>
 #include <string>
@@ -9,6 +10,8 @@
 #include <fstream>
 #include <mmsystem.h>
 #include <iostream>
+
+using namespace std;
 
 class CVEHICLE
 {

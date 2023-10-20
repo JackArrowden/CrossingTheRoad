@@ -132,6 +132,7 @@
     <ClCompile Include="CAT.cpp" />
     <ClCompile Include="CBIRD.cpp" />
     <ClCompile Include="CGAME.cpp" />
+    <ClCompile Include="ConsoleHandle.cpp" />
     <ClCompile Include="CPEOPLE.cpp" />
     <ClCompile Include="CTRAFFIC_LIGHT.cpp" />
     <ClCompile Include="CTRAIN.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="CAT.h" />
     <ClInclude Include="CBIRD.h" />
     <ClInclude Include="CGAME.h" />
+    <ClInclude Include="ConsoleHandle.h" />
     <ClInclude Include="CPEOPLE.h" />
     <ClInclude Include="CTRAFFIC_LIGHT.h" />
     <ClInclude Include="CTRAIN.h" />
