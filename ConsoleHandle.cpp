@@ -37,6 +37,8 @@ void ConsoleHandle::textcolor(int x)
 }
 
 void ConsoleHandle::fixConsoleWindow() {
+	system("color f0");
+	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
 	HWND consoleWindow = GetConsoleWindow();
 	LONG style = GetWindowLongPtr(consoleWindow, GWL_STYLE);
 	style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
