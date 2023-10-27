@@ -6,7 +6,8 @@ void CBIRD::tell()
     //const char* soundFilePath = "Sound\\birds.wav";
 
     // Use PlaySound to play the sound file
-    if (PlaySound(TEXT("Sound\\BIRD.wav"), NULL, SND_FILENAME | SND_LOOP)) {
+    if (PlaySound(TEXT("Sound\\BIRD.wav"), NULL, SND_FILENAME | SND_LOOP)) //| SND_ASYNC)) 
+    {
         // Sound started playing successfully
         // You can add additional code here if needed
     }

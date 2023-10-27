@@ -56,5 +56,6 @@ public:
 	static const string INSTRUCTIONS[];
 	static const string SETTINGS[];
 
+	virtual void tell();
 };
 

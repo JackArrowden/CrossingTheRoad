@@ -138,6 +138,7 @@
     <ClCompile Include="CTRAIN.cpp" />
     <ClCompile Include="CTRUCK.cpp" />
     <ClCompile Include="CVEHICLE.cpp" />
+    <ClCompile Include="FileName.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CMOUSE.cpp" />
   </ItemGroup>
