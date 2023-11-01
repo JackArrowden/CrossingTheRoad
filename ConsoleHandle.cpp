@@ -1,4 +1,4 @@
-﻿#pragma one
+﻿#pragma once
 #include "ConsoleHandle.h"
 
 //ConsoleHandle::ConsoleHandle()
