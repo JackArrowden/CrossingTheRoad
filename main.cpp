@@ -2,9 +2,250 @@
 //
 
 #include "CGAME.h"
+#include <string>
+#include <fstream>
+#include <vector>
 
 #define MAX_LOADSTRING 100
 
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+static bool running = true;
+
+enum {
+	BUTTON_UP,
+	BUTTON_DOWN,
+	BUTTON_W,
+	BUTTON_S,
+	BUTTON_A,
+	BUTTON_D,
+	BUTTON_LEFT,
+	BUTTON_RIGHT,
+	BUTTON_ENTER,
+
+	BUTTON_COUNT, // Should be the last item
+};
+struct Button_State {
+	bool is_down;
+	bool changed;
+};
+
+struct Input {
+	Button_State buttons[BUTTON_COUNT];
+};
+
+
+
+#pragma pack(2)
+struct BMPHeader {
+	unsigned short signature; // "BM" for a valid BMP file
+	unsigned int fileSize;   // Size of the BMP file
+	unsigned int reserved;   // Reserved value (unused)
+	unsigned int dataOffset; // Offset to the beginning of the pixel data
+};
+
+#pragma pack(2)
+struct BMPInfoHeader {
+	unsigned int headerSize;       // Size of the info header (should be 40 bytes)
+	int width;                     // Width of the image in pixels
+	int height;                    // Height of the image in pixels
+	unsigned short planes;         // Number of color planes (should be 1)
+	unsigned short bitCount;       // Number of bits per pixel (e.g., 24 bits)
+	unsigned int compression;      // Compression method (0 for uncompressed)
+	unsigned int dataSize;         // Size of the raw image data
+	int hResolution;               // Horizontal resolution (pixels per meter)
+	int vResolution;               // Vertical resolution (pixels per meter)
+	unsigned int colors;          // Number of colors in the color palette (0 for full color)
+	unsigned int importantColors; // Number of important colors (usually ignored)
+};
+
+class bitmapHandMake {
+public:
+	int height;
+	int width;
+	u32* memory;
+	bitmapHandMake() : memory(NULL), height(0), width(0) {}
+	~bitmapHandMake()
+	{
+		if (!memory) return;
+		delete[] memory;
+		height = 0;
+		width = 0;
+	}
+};
+
+inline int clamp(int min, int val, int max) {
+	if (val < min) return min;
+	if (val > max) return max;
+	return val;
+}
+
+class Render_State {
+public:
+	int height, width;
+	void* memory;
+	BITMAPINFO bitmap_info;
+
+	Render_State() : memory(NULL), height(0), width(0) {
+		bitmap_info.bmiHeader.biSize = sizeof(bitmap_info.bmiHeader);
+		bitmap_info.bmiHeader.biWidth = width;
+		bitmap_info.bmiHeader.biHeight = height;
+		bitmap_info.bmiHeader.biPlanes = 1;
+		bitmap_info.bmiHeader.biBitCount = 32;
+		bitmap_info.bmiHeader.biCompression = BI_RGB;
+	}
+	~Render_State()
+	{
+		if (memory != 0)
+		{
+			VirtualFree(memory, 0, MEM_RELEASE);
+			height = 0;
+			width = 0;
+		}
+	}
+
+	void resize(int newHeight, int newWidth)
+	{
+		height = newHeight;
+		width = newWidth;
+		int size = width * height * sizeof(u32);
+		if (memory) VirtualFree(memory, 0, MEM_RELEASE);
+		memory = VirtualAlloc(0, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+		bitmap_info.bmiHeader.biSize = sizeof(bitmap_info.bmiHeader);
+		bitmap_info.bmiHeader.biWidth = width;
+		bitmap_info.bmiHeader.biHeight = height;
+	}
+
+	void drawReac2P(int leftX, int rightX, int bottomY, int topY, u32 color)
+	{
+		//check and fix the input data
+		leftX = clamp(0, leftX, width);
+		rightX = clamp(0, rightX, width);
+		bottomY = clamp(0, bottomY, height);
+		topY = clamp(0, topY, height);
+
+		for (int y = bottomY; y < topY; y++)
+		{
+			u32* pixel = (u32*)memory + y * width + leftX;
+			for (int x = leftX; x < rightX; x++)
+			{
+				*pixel = color;
+				pixel++;
+			}
+		}
+	}
+
+	void clearScreen(u32 color)
+	{
+		for (int y = 0; y < height; y++)
+		{
+			u32* pixel = (u32*)memory + y * width;
+			for (int x = 0; x < width; x++)
+			{
+				*pixel = color;
+				pixel++;
+			}
+		}
+	}
+
+	void drawImageLT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel = 1)
+	{
+		if (perPixel < 0) return;
+		int y0 = max(0, bottomY);
+		int x0 = max(0, leftX);
+		for (int y = y0; y < min(height, image.height / perPixel + bottomY); y++)
+		{
+			u32* pixel = (u32*)memory + y * width + x0;
+			u32 idxInImage = (y - bottomY) * image.width * perPixel + perPixel / 2 * (image.width + 1) + (x0 - leftX) * perPixel;
+			for (int x = x0; x < min(width, image.width / perPixel + leftX); x++)
+			{
+				*pixel = image.memory[idxInImage];
+				pixel++;
+				idxInImage += perPixel;
+			}
+		}
+
+	}
+
+	void drawImageC(const bitmapHandMake& image, int centerX, int centerY, int perPixel = 1)
+	{
+		//for(int y = )
+
+
+	}
+
+	void drawReac(int centerX, int centerY, const double& halfHeight, const double& halfWidth, u32 color)
+	{
+
+	}
+};
+
+
+bitmapHandMake readBitmapFile(const std::string& path)
+{
+	std::ifstream file(path, std::ios::binary);
+
+	bitmapHandMake res;
+	if (!file.is_open()) {
+		std::cerr << "Error: Could not open the BMP file" << std::endl;
+		return res;
+	}
+
+	BMPHeader bmpHeader;
+	BMPInfoHeader bmpInfoHeader;
+
+	// Read the BMP header
+	file.read(reinterpret_cast<char*>(&bmpHeader), sizeof(BMPHeader));
+
+	if (bmpHeader.signature != 0x4D42) {
+		std::cerr << "Error: Not a valid BMP file" << std::endl;
+		file.close();
+		return res;
+	}
+
+	// Read the BMP info header
+	file.read(reinterpret_cast<char*>(&bmpInfoHeader), sizeof(BMPInfoHeader));
+
+	// Check if the image is 24 bits per pixel (RGB)
+	if (bmpInfoHeader.bitCount != 24) {
+		std::cout << bmpInfoHeader.bitCount << '\n';
+		std::cerr << "Error: Only 24-bit BMP files are supported" << std::endl;
+		file.close();
+		return res;
+	}
+
+	// Calculate the size of the image data
+	unsigned int imageSize = bmpInfoHeader.width * bmpInfoHeader.height * 3;
+	res.height = bmpInfoHeader.height;
+	res.width = bmpInfoHeader.width;
+	res.memory = new u32[imageSize / 3];
+
+	// Create a buffer to store the pixel data
+	std::vector<char> imageData(imageSize);
+
+	// Read the pixel data
+	file.read(imageData.data(), imageSize);
+	file.close();
+
+	// Now, you can access the pixel data in the 'imageData' vector
+	// Print the RGB values of each pixel
+	for (size_t i = 0; i < imageSize; i += 3) {
+		unsigned char blue = static_cast<unsigned char>(imageData[i]);
+		unsigned char green = static_cast<unsigned char>(imageData[i + 1]);
+		unsigned char red = static_cast<unsigned char>(imageData[i + 2]);
+		//std::cout << "Pixel at position " << i / 3 << ": ";
+		unsigned int ARGB = (static_cast<int>(red) << 16) | (static_cast<int>(green) << 8) | static_cast<int>(blue);
+		res.memory[(int)i / 3] = ARGB;
+		//std::cout << static_cast<int>(red) << "," << static_cast<int>(green) << "," << static_cast<int>(blue) << std::endl;
+	}
+
+	return res;
+}
+
+static Render_State render_state;
+
+/*
 // Global Variables:
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
@@ -177,4 +418,140 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     }
     return (INT_PTR)FALSE;
+}*/
+
+LRESULT CALLBACK window_callback(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+	LRESULT result = 0;
+
+	switch (uMsg) {
+	case WM_CLOSE:
+	case WM_DESTROY: {
+		running = false;
+	} break;
+
+	case WM_SIZE: {
+		RECT rect;
+		GetClientRect(hwnd, &rect);
+		int newWidth = rect.right - rect.left;
+		int newHeight = rect.bottom - rect.top;
+		render_state.resize(newHeight, newWidth);
+
+	} break;
+
+	default: {
+		result = DefWindowProc(hwnd, uMsg, wParam, lParam);
+	}
+	}
+	return result;
+}
+
+//void drawImage(const bitmapHandMake& image, Render_State&);
+
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
+
+	//ShowCursor(FALSE);
+	bitmapHandMake bmpFile = readBitmapFile("background.bmp");
+	bitmapHandMake button = readBitmapFile("playButton.bmp");
+	bitmapHandMake car = readBitmapFile("car.bmp");
+	// Create Window Class
+	WNDCLASS window_class = {};
+	window_class.style = CS_HREDRAW | CS_VREDRAW;
+	window_class.lpszClassName = L"Game Window Class";
+	window_class.lpfnWndProc = window_callback;
+
+	// Register Class
+	RegisterClass(&window_class);
+
+	// Create Window
+	HWND window = CreateWindow(window_class.lpszClassName, L"Cross Game", WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720, 0, 0, hInstance, 0);
+	//{
+	//		//Fullscreen
+	//		SetWindowLong(window, GWL_STYLE, GetWindowLong(window, GWL_STYLE) & ~WS_OVERLAPPEDWINDOW);
+	//		MONITORINFO mi = { sizeof(mi) };
+	//		GetMonitorInfo(MonitorFromWindow(window, MONITOR_DEFAULTTOPRIMARY), &mi);
+	//		SetWindowPos(window, HWND_TOP, mi.rcMonitor.left, mi.rcMonitor.top, mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top, SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
+	//	
+	//}
+
+	HDC hdc = GetDC(window);
+
+	Input input = {};
+
+	float delta_time = 0.016666f;
+	LARGE_INTEGER frame_begin_time;
+	QueryPerformanceCounter(&frame_begin_time);
+
+	float performance_frequency;
+	{
+		LARGE_INTEGER perf;
+		QueryPerformanceFrequency(&perf);
+		performance_frequency = (float)perf.QuadPart;
+	}
+
+	int x0 = 1500;
+	while (running) {
+		// Input
+		MSG message;
+
+		for (int i = 0; i < BUTTON_COUNT; i++) {
+			input.buttons[i].changed = false;
+		}
+
+		while (PeekMessage(&message, window, 0, 0, PM_REMOVE)) {
+
+			switch (message.message) {
+			case WM_KEYUP:
+			case WM_KEYDOWN: {
+				u32 vk_code = (u32)message.wParam;
+				bool is_down = ((message.lParam & (1 << 31)) == 0);
+
+#define process_button(b, vk)\
+				case vk:\
+					input.buttons[b].changed = is_down != input.buttons[b].is_down; \
+					input.buttons[b].is_down = is_down; \
+					break;
+
+				switch (vk_code) {
+					process_button(BUTTON_UP, VK_UP);
+					process_button(BUTTON_DOWN, VK_DOWN);
+					process_button(BUTTON_W, 'W');
+					process_button(BUTTON_S, 'S');
+					process_button(BUTTON_D, 'D');
+					process_button(BUTTON_A, 'A');
+					process_button(BUTTON_LEFT, VK_LEFT);
+					process_button(BUTTON_RIGHT, VK_RIGHT);
+					process_button(BUTTON_ENTER, VK_RETURN);
+				}
+			} break;
+
+			default: {
+				TranslateMessage(&message);
+				DispatchMessage(&message);
+			}
+			}
+
+		}
+
+
+		//render_state.clearScreen(4319843);
+		render_state.drawImageLT(bmpFile, 0, 0, 1);
+		render_state.drawImageLT(button, 490, 50, 10);
+		render_state.drawImageLT(car, 0, 0, 5);
+		
+		//render_state.drawReac2P(0, 100, 0, 100, 0xFFA500);
+		//--x0;
+		// Simulate
+		// simulate_game(&input, delta_time);
+
+		// Render
+		StretchDIBits(hdc, 0, 0, render_state.width, render_state.height, 0, 0, render_state.width, render_state.height, render_state.memory, &render_state.bitmap_info, DIB_RGB_COLORS, SRCCOPY);
+
+		LARGE_INTEGER frame_end_time;
+		QueryPerformanceCounter(&frame_end_time);
+		delta_time = (float)(frame_end_time.QuadPart - frame_begin_time.QuadPart) / performance_frequency;
+		frame_begin_time = frame_end_time;
+	}
+
+	return 0;
+
 }
