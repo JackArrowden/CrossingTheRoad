@@ -237,6 +237,8 @@ LRESULT CALLBACK window_callback(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
 
+	CGAME* game = new CGAME;
+	game->tell();
 	//ShowCursor(FALSE);
 	bitmapHandMake bmpFile = readBitmapFile("background.bmp");
 	bitmapHandMake button = readBitmapFile("playButton.bmp");
@@ -339,7 +341,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 		delta_time = (float)(frame_end_time.QuadPart - frame_begin_time.QuadPart) / performance_frequency;
 		frame_begin_time = frame_end_time;
 	}
-
+	delete game;
 	return 0;
 
 }

@@ -29,7 +29,7 @@ void CGAME::tell()
 		// Sound started playing successfully
 		// You can add additional code here if needed
 		//getch();
-		PlaySound(0, 0, 0);
+		//PlaySound(0, 0, 0);
 		//getch();
 	}
 	else {
