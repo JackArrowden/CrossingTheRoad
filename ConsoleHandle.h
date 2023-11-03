@@ -14,6 +14,7 @@
 #include <memory.h>
 #include <tchar.h>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 #define ColorCode_Black			0

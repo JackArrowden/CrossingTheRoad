@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BitMap.cpp" />
     <ClCompile Include="CANIMAL.cpp" />
     <ClCompile Include="CAR.cpp" />
     <ClCompile Include="CAT.cpp" />
@@ -143,6 +144,7 @@
     <ClCompile Include="CMOUSE.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BitMap.h" />
     <ClInclude Include="CANIMAL.h" />
     <ClInclude Include="CAR.h" />
     <ClInclude Include="CAT.h" />

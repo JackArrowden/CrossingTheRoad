@@ -57,6 +57,9 @@
     <ClCompile Include="FileName.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BitMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CANIMAL.h">
@@ -93,6 +96,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleHandle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BitMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
