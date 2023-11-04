@@ -83,9 +83,9 @@ void Render_State:: drawImageLT(const bitmapHandMake& image, int leftX, int bott
 		u32* pixel = (u32*)memory + y * width + x0;
 		u32 idxInImage = (y - bottomY) * image.width * perPixel + perPixel / 2 * (image.width + 1) + (x0 - leftX) * perPixel;
 		for (int x = x0; x < min(width, image.width / perPixel + leftX); x++)
-		{
-			*pixel = image.memory[idxInImage];
-			pixel++;
+		{	if (image.memory[idxInImage] != 0xffffff)
+				*pixel = image.memory[idxInImage];
+				pixel++;
 			idxInImage += perPixel;
 		}
 	}
