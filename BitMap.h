@@ -33,10 +33,10 @@ public:
 	int width;
 	u32* memory;
 	bitmapHandMake() : memory(NULL), height(0), width(0) {}
+	bitmapHandMake(const std::string& path);
 	~bitmapHandMake();
+	bool readBitmapFile(const std::string& path);
 };
-
-bitmapHandMake readBitmapFile(const std::string& path);
 
 
 class Render_State {

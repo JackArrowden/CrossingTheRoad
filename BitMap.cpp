@@ -6,12 +6,80 @@ inline int clamp(int min, int val, int max) {
 	return val;
 }
 
+bitmapHandMake::bitmapHandMake(const std::string& path) : memory(NULL), height(0), width(0)
+{
+	readBitmapFile(path);
+}
+
 bitmapHandMake::~bitmapHandMake()
 {
 		if (!memory) return;
 		delete[] memory;
 		height = 0;
 		width = 0;
+}
+
+
+// return false if there are any error when read file
+// if read file is fail, the bitmapHandMake object would have value {memory(NULL), height(0), width(0)}
+// this function would clear the data of the old image if any.
+bool bitmapHandMake::readBitmapFile(const std::string& path)
+{
+	std::ifstream file(path, std::ios::binary);
+
+	if (!file.is_open()) {
+		std::cerr << "Error: Could not open the BMP file" << std::endl;
+		return false;
+	}
+
+	BMPHeader bmpHeader;
+	BMPInfoHeader bmpInfoHeader;
+
+	// Read the BMP header
+	file.read(reinterpret_cast<char*>(&bmpHeader), sizeof(BMPHeader));
+
+	if (bmpHeader.signature != 0x4D42) {
+		std::cerr << "Error: Not a valid BMP file" << std::endl;
+		file.close();
+		return false;
+	}
+
+	// Read the BMP info header
+	file.read(reinterpret_cast<char*>(&bmpInfoHeader), sizeof(BMPInfoHeader));
+
+	// Check if the image is 24 bits per pixel (RGB)
+	if (bmpInfoHeader.bitCount != 24) {
+		std::cout << bmpInfoHeader.bitCount << '\n';
+		std::cerr << "Error: Only 24-bit BMP files are supported" << std::endl;
+		file.close();
+		return false;
+	}
+
+	// Calculate the size of the image data
+	unsigned int imageSize = bmpInfoHeader.width * bmpInfoHeader.height * 3;
+	height = bmpInfoHeader.height;
+	width = bmpInfoHeader.width;
+	memory = new u32[imageSize / 3];
+
+	// Create a buffer to store the pixel data
+	std::vector<char> imageData(imageSize);
+
+	// Read the pixel data
+	file.read(imageData.data(), imageSize);
+	file.close();
+
+	// Now, you can access the pixel data in the 'imageData' vector
+	// Print the RGB values of each pixel
+	for (size_t i = 0; i < imageSize; i += 3) {
+		unsigned char blue = static_cast<unsigned char>(imageData[i]);
+		unsigned char green = static_cast<unsigned char>(imageData[i + 1]);
+		unsigned char red = static_cast<unsigned char>(imageData[i + 2]);
+		//std::cout << "Pixel at position " << i / 3 << ": ";
+		unsigned int ARGB = (static_cast<int>(red) << 16) | (static_cast<int>(green) << 8) | static_cast<int>(blue);
+		memory[(int)i / 3] = ARGB;
+		//std::cout << static_cast<int>(red) << "," << static_cast<int>(green) << "," << static_cast<int>(blue) << std::endl;
+	}
+	return true;
 }
 
 
@@ -139,65 +207,4 @@ void Render_State::dynamicDrawReac(double dynamicCenterX, double dynamicCenterY,
 	int topY = centerY + halfSizeY;
 
 	drawReac2P(leftX, rightX, bottomY, topY, color);
-}
-
-bitmapHandMake readBitmapFile(const std::string& path)
-{
-	std::ifstream file(path, std::ios::binary);
-
-	bitmapHandMake res;
-	if (!file.is_open()) {
-		std::cerr << "Error: Could not open the BMP file" << std::endl;
-		return res;
-	}
-
-	BMPHeader bmpHeader;
-	BMPInfoHeader bmpInfoHeader;
-
-	// Read the BMP header
-	file.read(reinterpret_cast<char*>(&bmpHeader), sizeof(BMPHeader));
-
-	if (bmpHeader.signature != 0x4D42) {
-		std::cerr << "Error: Not a valid BMP file" << std::endl;
-		file.close();
-		return res;
-	}
-
-	// Read the BMP info header
-	file.read(reinterpret_cast<char*>(&bmpInfoHeader), sizeof(BMPInfoHeader));
-
-	// Check if the image is 24 bits per pixel (RGB)
-	if (bmpInfoHeader.bitCount != 24) {
-		std::cout << bmpInfoHeader.bitCount << '\n';
-		std::cerr << "Error: Only 24-bit BMP files are supported" << std::endl;
-		file.close();
-		return res;
-	}
-
-	// Calculate the size of the image data
-	unsigned int imageSize = bmpInfoHeader.width * bmpInfoHeader.height * 3;
-	res.height = bmpInfoHeader.height;
-	res.width = bmpInfoHeader.width;
-	res.memory = new u32[imageSize / 3];
-
-	// Create a buffer to store the pixel data
-	std::vector<char> imageData(imageSize);
-
-	// Read the pixel data
-	file.read(imageData.data(), imageSize);
-	file.close();
-
-	// Now, you can access the pixel data in the 'imageData' vector
-	// Print the RGB values of each pixel
-	for (size_t i = 0; i < imageSize; i += 3) {
-		unsigned char blue = static_cast<unsigned char>(imageData[i]);
-		unsigned char green = static_cast<unsigned char>(imageData[i + 1]);
-		unsigned char red = static_cast<unsigned char>(imageData[i + 2]);
-		//std::cout << "Pixel at position " << i / 3 << ": ";
-		unsigned int ARGB = (static_cast<int>(red) << 16) | (static_cast<int>(green) << 8) | static_cast<int>(blue);
-		res.memory[(int)i / 3] = ARGB;
-		//std::cout << static_cast<int>(red) << "," << static_cast<int>(green) << "," << static_cast<int>(blue) << std::endl;
-	}
-
-	return res;
 }

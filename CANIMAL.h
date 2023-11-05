@@ -11,9 +11,8 @@ private:
     int mX, mY;
     
 public:
-    
     virtual void tell();
    
-    //virtual void Move(int, int) = 0;
+    virtual void Move(int, int) = 0;
 };
 
