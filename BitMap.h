@@ -52,8 +52,8 @@ public:
 	void resize(int, int);
 	void drawReac2P(int leftX, int rightX, int bottomY, int topY, u32 color);
 	void clearScreen(u32 color);
-	void drawImageLT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel);
-	void drawImageLT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgroundColor);
+	void drawImageBT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel);
+	void drawImageBT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgroundColor);
 	void drawImageC(const bitmapHandMake& image, int centerX, int centerY, int perPixel);
 	void dynamicDrawReac(double dynamicLeftX, double dynamicBottomY, double dynamicHalfSizeX, double dynamicHalfSizeY, u32 color);
 };

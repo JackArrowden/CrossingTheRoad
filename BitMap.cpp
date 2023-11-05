@@ -82,7 +82,7 @@ void Render_State:: clearScreen(u32 color)
 	}
 }
 
-void Render_State::drawImageLT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel)
+void Render_State::drawImageBT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel)
 {
 	if (perPixel < 0) return;
 	int y0 = max(0, bottomY);
@@ -102,7 +102,7 @@ void Render_State::drawImageLT(const bitmapHandMake& image, int leftX, int botto
 
 }
 
-void Render_State::drawImageLT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgroundColor)
+void Render_State::drawImageBT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgroundColor)
 {
 	if (perPixel < 0) return;
 	int y0 = max(0, bottomY);

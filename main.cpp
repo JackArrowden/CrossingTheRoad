@@ -101,17 +101,17 @@ void drawWindow1(HWND hWnd) {
 	bitmapHandMake button1 = readBitmapFile("playButton.bmp");
 	bitmapHandMake button2 = readBitmapFile("leaderButton.bmp");
 	bitmapHandMake button3 = readBitmapFile("logOutButton.bmp");
-	render_state.drawImageLT(bmpFile, 0, 0, 1);
-	render_state.drawImageLT(button1, 490, 250, 10);
-	render_state.drawImageLT(button2, 490, 150, 10);
-	render_state.drawImageLT(button3, 490, 50, 10);
+	render_state.drawImageBT(bmpFile, 0, 0, 1);
+	render_state.drawImageBT(button1, 490, 250, 10);
+	render_state.drawImageBT(button2, 490, 150, 10);
+	render_state.drawImageBT(button3, 490, 50, 10);
 
 	apply(hWnd);
 }
 
 void drawWindow3(HWND hWnd) {
 	bitmapHandMake car = readBitmapFile("car.bmp");
-	render_state.drawImageLT(car, 0, 0, 5);
+	render_state.drawImageBT(car, 0, 0, 5);
 
 	apply(hWnd);
 }
@@ -119,10 +119,10 @@ void drawWindow3(HWND hWnd) {
 void drawWindow2(HWND hWnd) {
 	bitmapHandMake bmpFile2 = readBitmapFile("gameBgr.bmp");
 	//bitmapHandMake car = readBitmapFile("car.bmp");
-	render_state.drawImageLT(bmpFile2, 0, 0, 1);
+	render_state.drawImageBT(bmpFile2, 0, 0, 1);
 	//render_state.drawImageLT(car, 0, 0, 5);
 	bitmapHandMake train = readBitmapFile("train.bmp");
-	render_state.drawImageLT(train, xTrain, 200, 1);
+	render_state.drawImageBT(train, xTrain, 200, 1, 16777215);
 	if (xTrain > -1000) xTrain--;
 
 	apply(hWnd);
@@ -132,9 +132,9 @@ void redPlayBtn(HWND hWnd) {
 	bitmapHandMake play = readBitmapFile("redPlayBtn.bmp");
 	bitmapHandMake button1 = readBitmapFile("leaderButton.bmp");
 	bitmapHandMake button2 = readBitmapFile("logOutButton.bmp");
-	render_state.drawImageLT(play, 490, 250, 10);
-	render_state.drawImageLT(button1, 490, 150, 10);
-	render_state.drawImageLT(button2, 490, 50, 10);
+	render_state.drawImageBT(play, 490, 250, 10);
+	render_state.drawImageBT(button1, 490, 150, 10);
+	render_state.drawImageBT(button2, 490, 50, 10);
 
 	apply(hWnd);
 }
@@ -143,9 +143,9 @@ void redLeaderBtn(HWND hWnd) {
 	bitmapHandMake button1 = readBitmapFile("playButton.bmp");
 	bitmapHandMake leader = readBitmapFile("redLeaderBtn.bmp");
 	bitmapHandMake button2 = readBitmapFile("logOutButton.bmp");
-	render_state.drawImageLT(button1, 490, 250, 10);
-	render_state.drawImageLT(leader, 490, 150, 10);
-	render_state.drawImageLT(button2, 490, 50, 10);
+	render_state.drawImageBT(button1, 490, 250, 10);
+	render_state.drawImageBT(leader, 490, 150, 10);
+	render_state.drawImageBT(button2, 490, 50, 10);
 
 	apply(hWnd);
 }
@@ -154,9 +154,9 @@ void redLogOutBtn(HWND hWnd) {
 	bitmapHandMake button1 = readBitmapFile("playButton.bmp");
 	bitmapHandMake button2 = readBitmapFile("leaderButton.bmp");
 	bitmapHandMake logout = readBitmapFile("redLogOutBtn.bmp");
-	render_state.drawImageLT(button1, 490, 250, 10);
-	render_state.drawImageLT(button2, 490, 150, 10);
-	render_state.drawImageLT(logout, 490, 50, 10);
+	render_state.drawImageBT(button1, 490, 250, 10);
+	render_state.drawImageBT(button2, 490, 150, 10);
+	render_state.drawImageBT(logout, 490, 50, 10);
 
 	apply(hWnd);
 }
