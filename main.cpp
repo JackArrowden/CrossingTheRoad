@@ -242,7 +242,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	//ShowCursor(FALSE);
 	bitmapHandMake bmpFile = readBitmapFile("background.bmp");
 	bitmapHandMake button = readBitmapFile("playButton.bmp");
-	bitmapHandMake car = readBitmapFile("car.bmp");
+	bitmapHandMake train = readBitmapFile("train.bmp");
 	// Create Window Class
 	WNDCLASS window_class = {};
 	window_class.style = CS_HREDRAW | CS_VREDRAW;
@@ -295,7 +295,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 				u32 vk_code = (u32)message.wParam;
 				bool is_down = ((message.lParam & (1 << 31)) == 0);
 
-#define process_button(b, vk)\
+				#define process_button(b, vk)\
 				case vk:\
 					input.buttons[b].changed = is_down != input.buttons[b].is_down; \
 					input.buttons[b].is_down = is_down; \
@@ -326,8 +326,8 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 		//render_state.clearScreen(4319843);
 		render_state.drawImageLT(bmpFile, 0, 0, 1);
 		render_state.drawImageLT(button, 490, 50, 10);
-		render_state.drawImageLT(car, 0, 0, 5);
-		
+		render_state.drawImageLT(train, 0, 0, 1, 16777215);
+		//render_state.dynamicDrawReac(0.5, 0.5, 10, 20, 3248329);
 		//render_state.drawReac2P(0, 100, 0, 100, 0xFFA500);
 		//--x0;
 		// Simulate
