@@ -5,7 +5,7 @@
 
 
 #define MAX_LOADSTRING 100
-
+#define DEFAULT_BACKGROUND_COLOR 16777215
 int windowState = 1;
 int curState = 0;
 int xTrain = 1200;
@@ -102,9 +102,9 @@ void drawWindow1(HWND hWnd) {
 	bitmapHandMake button2("leaderButton.bmp");
 	bitmapHandMake button3("logOutButton.bmp");
 	render_state.drawImageBT(bmpFile, 0, 0, 1);
-	render_state.drawImageBT(button1, 490, 250, 10);
-	render_state.drawImageBT(button2, 490, 150, 10);
-	render_state.drawImageBT(button3, 490, 50, 10);
+	render_state.drawImageBT(button1, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImageBT(button2, 490, 150, 10,DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImageBT(button3, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
 
 	apply(hWnd);
 }
@@ -122,7 +122,7 @@ void drawWindow2(HWND hWnd) {
 	render_state.drawImageBT(bmpFile2, 0, 0, 1);
 	//render_state.drawImageLT(car, 0, 0, 5);
 	bitmapHandMake train("car.bmp");
-	render_state.drawImageBT(train, xTrain, 200, 1, 16777215);
+	render_state.drawImageBT(train, xTrain, 200, 1, DEFAULT_BACKGROUND_COLOR);
 	if (xTrain > -1000) xTrain--;
 
 	apply(hWnd);
@@ -132,9 +132,9 @@ void redPlayBtn(HWND hWnd) {
 	bitmapHandMake play("redPlayBtn.bmp");
 	bitmapHandMake button1("leaderButton.bmp");
 	bitmapHandMake button2("logOutButton.bmp");
-	render_state.drawImageBT(play, 490, 250, 10);
-	render_state.drawImageBT(button1, 490, 150, 10);
-	render_state.drawImageBT(button2, 490, 50, 10);
+	render_state.drawImageBT(play, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImageBT(button1, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImageBT(button2, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
 
 	apply(hWnd);
 }
@@ -143,9 +143,9 @@ void redLeaderBtn(HWND hWnd) {
 	bitmapHandMake button1("playButton.bmp");
 	bitmapHandMake leader("redLeaderBtn.bmp");
 	bitmapHandMake button2("logOutButton.bmp");
-	render_state.drawImageBT(button1, 490, 250, 10);
-	render_state.drawImageBT(leader, 490, 150, 10);
-	render_state.drawImageBT(button2, 490, 50, 10);
+	render_state.drawImageBT(button1, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImageBT(leader, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImageBT(button2, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
 
 	apply(hWnd);
 }
@@ -154,9 +154,9 @@ void redLogOutBtn(HWND hWnd) {
 	bitmapHandMake button1("playButton.bmp");
 	bitmapHandMake button2("leaderButton.bmp");
 	bitmapHandMake logout("redLogOutBtn.bmp");
-	render_state.drawImageBT(button1, 490, 250, 10);
-	render_state.drawImageBT(button2, 490, 150, 10);
-	render_state.drawImageBT(logout, 490, 50, 10);
+	render_state.drawImageBT(button1, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImageBT(button2, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImageBT(logout, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
 
 	apply(hWnd);
 }

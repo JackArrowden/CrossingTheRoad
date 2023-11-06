@@ -137,7 +137,7 @@ void Render_State::drawReac2P(int leftX, int rightX, int bottomY, int topY, u32 
 	}
 }
 
-void Render_State:: clearScreen(u32 color)
+void Render_State::clearScreen(u32 color)
 {
 	for (int y = 0; y < height; y++)
 	{
