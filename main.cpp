@@ -9,18 +9,18 @@ int windowState = 1;
 int curState = 0;
 int xTrain = 1200;
 bool playClick = false, leaderClick = false, logoutClick = false, settingClick = false;
-bitmapHandMake background1("background.bmp");
-bitmapHandMake background2("gameBgr.bmp");
-bitmapHandMake playBtn("playButton.bmp");
-bitmapHandMake leaderBtn("leaderButton.bmp");
-bitmapHandMake logoutBtn("logOutButton.bmp");
-bitmapHandMake playRed("redPlayBtn.bmp");
-bitmapHandMake leaderRed("redLeaderBtn.bmp");
-bitmapHandMake logoutRed("redLogOutBtn.bmp");
-bitmapHandMake train("train.bmp");
-bitmapHandMake car("car.bmp");
-bitmapHandMake setting("setting.bmp");
-bitmapHandMake settingClicked("settingClicked.bmp");
+bitmapHandMake background1("Image\\background.bmp");
+bitmapHandMake background2("Image\\gameBgr.bmp");
+bitmapHandMake playBtn("Image\\playButton.bmp");
+bitmapHandMake leaderBtn("Image\\leaderButton.bmp");
+bitmapHandMake logoutBtn("Image\\logOutButton.bmp");
+bitmapHandMake playRed("Image\\redPlayBtn.bmp");
+bitmapHandMake leaderRed("Image\\redLeaderBtn.bmp");
+bitmapHandMake logoutRed("Image\\redLogOutBtn.bmp");
+bitmapHandMake train("Image\\train.bmp");
+bitmapHandMake car("Image\\car.bmp");
+bitmapHandMake setting("Image\\setting.bmp");
+bitmapHandMake settingClicked("Image\\settingClicked.bmp");
 
 static bool running = true;
 
@@ -373,3 +373,4 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 }
 
 /////////////////////////// CAN THEM CAC BIEN DE LUU DU LIEU VI TRI CAC DOI TUONG KHI LOAD GAME
+/////////////////////////// XU LY AM THANH TRONG SETTING NHU THE NAO?
