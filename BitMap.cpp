@@ -5,6 +5,12 @@ inline int clamp(int min, int val, int max) {
 	if (val > max) return max;
 	return val;
 }
+
+bitmapHandMake::bitmapHandMake(const std::string& path) : memory(NULL), height(0), width(0)
+{
+	readBitmapFile(path);
+}
+
 bitmapHandMake::~bitmapHandMake()
 {
 		if (!memory) return;
@@ -12,6 +18,73 @@ bitmapHandMake::~bitmapHandMake()
 		height = 0;
 		width = 0;
 }
+
+
+// return false if there are any error when read file
+// if read file is fail, the bitmapHandMake object would have value {memory(NULL), height(0), width(0)}
+// this function would clear the data of the old image if any.
+bool bitmapHandMake::readBitmapFile(const std::string& path)
+{
+	std::ifstream file(path, std::ios::binary);
+
+	if (!file.is_open()) {
+		std::cerr << "Error: Could not open the BMP file" << std::endl;
+		return false;
+	}
+
+	BMPHeader bmpHeader;
+	BMPInfoHeader bmpInfoHeader;
+
+	// Read the BMP header
+	file.read(reinterpret_cast<char*>(&bmpHeader), sizeof(BMPHeader));
+
+	if (bmpHeader.signature != 0x4D42) {
+		std::cerr << "Error: Not a valid BMP file" << std::endl;
+		file.close();
+		return false;
+	}
+
+	// Read the BMP info header
+	file.read(reinterpret_cast<char*>(&bmpInfoHeader), sizeof(BMPInfoHeader));
+
+	// Check if the image is 24 bits per pixel (RGB)
+	if (bmpInfoHeader.bitCount != 24) {
+		std::cout << bmpInfoHeader.bitCount << '\n';
+		std::cerr << "Error: Only 24-bit BMP files are supported" << std::endl;
+		file.close();
+		return false;
+	}
+
+	// Calculate the size of the image data
+	unsigned int imageSize = bmpInfoHeader.width * bmpInfoHeader.height * 3;
+	height = bmpInfoHeader.height;
+	width = bmpInfoHeader.width;
+	memory = new u32[imageSize / 3];
+
+	// Create a buffer to store the pixel data
+	std::vector<char> imageData(imageSize);
+
+	// Read the pixel data
+	file.read(imageData.data(), imageSize);
+	file.close();
+
+	// Now, you can access the pixel data in the 'imageData' vector
+	// Print the RGB values of each pixel
+	for (size_t i = 0; i < imageSize; i += 3) {
+		unsigned char blue = static_cast<unsigned char>(imageData[i]);
+		unsigned char green = static_cast<unsigned char>(imageData[i + 1]);
+		unsigned char red = static_cast<unsigned char>(imageData[i + 2]);
+		//std::cout << "Pixel at position " << i / 3 << ": ";
+		unsigned int ARGB = (static_cast<int>(red) << 16) | (static_cast<int>(green) << 8) | static_cast<int>(blue);
+		memory[(int)i / 3] = ARGB;
+		//std::cout << static_cast<int>(red) << "," << static_cast<int>(green) << "," << static_cast<int>(blue) << std::endl;
+	}
+	return true;
+}
+
+
+
+/////////////////////////////////////////////
 Render_State:: Render_State() : memory(NULL), width(0), height(0) {
 	bitmap_info.bmiHeader.biSize = sizeof(bitmap_info.bmiHeader);
 	bitmap_info.bmiHeader.biWidth = width;
@@ -20,6 +93,9 @@ Render_State:: Render_State() : memory(NULL), width(0), height(0) {
 	bitmap_info.bmiHeader.biBitCount = 32;
 	bitmap_info.bmiHeader.biCompression = BI_RGB;
 }
+
+const double Render_State::renderScale = 0.01;
+
 Render_State::~Render_State()
 {
 	if (memory != 0)
@@ -29,6 +105,7 @@ Render_State::~Render_State()
 		width = 0;
 	}
 }
+
 void Render_State::resize(int newHeight, int newWidth)
 {
 	height = newHeight;
@@ -73,7 +150,7 @@ void Render_State:: clearScreen(u32 color)
 	}
 }
 
-void Render_State:: drawImageLT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel = 1)
+void Render_State::drawImageBT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel)
 {
 	if (perPixel < 0) return;
 	int y0 = max(0, bottomY);
@@ -84,6 +161,7 @@ void Render_State:: drawImageLT(const bitmapHandMake& image, int leftX, int bott
 		u32 idxInImage = (y - bottomY) * image.width * perPixel + perPixel / 2 * (image.width + 1) + (x0 - leftX) * perPixel;
 		for (int x = x0; x < min(width, image.width / perPixel + leftX); x++)
 		{
+
 			*pixel = image.memory[idxInImage];
 			pixel++;
 			idxInImage += perPixel;
@@ -91,63 +169,42 @@ void Render_State:: drawImageLT(const bitmapHandMake& image, int leftX, int bott
 	}
 
 }
-bitmapHandMake readBitmapFile(const std::string& path)
+
+void Render_State::drawImageBT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgroundColor)
 {
-	std::ifstream file(path, std::ios::binary);
-
-	bitmapHandMake res;
-	if (!file.is_open()) {
-		std::cerr << "Error: Could not open the BMP file" << std::endl;
-		return res;
+	if (perPixel < 0) return;
+	int y0 = max(0, bottomY);
+	int x0 = max(0, leftX);
+	for (int y = y0; y < min(height, image.height / perPixel + bottomY); y++)
+	{
+		u32* pixel = (u32*)memory + y * width + x0;
+		u32 idxInImage = (y - bottomY) * image.width * perPixel + perPixel / 2 * (image.width + 1) + (x0 - leftX) * perPixel;
+		for (int x = x0; x < min(width, image.width / perPixel + leftX); x++)
+		{
+			
+			if (image.memory[idxInImage] != backgroundColor) *pixel = image.memory[idxInImage];
+			pixel++;
+			idxInImage += perPixel;
+		}
 	}
 
-	BMPHeader bmpHeader;
-	BMPInfoHeader bmpInfoHeader;
+}
 
-	// Read the BMP header
-	file.read(reinterpret_cast<char*>(&bmpHeader), sizeof(BMPHeader));
+void Render_State::dynamicDrawReac(double dynamicCenterX, double dynamicCenterY, double dynamicHalfSizeX, double dynamicHalfSizeY, u32 color) {
+	
+	double centerX = dynamicCenterX * height * renderScale;
+	double centerY = dynamicCenterY * height * renderScale;
+	double halfSizeX = dynamicHalfSizeX * height * renderScale;
+	double halfSizeY = dynamicHalfSizeY * height * renderScale;
 
-	if (bmpHeader.signature != 0x4D42) {
-		std::cerr << "Error: Not a valid BMP file" << std::endl;
-		file.close();
-		return res;
-	}
+	centerX += width / 2.0;
+	centerY += height / 2.0;
 
-	// Read the BMP info header
-	file.read(reinterpret_cast<char*>(&bmpInfoHeader), sizeof(BMPInfoHeader));
+	// Change to pixels
+	int leftX = centerX - halfSizeX;
+	int rightX = centerX + halfSizeX;
+	int bottomY = centerY - halfSizeY;
+	int topY = centerY + halfSizeY;
 
-	// Check if the image is 24 bits per pixel (RGB)
-	if (bmpInfoHeader.bitCount != 24) {
-		std::cout << bmpInfoHeader.bitCount << '\n';
-		std::cerr << "Error: Only 24-bit BMP files are supported" << std::endl;
-		file.close();
-		return res;
-	}
-
-	// Calculate the size of the image data
-	unsigned int imageSize = bmpInfoHeader.width * bmpInfoHeader.height * 3;
-	res.height = bmpInfoHeader.height;
-	res.width = bmpInfoHeader.width;
-	res.memory = new u32[imageSize / 3];
-
-	// Create a buffer to store the pixel data
-	std::vector<char> imageData(imageSize);
-
-	// Read the pixel data
-	file.read(imageData.data(), imageSize);
-	file.close();
-
-	// Now, you can access the pixel data in the 'imageData' vector
-	// Print the RGB values of each pixel
-	for (size_t i = 0; i < imageSize; i += 3) {
-		unsigned char blue = static_cast<unsigned char>(imageData[i]);
-		unsigned char green = static_cast<unsigned char>(imageData[i + 1]);
-		unsigned char red = static_cast<unsigned char>(imageData[i + 2]);
-		//std::cout << "Pixel at position " << i / 3 << ": ";
-		unsigned int ARGB = (static_cast<int>(red) << 16) | (static_cast<int>(green) << 8) | static_cast<int>(blue);
-		res.memory[(int)i / 3] = ARGB;
-		//std::cout << static_cast<int>(red) << "," << static_cast<int>(green) << "," << static_cast<int>(blue) << std::endl;
-	}
-
-	return res;
+	drawReac2P(leftX, rightX, bottomY, topY, color);
 }

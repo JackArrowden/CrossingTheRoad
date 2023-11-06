@@ -1,8 +1,10 @@
 #pragma once
-#include "ConsoleHandle.h"
-using namespace std;
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
 typedef unsigned int u32;
-typedef unsigned char u8;
 
 #pragma pack(2)
 struct BMPHeader {
@@ -28,34 +30,13 @@ struct BMPInfoHeader {
 };
 
 class bitmapHandMake {
+	static const double render_scale;
 public:
 	int height;
 	int width;
 	u32* memory;
-	bitmapHandMake() : memory(NULL), height(0), width(0) {}
-	bitmapHandMake(const std::string& path);
+	bitmapHandMake() : memory(nullptr), height(0), width(0) {}
 	~bitmapHandMake();
-	bool readBitmapFile(const std::string& path);
+	void readBitmapFile(const std::string& path);
 };
-
-
-class Render_State {
-public:
-	static const double renderScale;	
-	int height, width;
-	void* memory;
-	BITMAPINFO bitmap_info;
-
-	Render_State(); 
-	~Render_State();
-
-	void resize(int, int);
-	void drawReac2P(int leftX, int rightX, int bottomY, int topY, u32 color);
-	void clearScreen(u32 color);
-	void drawImageBT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel);
-	void drawImageBT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgroundColor);
-	void drawImageC(const bitmapHandMake& image, int centerX, int centerY, int perPixel);
-	void dynamicDrawReac(double dynamicLeftX, double dynamicBottomY, double dynamicHalfSizeX, double dynamicHalfSizeY, u32 color);
-};
-
 

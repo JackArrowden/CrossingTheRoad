@@ -17,3 +17,7 @@ void CMOUSE::tell()
         }
     }
 }
+
+void CMOUSE::Move(int, int)
+{
+}
