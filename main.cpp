@@ -3,12 +3,24 @@
 #include "BitMap.h"
 #include "CGAME.h"
 
-
 #define MAX_LOADSTRING 100
 #define DEFAULT_BACKGROUND_COLOR 16777215
 int windowState = 1;
 int curState = 0;
 int xTrain = 1200;
+bool playClick = false, leaderClick = false, logoutClick = false, settingClick = false;
+bitmapHandMake background1("background.bmp");
+bitmapHandMake background2("gameBgr.bmp");
+bitmapHandMake playBtn("playButton.bmp");
+bitmapHandMake leaderBtn("leaderButton.bmp");
+bitmapHandMake logoutBtn("logOutButton.bmp");
+bitmapHandMake playRed("redPlayBtn.bmp");
+bitmapHandMake leaderRed("redLeaderBtn.bmp");
+bitmapHandMake logoutRed("redLogOutBtn.bmp");
+bitmapHandMake train("train.bmp");
+bitmapHandMake car("car.bmp");
+bitmapHandMake setting("setting.bmp");
+bitmapHandMake settingClicked("settingClicked.bmp");
 
 static bool running = true;
 
@@ -25,6 +37,7 @@ enum {
 
 	BUTTON_COUNT, // Should be the last item
 };
+
 struct Button_State {
 	bool is_down;
 	bool changed;
@@ -40,6 +53,9 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp);
 void drawWindow1(HWND);
 void drawWindow2(HWND);
 void drawWindow3(HWND); 
+void resetWindow1();
+void resetWindow2();
+void resetWindow3();
 void apply(HWND);
 //void drawImage(const bitmapHandMake& image, Render_State&);
 
@@ -71,9 +87,18 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 
 
 	while (running) {
-		if (windowState == 1) drawWindow1(window);
-		else if (windowState == 2) {
+		switch (windowState) {
+		case 1:
+			drawWindow1(window);
+			break;
+		case 2:
 			drawWindow2(window);
+			break;
+		case 3:
+			drawWindow3(window);
+			break;
+		default:
+			break;
 		}
 		//render_state.clearScreen(4319843);
 
@@ -93,72 +118,51 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	}
 	delete game;
 	return 0;
-	//return msg.wParam;
 }
 
 void drawWindow1(HWND hWnd) {
-	bitmapHandMake bmpFile("background.bmp");
-	bitmapHandMake button1("playButton.bmp");
-	bitmapHandMake button2("leaderButton.bmp");
-	bitmapHandMake button3("logOutButton.bmp");
-	render_state.drawImageBT(bmpFile, 0, 0, 1);
-	render_state.drawImageBT(button1, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImageBT(button2, 490, 150, 10,DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImageBT(button3, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImageBT(background1, 0, 0, 1);
 
-	apply(hWnd);
-}
+	if (!playClick) render_state.drawImageBT(playBtn, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImageBT(playRed, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
 
-void drawWindow3(HWND hWnd) {
-	bitmapHandMake car("car.bmp");
-	render_state.drawImageBT(car, 0, 0, 5);
+	if (!leaderClick) render_state.drawImageBT(leaderBtn, 490, 150, 10,DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImageBT(leaderRed, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
+
+	if (!logoutClick) render_state.drawImageBT(logoutBtn, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImageBT(logoutRed, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
+
+	if (!settingClick) render_state.drawImageBT(setting, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImageBT(settingClicked, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
 
 	apply(hWnd);
 }
 
 void drawWindow2(HWND hWnd) {
-	bitmapHandMake bmpFile2("gameBgr.bmp");
-	//bitmapHandMake car = readBitmapFile("car.bmp");
-	render_state.drawImageBT(bmpFile2, 0, 0, 1);
-	//render_state.drawImageLT(car, 0, 0, 5);
-	bitmapHandMake train("car.bmp");
+	render_state.drawImageBT(background2, 0, 0, 1);
 	render_state.drawImageBT(train, xTrain, 200, 1, DEFAULT_BACKGROUND_COLOR);
 	if (xTrain > -1000) xTrain--;
 
 	apply(hWnd);
 }
 
-void redPlayBtn(HWND hWnd) {
-	bitmapHandMake play("redPlayBtn.bmp");
-	bitmapHandMake button1("leaderButton.bmp");
-	bitmapHandMake button2("logOutButton.bmp");
-	render_state.drawImageBT(play, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImageBT(button1, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImageBT(button2, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
+void drawWindow3(HWND hWnd) {
+	render_state.drawImageBT(car, 0, 0, 5);
 
 	apply(hWnd);
 }
 
-void redLeaderBtn(HWND hWnd) {
-	bitmapHandMake button1("playButton.bmp");
-	bitmapHandMake leader("redLeaderBtn.bmp");
-	bitmapHandMake button2("logOutButton.bmp");
-	render_state.drawImageBT(button1, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImageBT(leader, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImageBT(button2, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
-
-	apply(hWnd);
+void resetWindow1() {
+	windowState = 1;
+	curState = 0;
+	playClick = false;
+	leaderClick = false;
+	logoutClick = false;
+	settingClick = false;
 }
 
-void redLogOutBtn(HWND hWnd) {
-	bitmapHandMake button1("playButton.bmp");
-	bitmapHandMake button2("leaderButton.bmp");
-	bitmapHandMake logout("redLogOutBtn.bmp");
-	render_state.drawImageBT(button1, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImageBT(button2, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImageBT(logout, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
-
-	apply(hWnd);
+void resetWindow2() {
+	xTrain = 1200;
 }
 
 void apply(HWND hWnd) {
@@ -193,8 +197,6 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		} break;
 		case WM_CREATE:
 			break;
-		//case WM_DESTROY:
-		//	break;
 		case WM_SIZE: {
 			RECT rect;
 			GetClientRect(hWnd, &rect);
@@ -214,10 +216,11 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				case 0:
 					break;
 				case 1:
+					resetWindow2();
 					windowState = 2;
 					break;
 				case 2:
-				drawWindow3(hWnd);
+					windowState = 3;
 					break;
 				case 3:
 					break;
@@ -231,15 +234,17 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					if (curState > 0) curState--;
 					switch (curState) {
 					case 0:
+						settingClick = true;
+						playClick = false;
 						break;
 					case 1:
-					redPlayBtn(hWnd);
+						playClick = true;
+						leaderClick = false;
 						break;
 					case 2:
-					redLeaderBtn(hWnd);
+						leaderClick = true;
+						logoutClick = false;
 						break;
-				case 3:
-					break;
 					default:
 						break;
 					}
@@ -249,16 +254,17 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				{
 					if (curState < 3) curState++;
 					switch (curState) {
-				case 0:
-					break;
 					case 1:
-					redPlayBtn(hWnd);
+						settingClick = false;
+						playClick = true;
 						break;
 					case 2:
-					redLeaderBtn(hWnd);
+						playClick = false;
+						leaderClick = true;
 						break;
 					case 3:
-					redLogOutBtn(hWnd);
+						leaderClick = false;
+						logoutClick = true;
 						break;
 					default:
 						break;
@@ -278,28 +284,6 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			}
 		}
 		break;
-	//case WM_KEYDOWN: {
-	//	int vk_code = LOWORD(wParam);
-	//	bool is_down = ((vk_code & (1 << 31)) == 0);
-
-	//#define process_button(b, vk)\
-	//	case vk:\
-	//		input.buttons[b].changed = is_down != input.buttons[b].is_down; \
-	//		input.buttons[b].is_down = is_down; \
-	//		break;
-
-	//	switch (vk_code) {
-	//		process_button(BUTTON_UP, VK_UP);
-	//		process_button(BUTTON_DOWN, VK_DOWN);
-	//		process_button(BUTTON_W, 'W');
-	//		process_button(BUTTON_S, 'S');
-	//		process_button(BUTTON_D, 'D');
-	//		process_button(BUTTON_A, 'A');
-	//		process_button(BUTTON_LEFT, VK_LEFT);
-	//		process_button(BUTTON_RIGHT, VK_RIGHT);
-	//		process_button(BUTTON_ENTER, VK_RETURN);
-	//	}
-	//} break;
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
@@ -313,8 +297,6 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		} break;
 		case WM_CREATE:
 			break;
-			//case WM_DESTROY:
-			//	break;
 		case WM_SIZE: {
 			RECT rect;
 			GetClientRect(hWnd, &rect);
@@ -329,8 +311,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			switch (key)
 			{
 			case VK_RETURN:
-				curState = 0;
-				windowState = 1;
+				resetWindow1();
 				drawWindow1(hWnd);
 			break;
 			case VK_UP:
@@ -390,3 +371,5 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		}
 	}
 }
+
+/////////////////////////// CAN THEM CAC BIEN DE LUU DU LIEU VI TRI CAC DOI TUONG KHI LOAD GAME
