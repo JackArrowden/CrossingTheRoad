@@ -174,7 +174,6 @@ void apply(HWND hWnd) {
 		performance_frequency = (float)perf.QuadPart;
 	}
 
-	int x0 = 1500;
 	StretchDIBits(hdc, 0, 0, render_state.width, render_state.height, 0, 0, render_state.width, render_state.height, render_state.memory, &render_state.bitmap_info, DIB_RGB_COLORS, SRCCOPY);
 
 	LARGE_INTEGER frame_end_time;

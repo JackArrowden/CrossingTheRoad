@@ -1,5 +1,15 @@
 #include "CAR.h"
 
+const bitmapHandMake CAR::image(CAR_LINK_IMAGE);
+
+CAR::CAR(int startX, int startY, char direction) 
+{
+    this->mX = startX;
+    this->mY = startY;
+    this->mode = 0;
+    this->direc = direction;
+}
+
 void CAR::tell()
 {
     //PlaySound(TEXT("Sound/birds.wav"), NULL, SND_FILENAME | SND_ASYNC);
@@ -20,4 +30,9 @@ void CAR::tell()
         }
     }
 
+}
+
+void CAR::Move(int deltaX)
+{
+    mX += direc * deltaX;
 }
