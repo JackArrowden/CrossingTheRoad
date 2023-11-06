@@ -39,7 +39,7 @@ static Render_State render_state;
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp);
 void drawWindow1(HWND);
 void drawWindow2(HWND);
-void drawWindow3(HWND);
+void drawWindow3(HWND); 
 void apply(HWND);
 //void drawImage(const bitmapHandMake& image, Render_State&);
 
@@ -185,99 +185,99 @@ void apply(HWND hWnd) {
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	if (windowState == 1) {
 		switch (msg)
-	{
-	case WM_CLOSE:
-	case WM_DESTROY: {
-		running = false;
-		PostQuitMessage(0);
-	} break;
-	case WM_CREATE:
-		break;
+		{
+		case WM_CLOSE:
+		case WM_DESTROY: {
+			running = false;
+			PostQuitMessage(0);
+		} break;
+		case WM_CREATE:
+			break;
 		//case WM_DESTROY:
 		//	break;
-	case WM_SIZE: {
-		RECT rect;
-		GetClientRect(hWnd, &rect);
-		int newWidth = rect.right - rect.left;
-		int newHeight = rect.bottom - rect.top;
-		render_state.resize(newHeight, newWidth);
+		case WM_SIZE: {
+			RECT rect;
+			GetClientRect(hWnd, &rect);
+			int newWidth = rect.right - rect.left;
+			int newHeight = rect.bottom - rect.top;
+			render_state.resize(newHeight, newWidth);
 
-	} break;
-	case WM_KEYDOWN:
-	{
-		int key = LOWORD(wp);
-		switch (key)
+		} break;
+		case WM_KEYDOWN:
 		{
-		case VK_RETURN:
+			int key = LOWORD(wp);
+			switch (key)
 			{
-			switch (curState) {
-			case 0:
-				break;
-			case 1:
-				windowState = 2;
-				break;
-			case 2:
+			case VK_RETURN:
+				{
+				switch (curState) {
+				case 0:
+					break;
+				case 1:
+					windowState = 2;
+					break;
+				case 2:
 				drawWindow3(hWnd);
+					break;
+				case 3:
+					break;
+				default:
+					break;
+				}
+				}
 				break;
-			case 3:
+			case VK_UP:
+				{
+					if (curState > 0) curState--;
+					switch (curState) {
+					case 0:
+						break;
+					case 1:
+					redPlayBtn(hWnd);
+						break;
+					case 2:
+					redLeaderBtn(hWnd);
+						break;
+				case 3:
+					break;
+					default:
+						break;
+					}
+				}
+				break;
+			case VK_DOWN:
+				{
+					if (curState < 3) curState++;
+					switch (curState) {
+				case 0:
+					break;
+					case 1:
+					redPlayBtn(hWnd);
+						break;
+					case 2:
+					redLeaderBtn(hWnd);
+						break;
+					case 3:
+					redLogOutBtn(hWnd);
+						break;
+					default:
+						break;
+					}
+				}
+				break;
+			case VK_RIGHT:
+				CreateWindowW(L"static", L"Enter right text here: ", WS_VISIBLE | WS_CHILD, 200, 100, 300, 50, hWnd, NULL, NULL, NULL);
+				//MessageBox(hWnd, L"Arrow right clicked", L"Alert", MB_OK | MB_ICONINFORMATION);
+				break;
+			case VK_LEFT:
+				CreateWindowW(L"static", L"Enter left text here: ", WS_VISIBLE | WS_CHILD, 200, 100, 300, 50, hWnd, NULL, NULL, NULL);
+				//MessageBox(hWnd, L"Arrow left clicked", L"Alert", MB_OK | MB_ICONINFORMATION);
 				break;
 			default:
 				break;
 			}
-			}
-			break;
-		case VK_UP:
-			{
-				if (curState > 0) curState--;
-				switch (curState) {
-				case 0:
-					break;
-				case 1:
-					redPlayBtn(hWnd);
-					break;
-				case 2:
-					redLeaderBtn(hWnd);
-					break;
-				case 3:
-					break;
-				default:
-					break;
-				}
-			}
-			break;
-		case VK_DOWN:
-			{
-				if (curState < 3) curState++;
-				switch (curState) {
-				case 0:
-					break;
-				case 1:
-					redPlayBtn(hWnd);
-					break;
-				case 2:
-					redLeaderBtn(hWnd);
-					break;
-				case 3:
-					redLogOutBtn(hWnd);
-					break;
-				default:
-					break;
-				}
-			}
-			break;
-		case VK_RIGHT:
-			CreateWindowW(L"static", L"Enter right text here: ", WS_VISIBLE | WS_CHILD, 200, 100, 300, 50, hWnd, NULL, NULL, NULL);
-			//MessageBox(hWnd, L"Arrow right clicked", L"Alert", MB_OK | MB_ICONINFORMATION);
-			break;
-		case VK_LEFT:
-			CreateWindowW(L"static", L"Enter left text here: ", WS_VISIBLE | WS_CHILD, 200, 100, 300, 50, hWnd, NULL, NULL, NULL);
-			//MessageBox(hWnd, L"Arrow left clicked", L"Alert", MB_OK | MB_ICONINFORMATION);
-			break;
-		default:
-			break;
 		}
-	}
-	break;
+		break;
 	//case WM_KEYDOWN: {
 	//	int vk_code = LOWORD(wParam);
 	//	bool is_down = ((vk_code & (1 << 31)) == 0);
@@ -300,9 +300,9 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	//		process_button(BUTTON_ENTER, VK_RETURN);
 	//	}
 	//} break;
-	default:
-		return DefWindowProcW(hWnd, msg, wp, lp);
-	}
+		default:
+			return DefWindowProcW(hWnd, msg, wp, lp);
+		}
 	} else if (windowState == 2) {
 		switch (msg)
 		{
