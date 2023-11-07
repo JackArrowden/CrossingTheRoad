@@ -36,3 +36,9 @@ void CAR::Move(int deltaX)
 {
     mX += direc * deltaX;
 }
+
+void CAR::draw(Render_State& screen)
+{
+    if (direc < 0) screen.drawReverseImage(CAR::image, mX, mY, 1, DEFAULT_BACKGROUND_COLOR);
+    else screen.drawImage(CAR::image, mX - CAR_WIDTH, mY, 1, DEFAULT_BACKGROUND_COLOR);
+}

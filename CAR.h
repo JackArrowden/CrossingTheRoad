@@ -14,5 +14,6 @@ public:
 	CAR(int startX, int startY, char direction);
 	void tell();
 	void Move(int deltaX);
+	void draw(Render_State& screen);
 };
 

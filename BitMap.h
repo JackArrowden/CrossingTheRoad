@@ -4,6 +4,14 @@ using namespace std;
 typedef unsigned int u32;
 typedef unsigned char u8;
 
+#ifndef DEFAULT_BACKGROUND_COLOR
+#define DEFAULT_BACKGROUND_COLOR 16777215
+#endif // !DEFAULT_BACKGROUND_COLOR
+#ifndef UNCOLOR_NUMBER
+#define UNCOLOR_NUMBER 2147483648
+#endif // !UNCOLOR_NUMBER
+
+
 #pragma pack(2)
 struct BMPHeader {
 	unsigned short signature; // "BM" for a valid BMP file
@@ -40,6 +48,7 @@ public:
 
 
 class Render_State {
+	
 public:
 	static const double renderScale;	
 	int height, width;
@@ -52,9 +61,8 @@ public:
 	void resize(int, int);
 	void drawReac2P(int leftX, int rightX, int bottomY, int topY, u32 color);
 	void clearScreen(u32 color);
-	void drawImageBT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel);
-	void drawImageBT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgroundColor);
-	void drawImageC(const bitmapHandMake& image, int centerX, int centerY, int perPixel);
+	void drawImage(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgrouundColor = UNCOLOR_NUMBER);
+	void drawReverseImage(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgrouundColor = UNCOLOR_NUMBER);
 	void dynamicDrawReac(double dynamicLeftX, double dynamicBottomY, double dynamicHalfSizeX, double dynamicHalfSizeY, u32 color);
 };
 

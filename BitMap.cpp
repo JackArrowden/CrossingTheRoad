@@ -150,19 +150,20 @@ void Render_State::clearScreen(u32 color)
 	}
 }
 
-void Render_State::drawImageBT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel)
+void Render_State::drawImage(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgroundColor)
 {
 	if (perPixel < 0) return;
-	int y0 = max(0, bottomY);
-	int x0 = max(0, leftX);
-	for (int y = y0; y < min(height, image.height / perPixel + bottomY); y++)
+	int startY = clamp(0, bottomY, height); 
+	int startX = clamp(0, leftX, width);
+	int lastX = clamp(0, image.width / perPixel + leftX, width);
+	int lastY = clamp(0, image.height / perPixel + bottomY, height);
+	for (int y = startY; y < lastY; y++)
 	{
-		u32* pixel = (u32*)memory + y * width + x0;
-		u32 idxInImage = (y - bottomY) * image.width * perPixel + perPixel / 2 * (image.width + 1) + (x0 - leftX) * perPixel;
-		for (int x = x0; x < min(width, image.width / perPixel + leftX); x++)
+		u32* pixel = (u32*)memory + y * width + startX;
+		u32 idxInImage = (y - bottomY) * image.width * perPixel + perPixel / 2 * (image.width + 1) + (startX - leftX) * perPixel;
+		for (int x = startX; x < lastX; x++)
 		{
-
-			*pixel = image.memory[idxInImage];
+			if (backgroundColor != image.memory[idxInImage]) *pixel = image.memory[idxInImage];
 			pixel++;
 			idxInImage += perPixel;
 		}
@@ -170,21 +171,23 @@ void Render_State::drawImageBT(const bitmapHandMake& image, int leftX, int botto
 
 }
 
-void Render_State::drawImageBT(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgroundColor)
+void Render_State::drawReverseImage(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgroundColor)
 {
 	if (perPixel < 0) return;
-	int y0 = max(0, bottomY);
-	int x0 = max(0, leftX);
-	for (int y = y0; y < min(height, image.height / perPixel + bottomY); y++)
+	int startY = clamp(0, bottomY, height);
+	int startX = clamp(0, leftX, width);
+	int lastX = clamp(0, image.width / perPixel + leftX, width);
+	int lastY = clamp(0, image.height / perPixel + bottomY, height);
+
+	for (int y = startY; y < lastY; y++)
 	{
-		u32* pixel = (u32*)memory + y * width + x0;
-		u32 idxInImage = (y - bottomY) * image.width * perPixel + perPixel / 2 * (image.width + 1) + (x0 - leftX) * perPixel;
-		for (int x = x0; x < min(width, image.width / perPixel + leftX); x++)
+		u32* pixel = (u32*)memory + y * width + startX;
+		u32 idxInImage = (y - bottomY + 1) * image.width * perPixel + perPixel / 2 * (image.width - 1) - (startX - leftX) * perPixel - 1;
+		for (int x = startX; x < lastX; x++)
 		{
-			
-			if (image.memory[idxInImage] != backgroundColor) *pixel = image.memory[idxInImage];
+			if (backgroundColor != image.memory[idxInImage]) *pixel = image.memory[idxInImage];
 			pixel++;
-			idxInImage += perPixel;
+			idxInImage -= perPixel;
 		}
 	}
 

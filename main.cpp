@@ -4,7 +4,7 @@
 #include "CGAME.h"
 
 #define MAX_LOADSTRING 100
-#define DEFAULT_BACKGROUND_COLOR 16777215
+
 int windowState = 1;
 int curState = 0;
 int xTrain = 1200;
@@ -121,33 +121,33 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 }
 
 void drawWindow1(HWND hWnd) {
-	render_state.drawImageBT(background1, 0, 0, 1);
+	render_state.drawImage(background1, 0, 0, 1);
 
-	if (!playClick) render_state.drawImageBT(playBtn, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImageBT(playRed, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
+	if (!playClick) render_state.drawImage(playBtn, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(playRed, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
 
-	if (!leaderClick) render_state.drawImageBT(leaderBtn, 490, 150, 10,DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImageBT(leaderRed, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
+	if (!leaderClick) render_state.drawImage(leaderBtn, 490, 150, 10,DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(leaderRed, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
 
-	if (!logoutClick) render_state.drawImageBT(logoutBtn, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImageBT(logoutRed, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
+	if (!logoutClick) render_state.drawImage(logoutBtn, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(logoutRed, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
 
-	if (!settingClick) render_state.drawImageBT(setting, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImageBT(settingClicked, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
+	if (!settingClick) render_state.drawImage(setting, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(settingClicked, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
 
 	apply(hWnd);
 }
 
 void drawWindow2(HWND hWnd) {
-	render_state.drawImageBT(background2, 0, 0, 1);
-	render_state.drawImageBT(train, xTrain, 200, 1, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(background2, 0, 0, 1);
+	render_state.drawImage(train, xTrain, 200, 1, DEFAULT_BACKGROUND_COLOR);
 	if (xTrain > -1000) xTrain--;
 
 	apply(hWnd);
 }
 
 void drawWindow3(HWND hWnd) {
-	render_state.drawImageBT(car, 0, 0, 5);
+	render_state.drawImage(car, 0, 0, 5);
 
 	apply(hWnd);
 }

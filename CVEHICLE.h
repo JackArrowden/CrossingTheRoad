@@ -16,6 +16,7 @@ protected:
 public:
 	virtual void Move(int) = 0;
 	virtual void tell();
+	virtual void draw(Render_State& screen) = 0;
 
 };
 
