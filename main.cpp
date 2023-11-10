@@ -140,9 +140,9 @@ void drawWindow1(HWND hWnd) {
 
 void drawWindow2(HWND hWnd) {
 	render_state.drawImage(background2, 0, 0, 1);
-	render_state.drawImage(train, xTrain, 200, 1, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawReverseImage(car, xTrain, 200, 1, DEFAULT_BACKGROUND_COLOR);
 	if (xTrain > -1000) xTrain--;
-
+	
 	apply(hWnd);
 }
 
