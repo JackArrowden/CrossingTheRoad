@@ -3,7 +3,7 @@
 class CBIRD : public CANIMAL
 {
 public:
-	//CBIRD();
+	CBIRD();
 	void tell();
 	//void Move(int,int);
 	//void DropShit(); // Thả shit tác động người chơi

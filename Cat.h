@@ -5,6 +5,6 @@ class CAT : public CANIMAL
 public:
 	//CAT();
 	void tell();
-	//void Move(int,int);
+	void Move(int,int);
 };
 
