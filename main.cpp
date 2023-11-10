@@ -8,6 +8,10 @@
 int windowState = 1;
 int curState = 0;
 int xTrain = 1200;
+int xTrain_p = 1360;
+int xTrain_p1 = 1594;
+int xTrain_e = 1828;
+int xCar = 0;
 bool playClick = false, leaderClick = false, logoutClick = false, settingClick = false;
 bitmapHandMake background1("Image\\background.bmp");
 bitmapHandMake background2("Image\\gameBgr.bmp");
@@ -17,7 +21,10 @@ bitmapHandMake logoutBtn("Image\\logOutButton.bmp");
 bitmapHandMake playRed("Image\\redPlayBtn.bmp");
 bitmapHandMake leaderRed("Image\\redLeaderBtn.bmp");
 bitmapHandMake logoutRed("Image\\redLogOutBtn.bmp");
-bitmapHandMake train("Image\\train.bmp");
+bitmapHandMake train_h("Image\\train_h.bmp");
+bitmapHandMake train_p("Image\\train_p.bmp");
+bitmapHandMake train_e("Image\\train_e.bmp");
+bitmapHandMake person("Image\\person.bmp");
 bitmapHandMake car("Image\\car.bmp");
 bitmapHandMake setting("Image\\setting.bmp");
 bitmapHandMake settingClicked("Image\\settingClicked.bmp");
@@ -140,9 +147,16 @@ void drawWindow1(HWND hWnd) {
 
 void drawWindow2(HWND hWnd) {
 	render_state.drawImage(background2, 0, 0, 1);
-	render_state.drawImage(train, xTrain, 200, 1, DEFAULT_BACKGROUND_COLOR);
-	if (xTrain > -1000) xTrain--;
-
+	render_state.drawImage(train_h, xTrain, 350, 2, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(train_p, xTrain_p, 350, 2, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(train_p, xTrain_p1, 350, 2, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(train_e, xTrain_e, 350, 2, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(person, 200, 200, 3, DEFAULT_BACKGROUND_COLOR);
+	if (xTrain > -1000) {
+		xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--;
+	}
+	render_state.drawImage(car, xCar, 80, 1, DEFAULT_BACKGROUND_COLOR);
+	if (xCar < 1300) xCar++;
 	apply(hWnd);
 }
 
@@ -163,6 +177,10 @@ void resetWindow1() {
 
 void resetWindow2() {
 	xTrain = 1200;
+	xTrain_p = 1360;
+	xTrain_p1 = 1594;
+	xTrain_e = 1828;
+	xCar = 0;
 }
 
 void apply(HWND hWnd) {

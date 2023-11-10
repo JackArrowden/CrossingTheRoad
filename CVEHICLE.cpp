@@ -6,7 +6,7 @@ void CVEHICLE::tell()
     //const char* soundFilePath = "Sound\\birds.wav";
 
     // Use PlaySound to play the sound file
-    if (PlaySound(TEXT("Sound\\TRUCK.wav"), NULL, SND_FILENAME | SND_LOOP ))//| SND_ASYNC)) 
+    if (PlaySound(TEXT("Sound\\TRUCK.wav"), NULL, SND_FILENAME | SND_LOOP )//| SND_ASYNC)) 
     {
         // Sound started playing successfully
         // You can add additional code here if needed
