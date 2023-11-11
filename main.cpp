@@ -9,8 +9,10 @@ int windowState = 1;
 int curState = 0;
 int xTrain = 1200;
 bool playClick = false, leaderClick = false, logoutClick = false, settingClick = false;
+bool gameSoundClick = false, objectSoundClick = false, gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false;
 bitmapHandMake background1("Image\\background.bmp");
 bitmapHandMake background2("Image\\gameBgr.bmp");
+bitmapHandMake background3("Image\\backgroundLogin.bmp");
 bitmapHandMake playBtn("Image\\playButton.bmp");
 bitmapHandMake leaderBtn("Image\\leaderButton.bmp");
 bitmapHandMake logoutBtn("Image\\logOutButton.bmp");
@@ -21,6 +23,24 @@ bitmapHandMake train("Image\\train.bmp");
 bitmapHandMake car("Image\\car.bmp");
 bitmapHandMake setting("Image\\setting.bmp");
 bitmapHandMake settingClicked("Image\\settingClicked.bmp");
+
+//// Setting window
+bitmapHandMake greenBgr("Image\\soundSetting\\greenBgr.bmp");
+bitmapHandMake redBgr("Image\\soundSetting\\redBgr.bmp");
+bitmapHandMake yellowBgr("Image\\soundSetting\\yellowBgr.bmp");
+bitmapHandMake gameSoundGreen("Image\\soundSetting\\gameSoundGreen.bmp");
+bitmapHandMake gameSoundRed("Image\\soundSetting\\gameSoundRed.bmp");
+bitmapHandMake objectSoundGreen("Image\\soundSetting\\objectSoundGreen.bmp");
+bitmapHandMake objectSoundRed("Image\\soundSetting\\objectSoundRed.bmp");
+bitmapHandMake greenLight("Image\\soundSetting\\greenLight.bmp");
+bitmapHandMake redLight("Image\\soundSetting\\redLight.bmp");
+bitmapHandMake turnOffGreen("Image\\soundSetting\\turnOffGreen.bmp");
+bitmapHandMake turnOffYellow("Image\\soundSetting\\turnOffYellow.bmp");
+bitmapHandMake turnOnRed("Image\\soundSetting\\turnOnRed.bmp");
+bitmapHandMake turnOnYellow("Image\\soundSetting\\turnOnYellow.bmp");
+bitmapHandMake backClicked("Image\\soundSetting\\backClicked.bmp");
+bitmapHandMake backUnclicked("Image\\soundSetting\\backUnclicked.bmp");
+
 
 static bool running = true;
 
@@ -52,10 +72,10 @@ static Render_State render_state;
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp);
 void drawWindow1(HWND);
 void drawWindow2(HWND);
-void drawWindow3(HWND); 
+void settingWindow(HWND); 
 void resetWindow1();
 void resetWindow2();
-void resetWindow3();
+void resetSettingWindow();
 void apply(HWND);
 //void drawImage(const bitmapHandMake& image, Render_State&);
 
@@ -76,17 +96,17 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 
 	// Main Window
 	HWND window = CreateWindow(window_class.lpszClassName, L"Cross Game", WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720, 0, 0, hInstance, 0);
-	//{
-	//		//Fullscreen
-	//		SetWindowLong(window, GWL_STYLE, GetWindowLong(window, GWL_STYLE) & ~WS_OVERLAPPEDWINDOW);
-	//		MONITORINFO mi = { sizeof(mi) };
-	//		GetMonitorInfo(MonitorFromWindow(window, MONITOR_DEFAULTTOPRIMARY), &mi);
-	//		SetWindowPos(window, HWND_TOP, mi.rcMonitor.left, mi.rcMonitor.top, mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top, SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
-	//	
-	//}
-
 
 	while (running) {
+		if (gameSoundClick_temp) {
+			if (gameSound) {
+				game->tell();
+			} else {
+				//...
+			}
+			gameSoundClick_temp = false;
+		}
+
 		switch (windowState) {
 		case 1:
 			drawWindow1(window);
@@ -95,19 +115,11 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 			drawWindow2(window);
 			break;
 		case 3:
-			drawWindow3(window);
+			settingWindow(window);
 			break;
 		default:
 			break;
 		}
-		//render_state.clearScreen(4319843);
-
-		//render_state.drawReac2P(0, 100, 0, 100, 0xFFA500);
-		//--x0;
-		// Simulate
-		// simulate_game(&input, delta_time);
-
-		// Render
 
 		MSG msg;
 		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -146,10 +158,63 @@ void drawWindow2(HWND hWnd) {
 	apply(hWnd);
 }
 
-void drawWindow3(HWND hWnd) {
-	render_state.drawImage(car, 0, 0, 5);
+void settingWindow(HWND hWnd) {
+	render_state.drawImage(background3, 0, 0, 1);
+
+	// back
+	if (backClick) render_state.drawImage(backClicked, 30, 610, 5, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(backUnclicked, 30, 610, 5, DEFAULT_BACKGROUND_COLOR);
+
+	// box
+	if (gameSound && objectSound) render_state.drawImage(greenBgr, 270, 150, 4, DEFAULT_BACKGROUND_COLOR);
+	else if (!gameSound && !objectSound) render_state.drawImage(redBgr, 270, 150, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(yellowBgr, 270, 150, 4, DEFAULT_BACKGROUND_COLOR);
+
+	// game
+	if (gameSound) {
+		// light
+		render_state.drawImage(gameSoundGreen, 380, 440, 4, DEFAULT_BACKGROUND_COLOR);
+		render_state.drawImage(greenLight, 440, 330, 4, DEFAULT_BACKGROUND_COLOR);
+		// button
+		if (gameSoundClick) render_state.drawImage(turnOffYellow, 410, 250, 4, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(turnOffGreen, 410, 250, 4, DEFAULT_BACKGROUND_COLOR);
+	}
+	else {
+		// light
+		render_state.drawImage(gameSoundRed, 380, 440, 4, DEFAULT_BACKGROUND_COLOR);
+		render_state.drawImage(redLight, 440, 330, 4, DEFAULT_BACKGROUND_COLOR);
+		// button
+		if (gameSoundClick) render_state.drawImage(turnOnYellow, 410, 250, 4, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(turnOnRed, 410, 250, 4, DEFAULT_BACKGROUND_COLOR);
+	}
+
+	// object
+	if (objectSound) {
+		// light
+		render_state.drawImage(objectSoundGreen, 680, 440, 4, DEFAULT_BACKGROUND_COLOR);
+		render_state.drawImage(greenLight, 740, 330, 4, DEFAULT_BACKGROUND_COLOR);
+		// button
+		if (objectSoundClick) render_state.drawImage(turnOffYellow, 710, 250, 4, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(turnOffGreen, 710, 250, 4, DEFAULT_BACKGROUND_COLOR);
+	}
+	else {
+		// light
+		render_state.drawImage(objectSoundRed, 680, 440, 4, DEFAULT_BACKGROUND_COLOR);
+		render_state.drawImage(redLight, 740, 330, 4, DEFAULT_BACKGROUND_COLOR);
+		// button
+		if (objectSoundClick) render_state.drawImage(turnOnYellow, 710, 250, 4, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(turnOnRed, 710, 250, 4, DEFAULT_BACKGROUND_COLOR);
+	}
 
 	apply(hWnd);
+}
+
+void resetSettingWindow() {
+	windowState = 3;
+	curState = 0;
+	gameSoundClick = false;
+	objectSoundClick = false;
+	backClick = false;
 }
 
 void resetWindow1() {
@@ -162,6 +227,7 @@ void resetWindow1() {
 }
 
 void resetWindow2() {
+	windowState = 2;
 	xTrain = 1200;
 }
 
@@ -214,13 +280,12 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				{
 				switch (curState) {
 				case 0:
+					resetSettingWindow();
 					break;
 				case 1:
 					resetWindow2();
-					windowState = 2;
 					break;
 				case 2:
-					windowState = 3;
 					break;
 				case 3:
 					break;
@@ -272,12 +337,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				}
 				break;
 			case VK_RIGHT:
-				CreateWindowW(L"static", L"Enter right text here: ", WS_VISIBLE | WS_CHILD, 200, 100, 300, 50, hWnd, NULL, NULL, NULL);
-				//MessageBox(hWnd, L"Arrow right clicked", L"Alert", MB_OK | MB_ICONINFORMATION);
 				break;
 			case VK_LEFT:
-				CreateWindowW(L"static", L"Enter left text here: ", WS_VISIBLE | WS_CHILD, 200, 100, 300, 50, hWnd, NULL, NULL, NULL);
-				//MessageBox(hWnd, L"Arrow left clicked", L"Alert", MB_OK | MB_ICONINFORMATION);
 				break;
 			default:
 				break;
@@ -361,6 +422,89 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				CreateWindowW(L"static", L"Enter left text here: ", WS_VISIBLE | WS_CHILD, 200, 100, 300, 50, hWnd, NULL, NULL, NULL);
 				//MessageBox(hWnd, L"Arrow left clicked", L"Alert", MB_OK | MB_ICONINFORMATION);
 				break;
+			default:
+				break;
+			}
+		}
+		break;
+		default:
+			return DefWindowProcW(hWnd, msg, wp, lp);
+		}
+	} else if (windowState == 3) {
+		switch (msg)
+		{
+		case WM_CLOSE:
+		case WM_DESTROY: {
+			running = false;
+			PostQuitMessage(0);
+		} break;
+		case WM_CREATE:
+			break;
+		case WM_SIZE: {
+			RECT rect;
+			GetClientRect(hWnd, &rect);
+			int newWidth = rect.right - rect.left;
+			int newHeight = rect.bottom - rect.top;
+			render_state.resize(newHeight, newWidth);
+
+		} break;
+		case WM_KEYDOWN:
+		{
+			int key = LOWORD(wp);
+			switch (key)
+			{
+			case VK_RETURN:
+			{
+				switch (curState) {
+				case 0:
+					resetWindow1();
+					break;
+				case 1:
+					gameSound = !gameSound;
+					gameSoundClick_temp = true;
+					break;
+				case 2:
+					objectSound = !objectSound;
+					break;
+				default:
+					break;
+				}
+			}
+			break;
+			case VK_UP:
+			{
+				if (curState > 0) curState--;
+				switch (curState) {
+				case 0:
+					backClick = true;
+					gameSoundClick = false;
+					break;
+				case 1:
+					gameSoundClick = true;
+					objectSoundClick = false;
+					break;
+				default:
+					break;
+				}
+			}
+			break;
+			case VK_DOWN:
+			{
+				if (curState < 2) curState++;
+				switch (curState) {
+				case 1:
+					gameSoundClick = true;
+					backClick = false;
+					break;
+				case 2:
+					gameSoundClick = false;
+					objectSoundClick = true;
+					break;
+				default:
+					break;
+				}
+			}
+			break;
 			default:
 				break;
 			}
