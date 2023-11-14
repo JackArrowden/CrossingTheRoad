@@ -10,21 +10,26 @@ int curState = 0;
 int xTrain = 1200;
 bool playClick = false, leaderClick = false, logoutClick = false, settingClick = false;
 bool gameSoundClick = false, objectSoundClick = false, gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false;
-bitmapHandMake background1("Image\\background.bmp");
-bitmapHandMake background2("Image\\gameBgr.bmp");
-bitmapHandMake background3("Image\\backgroundLogin.bmp");
-bitmapHandMake playBtn("Image\\playButton.bmp");
-bitmapHandMake leaderBtn("Image\\leaderButton.bmp");
-bitmapHandMake logoutBtn("Image\\logOutButton.bmp");
-bitmapHandMake playRed("Image\\redPlayBtn.bmp");
-bitmapHandMake leaderRed("Image\\redLeaderBtn.bmp");
-bitmapHandMake logoutRed("Image\\redLogOutBtn.bmp");
-bitmapHandMake train("Image\\train.bmp");
-bitmapHandMake car("Image\\car.bmp");
-bitmapHandMake setting("Image\\setting.bmp");
-bitmapHandMake settingClicked("Image\\settingClicked.bmp");
+bool isDataChanged = false; // This variable is used to check if the user's data is changed or not, if changed, calls sort function
+
+//// Main window
+bitmapHandMake background1("Image\\mainWindow\\background.bmp");
+bitmapHandMake playBtn("Image\\mainWindow\\playButton.bmp");
+bitmapHandMake leaderBtn("Image\\mainWindow\\leaderButton.bmp");
+bitmapHandMake logoutBtn("Image\\mainWindow\\logOutButton.bmp");
+bitmapHandMake playRed("Image\\mainWindow\\redPlayBtn.bmp");
+bitmapHandMake leaderRed("Image\\mainWindow\\redLeaderBtn.bmp");
+bitmapHandMake logoutRed("Image\\mainWindow\\redLogOutBtn.bmp");
+bitmapHandMake setting("Image\\mainWindow\\setting.bmp");
+bitmapHandMake settingClicked("Image\\mainWindow\\settingClicked.bmp");
+
+//// Game window
+bitmapHandMake background2("Image\\gameWindow\\gameBgr.bmp");
+bitmapHandMake train("Image\\gameWindow\\train.bmp");
+bitmapHandMake car("Image\\gameWindow\\car.bmp");
 
 //// Setting window
+bitmapHandMake background3("Image\\soundSetting\\backgroundSetting.bmp");
 bitmapHandMake greenBgr("Image\\soundSetting\\greenBgr.bmp");
 bitmapHandMake redBgr("Image\\soundSetting\\redBgr.bmp");
 bitmapHandMake yellowBgr("Image\\soundSetting\\yellowBgr.bmp");
@@ -72,10 +77,12 @@ static Render_State render_state;
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp);
 void drawWindow1(HWND);
 void drawWindow2(HWND);
-void settingWindow(HWND); 
+void settingWindow(HWND);
+void leaderboardWindow(HWND);
 void resetWindow1();
 void resetWindow2();
 void resetSettingWindow();
+void resetLeaderboardWindow();
 void apply(HWND);
 //void drawImage(const bitmapHandMake& image, Render_State&);
 
@@ -214,12 +221,20 @@ void settingWindow(HWND hWnd) {
 	apply(hWnd);
 }
 
+void leaderboardWindow(HWND hWnd) {
+
+}
+
 void resetSettingWindow() {
 	windowState = 3;
 	curState = 0;
 	gameSoundClick = false;
 	objectSoundClick = false;
 	backClick = false;
+}
+
+void resetLeaderboardWindow() {
+
 }
 
 void resetWindow1() {
