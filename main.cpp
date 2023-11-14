@@ -85,6 +85,9 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	//game->tell();
 
 	//ShowCursor(FALSE);
+	// ########################################################
+	//						Window Class
+	// ########################################################
 	// Create Window Class
 	WNDCLASS window_class = {};
 	window_class.style = CS_HREDRAW | CS_VREDRAW;
@@ -94,7 +97,9 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	// Register Class
 	RegisterClass(&window_class);
 
-	// Main Window
+	// ########################################################
+	//						Main Window
+	// ########################################################
 	HWND window = CreateWindow(window_class.lpszClassName, L"Cross Game", WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720, 0, 0, hInstance, 0);
 
 	while (running) {
@@ -102,7 +107,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 			if (gameSound) {
 				game->tell();
 			} else {
-				//...
+				PlaySound(0, NULL, 0);
 			}
 			gameSoundClick_temp = false;
 		}
@@ -337,8 +342,20 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				}
 				break;
 			case VK_RIGHT:
+				{
+					if (curState > 0) curState = 0;
+					settingClick = true;
+					playClick = false;
+					leaderClick = false;
+					logoutClick = false;
+				}
 				break;
 			case VK_LEFT:
+				{
+					if (curState == 0) curState++;
+					settingClick = false;
+					playClick = true;
+				}
 				break;
 			default:
 				break;
@@ -489,6 +506,41 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			}
 			break;
 			case VK_DOWN:
+			{
+				if (curState < 2) curState++;
+				switch (curState) {
+				case 1:
+					gameSoundClick = true;
+					backClick = false;
+					break;
+				case 2:
+					gameSoundClick = false;
+					objectSoundClick = true;
+					break;
+				default:
+					break;
+				}
+			}
+			break;
+			case VK_LEFT:
+			{
+				gameSoundClick = true;
+				if (curState > 0) curState--;
+				switch (curState) {
+				case 0:
+					backClick = true;
+					gameSoundClick = false;
+					break;
+				case 1:
+					gameSoundClick = true;
+					objectSoundClick = false;
+					break;
+				default:
+					break;
+				}
+			}
+			break;
+			case VK_RIGHT:
 			{
 				if (curState < 2) curState++;
 				switch (curState) {
