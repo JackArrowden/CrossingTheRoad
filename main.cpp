@@ -166,7 +166,6 @@ void drawWindow2(HWND hWnd) {
 	render_state.drawImage(background2, 0, 0, 1);
 	render_state.drawReverseImage(car, xTrain, 200, 1, DEFAULT_BACKGROUND_COLOR);
 	if (xTrain > -1000) xTrain--;
-	
 	apply(hWnd);
 }
 
@@ -271,7 +270,7 @@ void apply(HWND hWnd) {
 	delta_time = (float)(frame_end_time.QuadPart - frame_begin_time.QuadPart) / performance_frequency;
 	frame_begin_time = frame_end_time;
 }
-
+CPEOPLE player;
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	if (windowState == 1) {
 		switch (msg)
@@ -400,6 +399,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		} break;
 		case WM_KEYDOWN:
 		{
+			
 			int key = LOWORD(wp);
 			switch (key)
 			{
@@ -407,45 +407,30 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				resetWindow1();
 				drawWindow1(hWnd);
 			break;
-			case VK_UP:
+			case VK_KEY_A:
 			{
-				//if (curState > 0) curState--;
-				//switch (curState) {
-				//case 0:
-				//	break;
-				//case 1:
-				//	redPlayBtn(hWnd);
-				//	break;
-				//case 2:
-				//	redLeaderBtn(hWnd);
-				//	break;
-				//case 3:
-				//	break;
-				//default:
-				//	break;
-				//}
+				player.Left(0.5f);
+				
 			}
 			break;
-			case VK_DOWN:
+			case VK_KEY_D:
 			{
-				//if (curState < 3) curState++;
-				//switch (curState) {
-				//case 0:
-				//	break;
-				//case 1:
-				//	redPlayBtn(hWnd);
-				//	break;
-				//case 2:
-				//	redLeaderBtn(hWnd);
-				//	break;
-				//case 3:
-				//	redLogOutBtn(hWnd);
-				//	break;
-				//default:
-				//	break;
-				//}
+				player.Right(0.5f);
+				
+			}
+			case VK_KEY_S:
+			{
+				player.Down(0.5f);
+
 			}
 			break;
+			case VK_KEY_W:
+			{
+				player.Up(0.5f);
+
+			}
+			break;
+
 			case VK_RIGHT:
 				CreateWindowW(L"static", L"Enter right text here: ", WS_VISIBLE | WS_CHILD, 200, 100, 300, 50, hWnd, NULL, NULL, NULL);
 				//MessageBox(hWnd, L"Arrow right clicked", L"Alert", MB_OK | MB_ICONINFORMATION);
