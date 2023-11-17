@@ -31,6 +31,7 @@ bitmapHandMake settingClicked("Image\\mainWindow\\settingClicked.bmp");
 
 //// Game window
 bitmapHandMake background2("Image\\gameWindow\\gameBgr.bmp");
+bitmapHandMake background_city("Image\\gameWindow\\gameBgr_city.bmp");
 bitmapHandMake train_h("Image\\train_h.bmp");
 bitmapHandMake train_p("Image\\train_p.bmp");
 bitmapHandMake train_e("Image\\train_e.bmp");
@@ -86,6 +87,7 @@ static Render_State render_state;
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp);
 void drawWindow1(HWND);
 void drawWindow2(HWND);
+void drawWindow3(HWND);
 void settingWindow(HWND);
 void leaderboardWindow(HWND);
 void resetWindow1();
@@ -133,7 +135,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 			drawWindow1(window);
 			break;
 		case 2:
-			drawWindow2(window);
+			drawWindow3(window);
 			break;
 		case 3:
 			settingWindow(window);
@@ -182,6 +184,21 @@ void drawWindow2(HWND hWnd) {
 		xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--;
 	}
 	render_state.drawImage(car, xCar, 80, 1, DEFAULT_BACKGROUND_COLOR);
+	if (xCar < 1300) xCar++;
+	apply(hWnd);
+}
+
+void drawWindow3(HWND hWnd) {
+	render_state.drawImage(background_city, 0, 0, 1);
+	render_state.drawImage(train_h, xTrain, 40, 2, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(train_p, xTrain_p, 40, 2, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(train_p, xTrain_p1, 40, 2, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(train_e, xTrain_e, 40, 2, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(person, player.GetmX(), player.GetmY(), 4, DEFAULT_BACKGROUND_COLOR);
+	if (xTrain > -1000) {
+		xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--;
+	}
+	render_state.drawImage(car, xCar, 160, 1, DEFAULT_BACKGROUND_COLOR);
 	if (xCar < 1300) xCar++;
 	apply(hWnd);
 }
@@ -439,6 +456,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				player.Right(10);
 				
 			}
+			break;
 			case VK_S:
 			{
 				player.Down(10);
