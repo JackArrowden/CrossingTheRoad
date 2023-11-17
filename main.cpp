@@ -407,24 +407,24 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				resetWindow1();
 				drawWindow1(hWnd);
 			break;
-			case 'A':
+			case VK_A:
 			{
 				player.Left(0.5f);
 				
 			}
 			break;
-			case 'D':
+			case VK_D:
 			{
 				player.Right(0.5f);
 				
 			}
-			case 'S':
+			case VK_S:
 			{
 				player.Down(0.5f);
 
 			}
 			break;
-			case 'W':
+			case VK_W:
 			{
 				player.Up(0.5f);
 
