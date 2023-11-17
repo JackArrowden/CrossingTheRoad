@@ -57,7 +57,7 @@ bitmapHandMake backUnclicked("Image\\soundSetting\\backUnclicked.bmp");
 
 
 static bool running = true;
-
+CPEOPLE player;
 enum {
 	BUTTON_UP,
 	BUTTON_DOWN,
@@ -177,7 +177,7 @@ void drawWindow2(HWND hWnd) {
 	render_state.drawImage(train_p, xTrain_p, 350, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_p, xTrain_p1, 350, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_e, xTrain_e, 350, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(person, 200, 200, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(person, player.GetmX(), player.GetmY(), 3, DEFAULT_BACKGROUND_COLOR);
 	if (xTrain > -1000) {
 		xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--;
 	}
@@ -291,7 +291,7 @@ void apply(HWND hWnd) {
 	delta_time = (float)(frame_end_time.QuadPart - frame_begin_time.QuadPart) / performance_frequency;
 	frame_begin_time = frame_end_time;
 }
-CPEOPLE player;
+
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	if (windowState == 1) {
 		switch (msg)
@@ -430,24 +430,24 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			break;
 			case VK_A:
 			{
-				player.Left(0.5f);
+				player.Left(10);
 				
 			}
 			break;
 			case VK_D:
 			{
-				player.Right(0.5f);
+				player.Right(10);
 				
 			}
 			case VK_S:
 			{
-				player.Down(0.5f);
+				player.Down(10);
 
 			}
 			break;
 			case VK_W:
 			{
-				player.Up(0.5f);
+				player.Up(10);
 
 			}
 			break;

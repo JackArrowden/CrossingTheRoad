@@ -30,7 +30,7 @@ void CPEOPLE::Left(int x)
 
 void CPEOPLE::Right(int x)
 {
-	mX -= x;
+	mX += x;
 }
 
 void CPEOPLE::Down(int y)
