@@ -43,7 +43,10 @@ using namespace std;
 #define key_UpArrow		72
 #define key_LeftArrow	75
 #define key_RightArrow	77
-
+#define VK_A			0x41
+#define VK_W			0x57
+#define VK_S			0x53
+#define VK_D			0x44
 //////////////////////////
 #define IDS_APP_TITLE			103
 

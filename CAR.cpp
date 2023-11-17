@@ -2,11 +2,11 @@
 
 const bitmapHandMake CAR::image(CAR_LINK_IMAGE);
 
-CAR::CAR(int startX, int startY, char direction) 
+CAR::CAR(int startX, int startY, int direction) 
 {
     this->mX = startX;
     this->mY = startY;
-    this->mode = 0;
+    this->mode = STOP_MODE;
     this->direc = direction;
 }
 
@@ -34,7 +34,7 @@ void CAR::tell()
 
 void CAR::Move(int deltaX)
 {
-    mX += direc * deltaX;
+    mX += mode * direc * deltaX;
 }
 
 void CAR::draw(Render_State& screen)
