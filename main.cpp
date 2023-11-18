@@ -2,6 +2,7 @@
 //
 #include "BitMap.h"
 #include "CGAME.h"
+#include "fileHandling.h"
 
 #define MAX_LOADSTRING 100
 
@@ -106,6 +107,9 @@ void apply(HWND);
 //void drawImage(const bitmapHandMake& image, Render_State&);
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
+	//vector<userData> listUser(10);
+	//userFileToVect("USER", listUser);
+	//sortDescendingData(listUser);
 
 	CGAME* game = new CGAME;
 	//game->tell();
