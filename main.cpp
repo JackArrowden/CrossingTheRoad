@@ -486,7 +486,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				player.Right(10);
 				
 			}
-			break;
+			
 			case VK_S:
 			{
 				player.Down(10);
