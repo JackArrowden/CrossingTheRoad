@@ -42,3 +42,8 @@ void CGAME::tell()
 	}
 
 }
+
+void CGAME::Draw()
+{
+
+}

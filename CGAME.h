@@ -32,6 +32,11 @@ private:
 	CMOUSE* mouse;
 	int m_isRunning;
 	int m_currentLevel;
+	int CurrentScrore;
+	string NameOfPlayer;
+
+	
+
 
 	//void copyGame(const CGAME&);
 	void clearGame();
@@ -57,5 +62,6 @@ public:
 	static const string SETTINGS[];
 
 	virtual void tell();
+	void Draw();
 };
 
