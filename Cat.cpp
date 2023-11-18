@@ -1,5 +1,14 @@
 #include "CAT.h"
 
+const bitmapHandMake CAT::image(CAT_LINK_IMAGE);
+
+CAT::CAT(int startX, int startY, int direction)
+{
+    this->mX = startX;
+    this->mY = startY;
+    this->direc = direction;
+}
+
 void CAT::tell()
 {
     if (PlaySound(TEXT("Sound\\CAT.wav"), NULL, SND_FILENAME | SND_LOOP)) //| SND_ASYNC)) 
@@ -16,4 +25,15 @@ void CAT::tell()
             cout << "ERROR\n";
         }
     }
+}
+
+void CAT::Move(int deltaX)
+{
+    mX += direc * deltaX;
+}
+
+void CAT::draw(Render_State& screen)
+{
+    if (direc < 0) screen.drawImage(image, mX, mY, 1, DEFAULT_BACKGROUND_COLOR);
+    else screen.drawReverseImage(image, mX, mY - CAT_WIDTH, 1, DEFAULT_BACKGROUND_COLOR);    
 }

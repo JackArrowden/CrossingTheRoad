@@ -1,5 +1,14 @@
 #include "CBIRD.h"
 
+const bitmapHandMake CBIRD::image(BIRD_LINK_IMAGE);
+
+CBIRD::CBIRD(int startX, int startY, int direction)
+{
+    this->mX = startX;
+    this->mY = startY;
+    this->direc = direction;
+}
+
 void CBIRD::tell()
 {
 	//PlaySound(TEXT("Sound/birds.wav"), NULL, SND_FILENAME | SND_ASYNC);
@@ -20,4 +29,15 @@ void CBIRD::tell()
         }
     }
 
+}
+
+void CBIRD::Move(int deltaX)
+{
+    mX += direc * deltaX;
+}
+
+void CBIRD::draw(Render_State& screen)
+{
+    if (direc < 0) screen.drawImage(image, mX, mY, 1, DEFAULT_BACKGROUND_COLOR);
+    else screen.drawReverseImage(image, mX - BIRD_WIDTH, mY, 1, DEFAULT_BACKGROUND_COLOR);
 }

@@ -7,7 +7,7 @@
 #define CAR_WIDTH 20
 #define CAR_LINK_IMAGE "car.bmp"
 
-class CAR final : public CVEHICLE
+class CAR final : protected CVEHICLE
 {
 public:
 	static const bitmapHandMake image;
