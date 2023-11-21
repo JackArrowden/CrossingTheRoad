@@ -13,11 +13,9 @@ int xTrain_p = 1360;
 int xTrain_p1 = 1594;
 int xTrain_e = 1828;
 int xCar = 0;
-bool playClick = false, leaderClick = false, logoutClick = false, settingClick = false;
+bool button1 = false, button2 = false, button3 = false, button4 = false, button5 = false;
 bool gameSoundClick = false, objectSoundClick = false, gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false;
 bool isDataChanged = false; // This variable is used to check if the user's data is changed or not, if changed, calls sort function
-
-
 
 //// Main window
 bitmapHandMake background1("Image\\mainWindow\\background.bmp");
@@ -41,7 +39,6 @@ bitmapHandMake car("Image\\gameWindow\\car.bmp");
 bitmapHandMake mouse("Image\\gameWindow\\mouse.bmp");
 bitmapHandMake bird("Image\\gameWindow\\bird.bmp");
 bitmapHandMake cat("Image\\gameWindow\\cat.bmp");
-
 
 //// Setting window
 bitmapHandMake background3("Image\\soundSetting\\backgroundSetting.bmp");
@@ -69,6 +66,22 @@ bitmapHandMake top3("Image\\leaderBoard\\top3.bmp");
 bitmapHandMake nameFrame("Image\\leaderBoard\\nameFrame.bmp");
 bitmapHandMake scoreFrame("Image\\leaderBoard\\scoreFrame.bmp");
 bitmapHandMake backClickLeader("Image\\leaderBoard\\backClickLeader.bmp");
+
+// Enter game window
+bool writingMode = false;
+string tempName = "";
+char tempNameChar[1000];
+bitmapHandMake background5("Image\\playOrResume\\background5.bmp");
+bitmapHandMake choiceInput("Image\\playOrResume\\choiceInput.bmp");
+bitmapHandMake choiceClicked("Image\\playOrResume\\choiceClicked.bmp");
+bitmapHandMake nameInput("Image\\playOrResume\\nameInput.bmp");
+bitmapHandMake nameClicked("Image\\playOrResume\\nameClicked.bmp");
+bitmapHandMake resumeBtn("Image\\playOrResume\\resumeBtn.bmp");
+bitmapHandMake resumeClicked("Image\\playOrResume\\resumeClicked.bmp");
+bitmapHandMake playUnclicked("Image\\playOrResume\\playBtn.bmp");
+bitmapHandMake playClicked("Image\\playOrResume\\playClicked.bmp");
+bitmapHandMake backWin5("Image\\playOrResume\\backWin5.bmp");
+bitmapHandMake backClickedWin5("Image\\playOrResume\\backClickedWin5.bmp");
 
 static bool running = true;
 CPEOPLE player;
@@ -106,11 +119,14 @@ void drawWindow2(HWND);
 void drawWindow3(HWND);
 void settingWindow(HWND);
 void leaderboardWindow(HWND);
+void enterGameWindow(HWND);
 void resetWindow1();
 void resetWindow2();
 void resetSettingWindow();
 void resetLeaderboardWindow();
+void resetEnterGameWindow();
 void apply(HWND);
+void resetBtn();
 //void drawImage(const bitmapHandMake& image, Render_State&);
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
@@ -150,19 +166,23 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 		}
 
 		switch (windowState) {
-		case 1:
-			drawWindow1(window);
-			break;
-		case 2:
-			drawWindow3(window);
-			break;
-		case 3:
-			settingWindow(window);
-			break;
-		case 4:
-			leaderboardWindow(window);
-		default:
-			break;
+			case 1:
+				drawWindow1(window);
+				break;
+			case 2:
+				drawWindow3(window);
+				break;
+			case 3:
+				settingWindow(window);
+				break;
+			case 4:
+				leaderboardWindow(window);
+				break;
+			case 5:
+				enterGameWindow(window);
+				break;
+			default:
+				break;
 		}
 
 		MSG msg;
@@ -179,17 +199,17 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 void drawWindow1(HWND hWnd) {
 	render_state.drawImage(background1, 0, 0, 1);
 
-	if (!playClick) render_state.drawImage(playBtn, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
+	if (!button1) render_state.drawImage(setting, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(settingClicked, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
+
+	if (!button2) render_state.drawImage(playBtn, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(playRed, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
 
-	if (!leaderClick) render_state.drawImage(leaderBtn, 490, 150, 10,DEFAULT_BACKGROUND_COLOR);
+	if (!button3) render_state.drawImage(leaderBtn, 490, 150, 10,DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(leaderRed, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
 
-	if (!logoutClick) render_state.drawImage(logoutBtn, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
+	if (!button4) render_state.drawImage(logoutBtn, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(logoutRed, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
-
-	if (!settingClick) render_state.drawImage(setting, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(settingClicked, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
 
 	apply(hWnd);
 }
@@ -210,7 +230,6 @@ void drawWindow2(HWND hWnd) {
 }
 
 void drawWindow3(HWND hWnd) {
-	
 	render_state.drawImage(background_city, 0, 0, 1);
 	render_state.draw_text("HELLO", -73, 40, 1, 0xffffff);
 	Cat.draw(render_state);
@@ -228,6 +247,37 @@ void drawWindow3(HWND hWnd) {
 	}
 	Car.draw(render_state);
 	Car.Move(1);
+	apply(hWnd);
+}
+
+void enterGameWindow(HWND hWnd) {
+	render_state.drawImage(background5, 0, 0, 1);
+
+	if (!button1) render_state.drawImage(choiceInput, 275, 180, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(choiceClicked, 275, 180, 4, DEFAULT_BACKGROUND_COLOR);
+
+	if (!button2) render_state.drawImage(nameInput, 755, 410, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(nameClicked, 755, 410, 4, DEFAULT_BACKGROUND_COLOR);
+
+	if (!button3) render_state.drawImage(resumeBtn, 350, 120, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(resumeClicked, 350, 120, 4, DEFAULT_BACKGROUND_COLOR);
+
+	if (!button4) render_state.drawImage(playUnclicked, 835, 350, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(playClicked, 835, 350, 4, DEFAULT_BACKGROUND_COLOR);
+
+	if (!button5) render_state.drawImage(backWin5, 740, 120, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(backClickedWin5, 740, 120, 4, DEFAULT_BACKGROUND_COLOR);
+
+	if (writingMode) {
+		int index = 0;
+		for (auto i : tempName) {
+			tempNameChar[index] = i;
+			index++;
+		}
+		tempName[index] = '\0';
+		render_state.draw_text(tempNameChar, -50, -25, 1, 0xcccccc);
+	}
+
 	apply(hWnd);
 }
 
@@ -303,27 +353,32 @@ void leaderboardWindow(HWND hWnd) {
 	apply(hWnd);
 }
 
+void resetBtn() {
+	curState = 0;
+	button1 = button2 = button3 = button4 = button5 = false;
+}
+
 void resetSettingWindow() {
 	windowState = 3;
-	curState = 0;
 	gameSoundClick = false;
 	objectSoundClick = false;
 	backClick = false;
+	resetBtn();
+}
+
+void resetEnterGameWindow() {
+	windowState = 5;
+	resetBtn();
 }
 
 void resetLeaderboardWindow() {
 	windowState = 4;
-	curState = 0;
-	backClick = false;
+	resetBtn();
 }
 
 void resetWindow1() {
 	windowState = 1;
-	curState = 0;
-	playClick = false;
-	leaderClick = false;
-	logoutClick = false;
-	settingClick = false;
+	resetBtn();
 }
 
 void resetWindow2() {
@@ -333,6 +388,7 @@ void resetWindow2() {
 	xTrain_p1 = 1594;
 	xTrain_e = 1828;
 	xCar = 0;
+	resetBtn();
 }
 
 void apply(HWND hWnd) {
@@ -357,6 +413,138 @@ void apply(HWND hWnd) {
 }
 
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
+	if (writingMode) {
+		switch (msg)
+		{
+		case WM_DESTROY: 
+		{
+			running = false;
+			PostQuitMessage(0);
+		}
+		break;
+		case WM_KEYDOWN:
+		{
+			int key = LOWORD(wp);
+			switch (key)
+			{
+			case VK_0:
+				tempName += '0';
+				break;
+			case VK_1:
+				tempName += '1';
+				break;
+			case VK_2:
+				tempName += '2';
+				break;
+			case VK_3:
+				tempName += '3';
+				break;
+			case VK_4:
+				tempName += '4';
+				break;
+			case VK_5:
+				tempName += '5';
+				break;
+			case VK_6:
+				tempName += '6';
+				break;
+			case VK_7:
+				tempName += '7';
+				break;
+			case VK_8:
+				tempName += '8';
+				break;
+			case VK_9:
+				tempName += '9';
+				break;
+			case VK_A:
+				tempName += 'A';
+				break;
+			case VK_B:
+				tempName += 'B';
+				break;
+			case VK_C:
+				tempName += 'C';
+				break;
+			case VK_D:
+				tempName += 'D';
+				break;
+			case VK_E:
+				tempName += 'E';
+				break;
+			case VK_F:
+				tempName += 'F';
+				break;
+			case VK_G:
+				tempName += 'G';
+				break;
+			case VK_H:
+				tempName += 'H';
+				break;
+			case VK_I:
+				tempName += 'I';
+				break;
+			case VK_J:
+				tempName += 'J';
+				break;
+			case VK_K:
+				tempName += 'K';
+				break;
+			case VK_L:
+				tempName += 'L';
+				break;
+			case VK_M:
+				tempName += 'M';
+				break;
+			case VK_N:
+				tempName += 'N';
+				break;
+			case VK_O:
+				tempName += 'O';
+				break;
+			case VK_P:
+				tempName += 'P';
+				break;
+			case VK_Q:
+				tempName += 'Q';
+				break;
+			case VK_R:
+				tempName += 'R';
+				break;
+			case VK_S:
+				tempName += 'S';
+				break;
+			case VK_T:
+				tempName += 'T';
+				break;
+			case VK_U:
+				tempName += 'U';
+				break;
+			case VK_V:
+				tempName += 'V';
+				break;
+			case VK_W:
+				tempName += 'W';
+				break;
+			case VK_X:
+				tempName += 'X';
+				break;
+			case VK_Y:
+				tempName += 'Y';
+				break;
+			case VK_Z:
+				tempName += 'Z';
+				break;
+			default:
+				writingMode = false;
+				break;
+			}
+		}
+		break;
+		default:
+			return DefWindowProcW(hWnd, msg, wp, lp);
+		}
+	}
 	if (windowState == 1) {
 		switch (msg)
 		{
@@ -387,7 +575,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					resetSettingWindow();
 					break;
 				case 1:
-					resetWindow2();
+					resetEnterGameWindow();
 					break;
 				case 2:
 					resetLeaderboardWindow();
@@ -404,16 +592,16 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					if (curState > 0) curState--;
 					switch (curState) {
 					case 0:
-						settingClick = true;
-						playClick = false;
+						button1 = true;
+						button2 = false;
 						break;
 					case 1:
-						playClick = true;
-						leaderClick = false;
+						button2 = true;
+						button3 = false;
 						break;
 					case 2:
-						leaderClick = true;
-						logoutClick = false;
+						button3 = true;
+						button4 = false;
 						break;
 					default:
 						break;
@@ -425,16 +613,16 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					if (curState < 3) curState++;
 					switch (curState) {
 					case 1:
-						settingClick = false;
-						playClick = true;
+						button1 = false;
+						button2 = true;
 						break;
 					case 2:
-						playClick = false;
-						leaderClick = true;
+						button2 = false;
+						button3 = true;
 						break;
 					case 3:
-						leaderClick = false;
-						logoutClick = true;
+						button3 = false;
+						button4 = true;
 						break;
 					default:
 						break;
@@ -444,17 +632,15 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			case VK_RIGHT:
 				{
 					if (curState > 0) curState = 0;
-					settingClick = true;
-					playClick = false;
-					leaderClick = false;
-					logoutClick = false;
+					button1 = true;
+					button2 = button3 = button4 = false;
 				}
 				break;
 			case VK_LEFT:
 				{
-					if (curState == 0) curState++;
-					settingClick = false;
-					playClick = true;
+					curState = 1;
+					button1 = false;
+					button2 = true;
 				}
 				break;
 			default:
@@ -678,6 +864,138 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			case VK_RETURN:
 				resetWindow1();
 				break;
+			default:
+				break;
+			}
+		}
+		break;
+		default:
+			return DefWindowProcW(hWnd, msg, wp, lp);
+		}
+	} else if (windowState == 5) {
+		switch (msg)
+		{
+		case WM_CLOSE:
+		case WM_DESTROY: {
+			running = false;
+			PostQuitMessage(0);
+		} break;
+		case WM_CREATE:
+			break;
+		case WM_SIZE: {
+			RECT rect;
+			GetClientRect(hWnd, &rect);
+			int newWidth = rect.right - rect.left;
+			int newHeight = rect.bottom - rect.top;
+			render_state.resize(newHeight, newWidth);
+
+		} break;
+		case WM_KEYDOWN:
+		{
+			int key = LOWORD(wp);
+			switch (key)
+			{
+			case VK_RETURN:
+			{
+				switch (curState) {
+				case 0:
+					writingMode = true;
+					tempName = "";
+					break;
+				case 1:
+					writingMode = true;
+					tempName = "";
+					break;
+				case 2:
+					resetWindow2();
+					break;
+				case 3:
+					resetWindow2();
+					break;
+				case 4:
+					resetWindow1();
+					break;
+				default:
+					break;
+				}
+			}
+			break;
+			case VK_UP:
+			{
+				switch (curState) {
+				case 0:
+					curState = 1;
+					button2 = true;
+					button1 = false;
+					break;
+				case 2:
+					curState = 0;
+					button1 = true;
+					button3 = false;
+					break;
+				case 3:
+					curState = 1;
+					button2 = true;
+					button4 = false;
+					break;
+				case 4:
+					curState = 3;
+					button4 = true;
+					button5 = false;
+				default:
+					break;
+				}
+			}
+			break;
+			case VK_DOWN:
+			{
+				switch (curState) {
+				case 0:
+					curState = 2;
+					button1 = false;
+					button3 = true;
+					break;
+				case 1:
+					curState = 3;
+					button2 = false;
+					button4 = true;
+					break;
+				case 3:
+					curState = 4;
+					button4 = false;
+					button5 = true;
+					break;
+				default:
+					break;
+				}
+			}
+			break;
+			case VK_RIGHT:
+			{	
+				if (curState == 0) {
+					curState = 1;
+					button2 = true;
+					button1 = false;
+				} else if (curState == 2) {
+					curState = 4;
+					button5 = true;
+					button3 = false;
+				}
+			}
+			break;
+			case VK_LEFT:
+			{
+				if (curState == 1 || curState == 3) {
+					curState = 0;
+					button1 = true;
+					button2 = button4 = false;
+				} else if (curState == 4) {
+					curState = 2;
+					button3 = true;
+					button5 = false;
+				}
+			}
+			break;
 			default:
 				break;
 			}
