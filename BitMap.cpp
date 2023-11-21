@@ -104,9 +104,9 @@ Render_State::~Render_State()
 		height = 0;
 		width = 0;
 	}
-	for (int i = 0; i < 203; i++)
+	/*for (int i = 0; i < 203; i++)
 		delete letters[i];
-	delete[] letters;
+	delete[] letters;*/
 }
 
 void Render_State::resize(int newHeight, int newWidth)
