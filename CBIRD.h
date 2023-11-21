@@ -16,6 +16,8 @@ public:
 	void tell();
 	void Move(int deltaX);
 	void draw(Render_State& screen);
+	int getRightX();
+	int getLeftX();
 	//void DropShit(); // Thả shit tác động người chơi
 };
 

@@ -47,7 +47,6 @@ void CAR::draw(Render_State& screen)
 }
 
 int CAR::getRightX() {
-
     if (direc < 0) return mX + CAR_RIGHT;
     return mX - CAR_LEFT;
 }

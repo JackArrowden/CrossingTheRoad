@@ -9,8 +9,6 @@ CAT::CAT(int startX, int startY, int direction)
     this->direc = direction;
     bottomY = CAT_BOTTOM;
     topY = CAT_TOP;
-    rightX = CAT_RIGHT;
-    leftX = CAT_LEFT;
 }
 
 void CAT::tell()
@@ -38,6 +36,19 @@ void CAT::Move(int deltaX)
 
 void CAT::draw(Render_State& screen)
 {
+    screen.drawReac2P(CAT::getLeftX(), CAT::getRightX(), mY + bottomY, mY + topY, 1348109);
     if (direc < 0) screen.drawImage(image, mX, mY, CAT_PER, DEFAULT_BACKGROUND_COLOR);
-    else screen.drawReverseImage(image, mX, mY - image.width / CAT_PER, CAT_PER, DEFAULT_BACKGROUND_COLOR);    
+    else screen.drawReverseImage(image, mX - image.width / CAT_PER, mY, CAT_PER, DEFAULT_BACKGROUND_COLOR);
+}
+
+int CAT::getRightX()
+{
+    if (direc < 0) return mX + CAT_RIGHT;
+    return mX - CAT_LEFT;
+}
+
+int CAT::getLeftX()
+{
+    if (direc < 0) return mX + CAT_LEFT;
+    return mX - CAT_RIGHT;
 }

@@ -9,8 +9,6 @@ CBIRD::CBIRD(int startX, int startY, int direction)
     this->direc = direction;
     bottomY = BIRD_BOTTOM;
     topY = BIRD_TOP;
-    rightX = BIRD_RIGHT;
-    leftX = BIRD_LEFT;
 }
 
 void CBIRD::tell()
@@ -44,4 +42,16 @@ void CBIRD::draw(Render_State& screen)
 {
     if (direc < 0) screen.drawImage(image, mX, mY, BIRD_PER, DEFAULT_BACKGROUND_COLOR);
     else screen.drawReverseImage(image, mX - image.width / BIRD_PER, mY, BIRD_PER, DEFAULT_BACKGROUND_COLOR);
+}
+
+
+int CBIRD::getRightX() {
+    if (direc < 0) return mX + BIRD_RIGHT;
+    return mX - BIRD_LEFT;
+}
+
+int CBIRD::getLeftX()
+{
+    if (direc < 0) return mX + BIRD_LEFT;
+    return mX - BIRD_RIGHT;
 }
