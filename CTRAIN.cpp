@@ -11,6 +11,10 @@ CTRAIN::CTRAIN(int startX, int startY, int direction, int numCarriges)
     direc = direction;
     mode = STOP_MODE;
     this->numCarriges = numCarriges;
+    bottomY = TRAIN_BOTTOM;
+    topY = TRAIN_TOP;
+    leftX = TRAIN_LEFT;
+    rightX = LOCOMOTIVE_WIDTH + numCarriges * CARRIGE_WIDTH;
 }
 
 void CTRAIN::tell()
@@ -47,6 +51,6 @@ void CTRAIN::draw(Render_State& screen)
     {
         screen.drawReverseImage(CTRAIN::imageLocomotive, mX - LOCOMOTIVE_WIDTH, mY, 1, DEFAULT_BACKGROUND_COLOR);
         for (int i = 0; i < numCarriges; i++)
-            screen.drawReverseImage(CTRAIN::imageCarrige, mX - LOCOMOTIVE_WIDTH - (i + 1) * CARRIGE_WIDTH, mY, DEFAULT_BACKGROUND_COLOR);
+            screen.drawReverseImage(CTRAIN::imageCarrige, mX - LOCOMOTIVE_WIDTH - (i + 1) * CARRIGE_WIDTH, mY, 1, DEFAULT_BACKGROUND_COLOR);
     }
 }

@@ -3,13 +3,15 @@
 
 #define BIRD_TOP 10
 #define BIRD_BOTTOM 1
-#define BIRD_WIDTH 20
-#define BIRD_LINK_IMAGE "bird.bmp"
+#define BIRD_LEFT 10
+#define BIRD_RIGHT 20
+#define BIRD_PER 1
+#define BIRD_LINK_IMAGE "image\\gameWindow\\bird.bmp"
 
 class CBIRD final : public CANIMAL
 {
-	static const bitmapHandMake image;
 public:
+	static const bitmapHandMake image;
 	CBIRD(int startX, int startY, int direction);
 	void tell();
 	void Move(int deltaX);

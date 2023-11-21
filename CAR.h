@@ -2,10 +2,12 @@
 #include "CVEHICLE.h"
 
 
-#define CAR_TOP 10
-#define CAR_BOTTOM 1
-#define CAR_WIDTH 20
-#define CAR_LINK_IMAGE "car.bmp"
+#define CAR_TOP 100
+#define CAR_BOTTOM 40
+#define CAR_RIGHT 200
+#define CAR_LEFT 10
+#define CAR_PER 1
+#define CAR_LINK_IMAGE "image\\gameWindow\\car.bmp"
 
 class CAR final : protected CVEHICLE
 {
@@ -15,5 +17,7 @@ public:
 	void tell();
 	void Move(int deltaX);
 	void draw(Render_State& screen);
+	int getRightX();
+	int getLeftX();
 };
 

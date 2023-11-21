@@ -1,16 +1,24 @@
 #pragma once
 #include "CANIMAL.h"
 #include "CVEHICLE.h"
+
+#define PEOPLE_LEFT 22
+#define PEOPLE_RIGHT 60
+#define PEOPLE_BOTTOM 5
+#define PEOPLE_TOP 50
+#define PEOPLE_LINK_IMAGE "image\\person.bmp"
+
 class CPEOPLE {
+	static const bitmapHandMake image;
 	int mX, mY;
-	bool mState; 
+	bool mState; // DEAD = 0
+
+	bool isInRange(int l, int val, int r);
 public:
-	/*
-	
-	bool isImpact(const CVEHICLE*&);
-	bool isImpact(const CANIMAL*&);
+	bool isImpact(const CVEHICLE*&x);
+	bool isImpact(const CANIMAL*&x);
 	bool isFinish();
-	bool isDead();*/
+	bool isDead();
 	CPEOPLE();
 	int GetmX();
 	int GetmY();
@@ -18,5 +26,6 @@ public:
 	void Left(int);
 	void Right(int);
 	void Down(int);
+	void draw(Render_State& screen);
 };
 
