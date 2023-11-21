@@ -33,11 +33,15 @@ bitmapHandMake settingClicked("Image\\mainWindow\\settingClicked.bmp");
 //// Game window
 bitmapHandMake background2("Image\\gameWindow\\gameBgr.bmp");
 bitmapHandMake background_city("Image\\gameWindow\\gameBgr_city.bmp");
-bitmapHandMake train_h("Image\\train_h.bmp");
-bitmapHandMake train_p("Image\\train_p.bmp");
-bitmapHandMake train_e("Image\\train_e.bmp");
+bitmapHandMake train_h("Image\\gameWindow\\train_h.bmp");
+bitmapHandMake train_p("Image\\gameWindow\\train_p.bmp");
+bitmapHandMake train_e("Image\\gameWindow\\train_e.bmp");
 bitmapHandMake person("Image\\person.bmp");
 bitmapHandMake car("Image\\gameWindow\\car.bmp");
+bitmapHandMake mouse("Image\\gameWindow\\mouse.bmp");
+bitmapHandMake bird("Image\\gameWindow\\bird.bmp");
+bitmapHandMake cat("Image\\gameWindow\\cat.bmp");
+
 
 //// Setting window
 bitmapHandMake background3("Image\\soundSetting\\backgroundSetting.bmp");
@@ -69,6 +73,8 @@ bitmapHandMake backClickLeader("Image\\leaderBoard\\backClickLeader.bmp");
 static bool running = true;
 CPEOPLE player;
 CAR Car(1000, 160, -1);
+CAT Cat(1500, 300, -1);
+CMOUSE Mouse(1000, 300, -1);
 enum {
 	BUTTON_UP,
 	BUTTON_DOWN,
@@ -207,6 +213,11 @@ void drawWindow3(HWND hWnd) {
 	
 	render_state.drawImage(background_city, 0, 0, 1);
 	render_state.draw_text("HELLO", -73, 40, 1, 0xffffff);
+	Cat.draw(render_state);
+	Cat.Move(1);
+	Mouse.draw(render_state);
+	Mouse.Move(1);
+
 	render_state.drawImage(train_h, xTrain, 40, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_p, xTrain_p, 40, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_p, xTrain_p1, 40, 2, DEFAULT_BACKGROUND_COLOR);

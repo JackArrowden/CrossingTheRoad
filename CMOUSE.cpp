@@ -9,8 +9,6 @@ CMOUSE::CMOUSE(int startX, int startY, int direction)
     direc = direction;
     topY = MOUSE_TOP;
     bottomY = MOUSE_BOTTOM;
-    rightX = MOUSE_RIGHT;
-    leftX = MOUSE_LEFT;
 }
 
 void CMOUSE::tell()
@@ -38,6 +36,19 @@ void CMOUSE::Move(int deltaX)
 
 void CMOUSE::draw(Render_State& screen)
 {
-    if (direc < 0) screen.drawImage(image, mX, mY, MOUSE_PER, DEFAULT_BACKGROUND_COLOR);
-    else screen.drawReverseImage(image, mX - image.width / MOUSE_PER, mY, MOUSE_PER, DEFAULT_BACKGROUND_COLOR);
+    screen.drawReac2P(CMOUSE::getLeftX(), CMOUSE::getRightX(), mY + bottomY, mY + topY, 1348109);
+    if (direc < 0) screen.drawReverseImage(image, mX, mY, MOUSE_PER, DEFAULT_BACKGROUND_COLOR);
+    else screen.drawImage(image, mX - image.width / MOUSE_PER, mY, MOUSE_PER, DEFAULT_BACKGROUND_COLOR);
+}
+
+int CMOUSE::getRightX()
+{
+    if (direc < 0) return mX + MOUSE_RIGHT;
+    return mX - MOUSE_LEFT;
+}
+
+int CMOUSE::getLeftX()
+{
+    if (direc < 0) return mX + MOUSE_LEFT;
+    return  mX - MOUSE_RIGHT;
 }
