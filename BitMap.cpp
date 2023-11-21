@@ -104,6 +104,10 @@ Render_State::~Render_State()
 		height = 0;
 		width = 0;
 	}
+	/*for (int i = 0; i < 28; i++)
+		for (int j = 0; j < 7; j++)
+		delete []letters[i][j];*/
+	//delete[] letters;
 }
 
 void Render_State::resize(int newHeight, int newWidth)
@@ -212,7 +216,7 @@ void Render_State::dynamicDrawReac(double dynamicCenterX, double dynamicCenterY,
 	drawReac2P(leftX, rightX, bottomY, topY, color);
 }
 
-const char* letters[][7] = {
+const char* Render_State:: letters[][7] = {
 	" 00",
 	"0  0",
 	"0  0",
