@@ -2,6 +2,7 @@
 //
 #include "BitMap.h"
 #include "CGAME.h"
+#include "fileHandling.h"
 
 #define MAX_LOADSTRING 100
 
@@ -56,6 +57,14 @@ bitmapHandMake turnOnYellow("Image\\soundSetting\\turnOnYellow.bmp");
 bitmapHandMake backClicked("Image\\soundSetting\\backClicked.bmp");
 bitmapHandMake backUnclicked("Image\\soundSetting\\backUnclicked.bmp");
 
+// Leaderboard window
+bitmapHandMake background4("Image\\leaderBoard\\leaderBoardBg.bmp");
+bitmapHandMake top1("Image\\leaderBoard\\top1.bmp");
+bitmapHandMake top2("Image\\leaderBoard\\top2.bmp");
+bitmapHandMake top3("Image\\leaderBoard\\top3.bmp");
+bitmapHandMake nameFrame("Image\\leaderBoard\\nameFrame.bmp");
+bitmapHandMake scoreFrame("Image\\leaderBoard\\scoreFrame.bmp");
+bitmapHandMake backClickLeader("Image\\leaderBoard\\backClickLeader.bmp");
 
 static bool running = true;
 CPEOPLE player;
@@ -99,6 +108,9 @@ void apply(HWND);
 //void drawImage(const bitmapHandMake& image, Render_State&);
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
+	//vector<userData> listUser(10);
+	//userFileToVect("USER", listUser);
+	//sortDescendingData(listUser);
 
 	CGAME* game = new CGAME;
 	//game->tell();
@@ -141,6 +153,8 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 		case 3:
 			settingWindow(window);
 			break;
+		case 4:
+			leaderboardWindow(window);
 		default:
 			break;
 		}
@@ -256,7 +270,24 @@ void settingWindow(HWND hWnd) {
 }
 
 void leaderboardWindow(HWND hWnd) {
+	render_state.drawImage(background4, 0, 0, 1);
 
+	// back
+	render_state.drawImage(backClickLeader, 30, 610, 5, DEFAULT_BACKGROUND_COLOR);
+
+	render_state.drawImage(top1, 320, 405, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(top2, 320, 285, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(top3, 320, 165, 3, DEFAULT_BACKGROUND_COLOR);
+
+	render_state.drawImage(nameFrame, 470, 420, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(nameFrame, 470, 300, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(nameFrame, 470, 180, 3, DEFAULT_BACKGROUND_COLOR);
+
+	render_state.drawImage(scoreFrame, 830, 420, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(scoreFrame, 830, 300, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(scoreFrame, 830, 180, 3, DEFAULT_BACKGROUND_COLOR);
+	
+	apply(hWnd);
 }
 
 void resetSettingWindow() {
@@ -268,7 +299,9 @@ void resetSettingWindow() {
 }
 
 void resetLeaderboardWindow() {
-
+	windowState = 4;
+	curState = 0;
+	backClick = false;
 }
 
 void resetWindow1() {
@@ -344,6 +377,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					resetWindow2();
 					break;
 				case 2:
+					resetLeaderboardWindow();
 					break;
 				case 3:
 					break;
@@ -597,6 +631,40 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				}
 			}
 			break;
+			default:
+				break;
+			}
+		}
+		break;
+		default:
+			return DefWindowProcW(hWnd, msg, wp, lp);
+		}
+	} else if (windowState == 4) {
+		switch (msg)
+		{
+		case WM_CLOSE:
+		case WM_DESTROY: {
+			running = false;
+			PostQuitMessage(0);
+		} break;
+		case WM_CREATE:
+			break;
+		case WM_SIZE: {
+			RECT rect;
+			GetClientRect(hWnd, &rect);
+			int newWidth = rect.right - rect.left;
+			int newHeight = rect.bottom - rect.top;
+			render_state.resize(newHeight, newWidth);
+
+		} break;
+		case WM_KEYDOWN:
+		{
+			int key = LOWORD(wp);
+			switch (key)
+			{
+			case VK_RETURN:
+				resetWindow1();
+				break;
 			default:
 				break;
 			}
