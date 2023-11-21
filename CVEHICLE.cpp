@@ -21,3 +21,11 @@ void CVEHICLE::tell()
     }
 
 }
+
+pair<pair<int, int>, pair<int, int>> CVEHICLE::objectZone() const
+{
+    pair<pair<int, int>, pair<int, int>> res;
+    res.first = make_pair(mX + leftX, mY + bottomY);
+    res.second = make_pair(mX + rightX, mY + topY);
+    return res;
+}

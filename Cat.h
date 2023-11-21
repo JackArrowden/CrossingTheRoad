@@ -1,15 +1,17 @@
 #pragma once
 #include "CANIMAL.h"
 
+#define CAT_LINK_IMAGE "image\\gameWindow\\cat.bmp"
 #define CAT_TOP 10
 #define CAT_BOTTOM 1
-#define CAT_WIDTH 20
-#define CAT_LINK_IMAGE "cat.bmp"
+#define CAT_LEFT 1
+#define CAT_RIGHT 10
+#define CAT_PER 1
 
 class CAT final : protected CANIMAL
 {
-	static const bitmapHandMake image;
 public:
+	static const bitmapHandMake image;
 	CAT(int startX, int startY, int direction);
 	void tell();
 	void Move(int deltaX);

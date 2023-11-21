@@ -4,10 +4,12 @@ const bitmapHandMake CAR::image(CAR_LINK_IMAGE);
 
 CAR::CAR(int startX, int startY, int direction) 
 {
-    this->mX = startX;
-    this->mY = startY;
-    this->mode = STOP_MODE;
-    this->direc = direction;
+    mX = startX;
+    mY = startY;
+    mode = MOVE_MODE;
+    direc = direction;
+    bottomY = CAR_BOTTOM;
+    topY = CAR_TOP;
 }
 
 void CAR::tell()
@@ -39,6 +41,22 @@ void CAR::Move(int deltaX)
 
 void CAR::draw(Render_State& screen)
 {
-    if (direc < 0) screen.drawReverseImage(CAR::image, mX, mY, 1, DEFAULT_BACKGROUND_COLOR);
-    else screen.drawImage(CAR::image, mX - CAR_WIDTH, mY, 1, DEFAULT_BACKGROUND_COLOR);
+    screen.drawReac2P(CAR::getLeftX(), CAR::getRightX(), mY + bottomY, mY + topY, 1348109);
+    if (direc < 0) screen.drawReverseImage(CAR::image, mX, mY, CAR_PER, DEFAULT_BACKGROUND_COLOR);
+    else screen.drawImage(CAR::image, mX - image.width / CAR_PER, mY, CAR_PER, DEFAULT_BACKGROUND_COLOR);
 }
+
+int CAR::getRightX() {
+
+    if (direc < 0) return mX + CAR_RIGHT;
+    return mX - CAR_LEFT;
+}
+
+int CAR::getLeftX()
+{
+    if (direc < 0) return mX + CAR_LEFT;
+    return mX - CAR_RIGHT;
+}
+
+
+

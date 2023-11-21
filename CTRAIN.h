@@ -5,6 +5,7 @@
 
 #define TRAIN_TOP 10
 #define TRAIN_BOTTOM 1
+#define TRAIN_LEFT 1
 
 #define LOCOMOTIVE_WIDTH 20
 #define LOCOMOTIVE_LINK_IMAGE "image\\train.bmp"
@@ -12,7 +13,7 @@
 #define CARRIGE_WIDTH 20
 #define CARRIGE_LINK_IMAGE "image\\train.bmp"
 
-class CTRAIN final :  public CVEHICLE
+class CTRAIN final : public CVEHICLE
 {
 	int numCarriges;
 	static const bitmapHandMake imageCarrige;

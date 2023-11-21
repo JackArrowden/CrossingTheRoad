@@ -1,5 +1,19 @@
 #include "CTRUCK.h"
 
+const bitmapHandMake CTRUCK::image(TRUCK_LINK_IMAGE);
+
+CTRUCK::CTRUCK(int startX, int startY, int direction)
+{
+    mX = startX;
+    mY = startY;
+    direc = direction;
+    mode = STOP_MODE;
+    rightX = TRUCK_RIGHT;
+    leftX = TRUCK_LEFT;
+    topY = TRUCK_TOP;
+    bottomY = TRUCK_BOTTOM;
+}
+
 void CTRUCK::tell()
 {
     //PlaySound(TEXT("Sound/birds.wav"), NULL, SND_FILENAME | SND_ASYNC);
@@ -20,4 +34,15 @@ void CTRUCK::tell()
         }
     }
 
+}
+
+void CTRUCK::Move(int deltaX)
+{
+    deltaX += direc * deltaX;
+}
+
+void CTRUCK::draw(Render_State& screen)
+{
+    if (direc < 0) screen.drawImage(image, mX, mY, TRUCK_PER, DEFAULT_BACKGROUND_COLOR);
+    else screen.drawReverseImage(image, mX - image.width / TRUCK_PER, mY, TRUCK_PER, DEFAULT_BACKGROUND_COLOR);
 }

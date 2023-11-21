@@ -59,6 +59,7 @@ bitmapHandMake backUnclicked("Image\\soundSetting\\backUnclicked.bmp");
 
 static bool running = true;
 CPEOPLE player;
+CAR Car(1000, 160, -1);
 enum {
 	BUTTON_UP,
 	BUTTON_DOWN,
@@ -194,12 +195,12 @@ void drawWindow3(HWND hWnd) {
 	render_state.drawImage(train_p, xTrain_p, 40, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_p, xTrain_p1, 40, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_e, xTrain_e, 40, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(person, player.GetmX(), player.GetmY(), 4, DEFAULT_BACKGROUND_COLOR);
+	player.draw(render_state);
 	if (xTrain > -1000) {
 		xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--;
 	}
-	render_state.drawImage(car, xCar, 160, 1, DEFAULT_BACKGROUND_COLOR);
-	if (xCar < 1300) xCar++;
+	Car.draw(render_state);
+	Car.Move(1);
 	apply(hWnd);
 }
 
