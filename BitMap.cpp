@@ -211,3 +211,355 @@ void Render_State::dynamicDrawReac(double dynamicCenterX, double dynamicCenterY,
 
 	drawReac2P(leftX, rightX, bottomY, topY, color);
 }
+
+const char* letters[][7] = {
+	" 00",
+	"0  0",
+	"0  0",
+	"0000",
+	"0  0",
+	"0  0",
+	"0  0",
+
+	"000",
+	"0  0",
+	"0  0",
+	"000",
+	"0  0",
+	"0  0",
+	"000",
+
+	" 000",
+	"0",
+	"0",
+	"0",
+	"0",
+	"0",
+	" 000",
+
+	"000",
+	"0  0",
+	"0  0",
+	"0  0",
+	"0  0",
+	"0  0",
+	"000",
+
+	"0000",
+	"0",
+	"0",
+	"000",
+	"0",
+	"0",
+	"0000",
+
+	"0000",
+	"0",
+	"0",
+	"000",
+	"0",
+	"0",
+	"0",
+
+	" 000",
+	"0",
+	"0",
+	"0 00",
+	"0  0",
+	"0  0",
+	" 000",
+
+	"0  0",
+	"0  0",
+	"0  0",
+	"0000",
+	"0  0",
+	"0  0",
+	"0  0",
+
+	"000",
+	" 0",
+	" 0",
+	" 0",
+	" 0",
+	" 0",
+	"000",
+
+	" 000",
+	"   0",
+	"   0",
+	"   0",
+	"0  0",
+	"0  0",
+	" 000",
+
+	"0  0",
+	"0  0",
+	"0 0",
+	"00",
+	"0 0",
+	"0  0",
+	"0  0",
+
+	"0",
+	"0",
+	"0",
+	"0",
+	"0",
+	"0",
+	"0000",
+
+	"00 00",
+	"0 0 0",
+	"0 0 0",
+	"0   0",
+	"0   0",
+	"0   0",
+	"0   0",
+
+	"00  0",
+	"0 0 0",
+	"0 0 0",
+	"0 0 0",
+	"0 0 0",
+	"0 0 0",
+	"0  00",
+
+	"0000",
+	"0  0",
+	"0  0",
+	"0  0",
+	"0  0",
+	"0  0",
+	"0000",
+
+	" 000",
+	"0  0",
+	"0  0",
+	"000",
+	"0",
+	"0",
+	"0",
+
+	" 000 ",
+	"0   0",
+	"0   0",
+	"0   0",
+	"0 0 0",
+	"0  0 ",
+	" 00 0",
+
+	"000",
+	"0  0",
+	"0  0",
+	"000",
+	"0  0",
+	"0  0",
+	"0  0",
+
+	" 000",
+	"0",
+	"0 ",
+	" 00",
+	"   0",
+	"   0",
+	"000 ",
+
+	"000",
+	" 0",
+	" 0",
+	" 0",
+	" 0",
+	" 0",
+	" 0",
+
+	"0  0",
+	"0  0",
+	"0  0",
+	"0  0",
+	"0  0",
+	"0  0",
+	" 00",
+
+	"0   0",
+	"0   0",
+	"0   0",
+	"0   0",
+	"0   0",
+	" 0 0",
+	"  0",
+
+	"0   0 ",
+	"0   0",
+	"0   0",
+	"0 0 0",
+	"0 0 0",
+	"0 0 0",
+	" 0 0 ",
+
+	"0   0",
+	"0   0",
+	" 0 0",
+	"  0",
+	" 0 0",
+	"0   0",
+	"0   0",
+
+	"0   0",
+	"0   0",
+	" 0 0",
+	"  0",
+	"  0",
+	"  0",
+	"  0",
+
+	"0000",
+	"   0",
+	"  0",
+	" 0",
+	"0",
+	"0",
+	"0000",
+
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"0",
+
+	"   0",
+	"  0",
+	"  0",
+	" 0",
+	" 0",
+	"0",
+	"0",
+};
+
+
+void Render_State::draw_text(const char* text, float x, float y, float size, u32 color) {
+	float half_size = size * .5f;
+	float original_y = y;
+
+	while (*text) {
+		if (*text != 32) {
+			const char** letter;
+			if (*text == 47) letter = letters[27];
+			else if (*text == 46) letter = letters[26];
+			else letter = letters[*text - 'A'];
+			float original_x = x;
+
+			for (int i = 0; i < 7; i++) {
+				const char* row = letter[i];
+				while (*row) {
+					if (*row == '0') {
+						dynamicDrawReac(x, y, half_size, half_size, color);
+					}
+					x += size;
+					row++;
+				}
+				y -= size;
+				x = original_x;
+			}
+		}
+		text++;
+		x += size * 6.f;
+		y = original_y;
+	}
+}
+
+void Render_State::draw_number(int number, float x, float y, float size, u32 color) {
+	float half_size = size * .5f;
+
+	bool drew_number = false;
+	while (number || !drew_number) {
+		drew_number = true;
+
+		int digit = number % 10;
+		number = number / 10;
+
+		switch (digit) {
+		case 0: {
+			dynamicDrawReac(x - size, y, half_size, 2.5f * size, color);
+			dynamicDrawReac(x + size, y, half_size, 2.5f * size, color);
+			dynamicDrawReac(x, y + size * 2.f, half_size, half_size, color);
+			dynamicDrawReac(x, y - size * 2.f, half_size, half_size, color);
+			x -= size * 4.f;
+		} break;
+
+		case 1: {
+			dynamicDrawReac(x + size, y, half_size, 2.5f * size, color);
+			x -= size * 2.f;
+		} break;
+
+		case 2: {
+			dynamicDrawReac(x, y + size * 2.f, 1.5f * size, half_size, color);
+			dynamicDrawReac(x, y, 1.5f * size, half_size, color);
+			dynamicDrawReac(x, y - size * 2.f, 1.5f * size, half_size, color);
+			dynamicDrawReac(x + size, y + size, half_size, half_size, color);
+			dynamicDrawReac(x - size, y - size, half_size, half_size, color);
+			x -= size * 4.f;
+		} break;
+
+		case 3: {
+			dynamicDrawReac(x - half_size, y + size * 2.f, size, half_size, color);
+			dynamicDrawReac(x - half_size, y, size, half_size, color);
+			dynamicDrawReac(x - half_size, y - size * 2.f, size, half_size, color);
+			dynamicDrawReac(x + size, y, half_size, 2.5f * size, color);
+			x -= size * 4.f;
+		} break;
+
+		case 4: {
+			dynamicDrawReac(x + size, y, half_size, 2.5f * size, color);
+			dynamicDrawReac(x - size, y + size, half_size, 1.5f * size, color);
+			dynamicDrawReac(x, y, half_size, half_size, color);
+			x -= size * 4.f;
+		} break;
+
+		case 5: {
+			dynamicDrawReac(x, y + size * 2.f, 1.5f * size, half_size, color);
+			dynamicDrawReac(x, y, 1.5f * size, half_size, color);
+			dynamicDrawReac(x, y - size * 2.f, 1.5f * size, half_size, color);
+			dynamicDrawReac(x - size, y + size, half_size, half_size, color);
+			dynamicDrawReac(x + size, y - size, half_size, half_size, color);
+			x -= size * 4.f;
+		} break;
+
+		case 6: {
+			dynamicDrawReac(x + half_size, y + size * 2.f, size, half_size, color);
+			dynamicDrawReac(x + half_size, y, size, half_size, color);
+			dynamicDrawReac(x + half_size, y - size * 2.f, size, half_size, color);
+			dynamicDrawReac(x - size, y, half_size, 2.5f * size, color);
+			dynamicDrawReac(x + size, y - size, half_size, half_size, color);
+			x -= size * 4.f;
+		} break;
+
+		case 7: {
+			dynamicDrawReac(x + size, y, half_size, 2.5f * size, color);
+			dynamicDrawReac(x - half_size, y + size * 2.f, size, half_size, color);
+			x -= size * 4.f;
+		} break;
+
+		case 8: {
+			dynamicDrawReac(x - size, y, half_size, 2.5f * size, color);
+			dynamicDrawReac(x + size, y, half_size, 2.5f * size, color);
+			dynamicDrawReac(x, y + size * 2.f, half_size, half_size, color);
+			dynamicDrawReac(x, y - size * 2.f, half_size, half_size, color);
+			dynamicDrawReac(x, y, half_size, half_size, color);
+			x -= size * 4.f;
+		} break;
+
+		case 9: {
+			dynamicDrawReac(x - half_size, y + size * 2.f, size, half_size, color);
+			dynamicDrawReac(x - half_size, y, size, half_size, color);
+			dynamicDrawReac(x - half_size, y - size * 2.f, size, half_size, color);
+			dynamicDrawReac(x + size, y, half_size, 2.5f * size, color);
+			dynamicDrawReac(x - size, y + size, half_size, half_size, color);
+			x -= size * 4.f;
+		} break;
+		}
+
+	}
+}

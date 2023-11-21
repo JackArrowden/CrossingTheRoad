@@ -64,6 +64,9 @@ public:
 	void drawImage(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgrouundColor = UNCOLOR_NUMBER);
 	void drawReverseImage(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgrouundColor = UNCOLOR_NUMBER);
 	void dynamicDrawReac(double dynamicLeftX, double dynamicBottomY, double dynamicHalfSizeX, double dynamicHalfSizeY, u32 color);
+
+	void draw_text(const char* text, float x, float y, float size, u32 color);
+	void draw_number(int number, float x, float y, float size, u32 color);
 };
 
 

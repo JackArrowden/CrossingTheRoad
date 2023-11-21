@@ -203,7 +203,9 @@ void drawWindow2(HWND hWnd) {
 }
 
 void drawWindow3(HWND hWnd) {
+	
 	render_state.drawImage(background_city, 0, 0, 1);
+	render_state.draw_text("HELLO", -73, 40, 1, 0xffffff);
 	render_state.drawImage(train_h, xTrain, 40, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_p, xTrain_p, 40, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_p, xTrain_p1, 40, 2, DEFAULT_BACKGROUND_COLOR);
