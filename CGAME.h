@@ -12,7 +12,7 @@
 #include "CAT.h"
 #include "CMOUSE.h"
 using namespace std;
-int currentPeople = 0;
+
 class CGAME
 {
 private:
@@ -49,6 +49,7 @@ private:
 	//int crashPos();
 public:
 	//Tọa độ khung game
+	int currentPeople;
 	static const int MAX_LEVEL;
 	static const int LEFT;
 	static const int RIGHT;

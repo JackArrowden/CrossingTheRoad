@@ -137,12 +137,14 @@ void resetBtn();
 void resetCharArray(char[]);
 //void drawImage(const bitmapHandMake& image, Render_State&);
 
+CGAME* game = new CGAME;
+
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
 	//vector<userData> listUser(10);
 	//userFileToVect("USER", listUser);
 	//sortDescendingData(listUser);
 
-	CGAME* game = new CGAME;
+	game->currentPeople = 0;
 	//game->tell();
 
 	//ShowCursor(FALSE);
@@ -710,28 +712,30 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			break;
 			case VK_A:
 			{
-				currentPeople = 1;
+				game->currentPeople = 1;
 				player.Left(10);
 				
 			}
 			break;
 			case VK_D:
 			{
-				currentPeople = 2;
+				game->currentPeople = 2;
+				
 				player.Right(10);
 				
 			}
 			break;
 			case VK_S:
 			{
-				currentPeople = 4;
+				game->currentPeople = 4;
+				
 				player.Down(10);
 
 			}
 			break;
 			case VK_W:
 			{
-				currentPeople = 3;
+				game->currentPeople = 3;
 				player.Up(10);
 
 			}
