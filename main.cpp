@@ -70,7 +70,8 @@ bitmapHandMake backClickLeader("Image\\leaderBoard\\backClickLeader.bmp");
 // Enter game window
 bool writingMode = false;
 string tempName = "";
-char tempNameChar[1000];
+char tempNameChar[1000] = "\0";
+bool backSpace = false, isErased = false;
 bitmapHandMake background5("Image\\playOrResume\\background5.bmp");
 bitmapHandMake choiceInput("Image\\playOrResume\\choiceInput.bmp");
 bitmapHandMake choiceClicked("Image\\playOrResume\\choiceClicked.bmp");
@@ -127,6 +128,7 @@ void resetLeaderboardWindow();
 void resetEnterGameWindow();
 void apply(HWND);
 void resetBtn();
+void resetCharArray(char[]);
 //void drawImage(const bitmapHandMake& image, Render_State&);
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
@@ -268,15 +270,18 @@ void enterGameWindow(HWND hWnd) {
 	if (!button5) render_state.drawImage(backWin5, 740, 120, 4, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(backClickedWin5, 740, 120, 4, DEFAULT_BACKGROUND_COLOR);
 
-	if (writingMode) {
-		int index = 0;
-		for (auto i : tempName) {
-			tempNameChar[index] = i;
-			index++;
-		}
-		tempName[index] = '\0';
-		render_state.draw_text(tempNameChar, -50, -25, 1, 0xcccccc);
+	if (backSpace) {
+		resetCharArray(tempNameChar);
+		backSpace = false;
 	}
+
+	int index = 0;
+	for (auto i : tempName) {
+		tempNameChar[index] = i;
+		index++;
+	}
+	tempName[index] = '\0';
+	render_state.draw_text(tempNameChar, -50, -25, 1, 0x000000);
 
 	apply(hWnd);
 }
@@ -355,7 +360,8 @@ void leaderboardWindow(HWND hWnd) {
 
 void resetBtn() {
 	curState = 0;
-	button1 = button2 = button3 = button4 = button5 = false;
+	button1 = true;
+	button2 = button3 = button4 = button5 = false;
 }
 
 void resetSettingWindow() {
@@ -410,6 +416,14 @@ void apply(HWND hWnd) {
 	QueryPerformanceCounter(&frame_end_time);
 	delta_time = (float)(frame_end_time.QuadPart - frame_begin_time.QuadPart) / performance_frequency;
 	frame_begin_time = frame_end_time;
+}
+
+void resetCharArray(char arr[]) {
+	int index = 0;
+	while (arr[index] != '\0') {
+		arr[index] = '\0';
+		index++;
+	}
 }
 
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
@@ -535,8 +549,14 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			case VK_Z:
 				tempName += 'Z';
 				break;
-			default:
+			case VK_BACK:
+				backSpace = true;
+				tempName = tempName.substr(0, tempName.size() - 1);
+				break;
+			case VK_DOWN:
 				writingMode = false;
+				break;
+			default:
 				break;
 			}
 		}
@@ -901,10 +921,12 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				case 0:
 					writingMode = true;
 					tempName = "";
+					resetCharArray(tempNameChar);
 					break;
 				case 1:
 					writingMode = true;
 					tempName = "";
+					resetCharArray(tempNameChar);
 					break;
 				case 2:
 					resetWindow2();
@@ -924,21 +946,25 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			{
 				switch (curState) {
 				case 0:
+					writingMode = true;
 					curState = 1;
 					button2 = true;
 					button1 = false;
 					break;
 				case 2:
+					writingMode = true;
 					curState = 0;
 					button1 = true;
 					button3 = false;
 					break;
 				case 3:
+					writingMode = true;
 					curState = 1;
 					button2 = true;
 					button4 = false;
 					break;
 				case 4:
+					writingMode = false;
 					curState = 3;
 					button4 = true;
 					button5 = false;
@@ -951,16 +977,19 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			{
 				switch (curState) {
 				case 0:
+					writingMode = false;
 					curState = 2;
 					button1 = false;
 					button3 = true;
 					break;
 				case 1:
+					writingMode = false;
 					curState = 3;
 					button2 = false;
 					button4 = true;
 					break;
 				case 3:
+					writingMode = false;
 					curState = 4;
 					button4 = false;
 					button5 = true;
@@ -973,10 +1002,12 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			case VK_RIGHT:
 			{	
 				if (curState == 0) {
+					writingMode = true;
 					curState = 1;
 					button2 = true;
 					button1 = false;
 				} else if (curState == 2) {
+					writingMode = false;
 					curState = 4;
 					button5 = true;
 					button3 = false;
@@ -986,10 +1017,12 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			case VK_LEFT:
 			{
 				if (curState == 1 || curState == 3) {
+					writingMode = true;
 					curState = 0;
 					button1 = true;
 					button2 = button4 = false;
 				} else if (curState == 4) {
+					writingMode = false;
 					curState = 2;
 					button3 = true;
 					button5 = false;
