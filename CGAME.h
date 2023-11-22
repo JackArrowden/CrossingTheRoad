@@ -48,6 +48,7 @@ private:
 	//int crashPos();
 public:
 	//Tọa độ khung game
+	int currentPeople;
 	static const int MAX_LEVEL;
 	static const int LEFT;
 	static const int RIGHT;
