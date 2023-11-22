@@ -9,9 +9,9 @@
 int windowState = 1;
 int curState = 0;
 int xTrain = 1200;
-int xTrain_p = 1360;
-int xTrain_p1 = 1594;
-int xTrain_e = 1828;
+int xTrain_p = 1524;        //324
+int xTrain_p1 = 1848;
+int xTrain_e = 2172;
 int xCar = 0;
 int xBird = 1200;
 int xMouse = 1200;
@@ -35,7 +35,7 @@ bitmapHandMake settingClicked("Image\\mainWindow\\settingClicked.bmp");
 bitmapHandMake background2("Image\\gameWindow\\gameBgr.bmp");
 bitmapHandMake background_city("Image\\gameWindow\\gameBgr_city.bmp");
 bitmapHandMake train_h("Image\\gameWindow\\train_h.bmp");
-bitmapHandMake train_p("Image\\gameWindow\\train_p.bmp");
+//bitmapHandMake train_p("Image\\gameWindow\\train_p.bmp");
 bitmapHandMake train_e("Image\\gameWindow\\train_e.bmp");
 bitmapHandMake person("Image\\person.bmp");
 bitmapHandMake car("Image\\gameWindow\\car.bmp");
@@ -178,7 +178,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 				drawWindow1(window);
 				break;
 			case 2:
-				drawWindow3(window);
+				drawWindow2(window);
 				break;
 			case 3:
 				settingWindow(window);
@@ -225,8 +225,8 @@ void drawWindow1(HWND hWnd) {
 void drawWindow2(HWND hWnd) {
 	render_state.drawImage(background2, 0, 0, 1);
 	render_state.drawImage(train_h, xTrain, 350, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(train_p, xTrain_p, 350, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(train_p, xTrain_p1, 350, 2, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(train_e, xTrain_p, 350, 2, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(train_e, xTrain_p1, 350, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_e, xTrain_e, 350, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(person, player.GetmX(), player.GetmY(), 3, DEFAULT_BACKGROUND_COLOR);
 	if (xTrain > -1000) {
@@ -246,14 +246,14 @@ void drawWindow3(HWND hWnd) {
 	Mouse.Move(1);*/
 
 	render_state.drawImage(train_h, xTrain, 40, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(train_p, xTrain_p, 40, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(train_p, xTrain_p1, 40, 2, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(train_e, xTrain_p, 40, 2, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(train_e, xTrain_p1, 40, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_e, xTrain_e, 40, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(car, xCar, 150, 1, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(bird, xMouse, 500, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(person, player.GetmX(), player.GetmY(), 3, DEFAULT_BACKGROUND_COLOR);
 	//player.draw(render_state);
-	if (xTrain > -1000) {
+	if (xTrain > -2000) {
 		xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--; xMouse--; xCar++;
 	}
 	//Car.draw(render_state);

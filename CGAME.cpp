@@ -51,7 +51,7 @@ CGAME::CGAME(const std::string& file)
 
 bool CGAME::readFile(const std::string& file)
 {
-	
+	return true;
 }
 
 void CGAME::tell()
