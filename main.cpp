@@ -13,6 +13,9 @@ int xTrain_p = 1360;
 int xTrain_p1 = 1594;
 int xTrain_e = 1828;
 int xCar = 0;
+int xBird = 1200;
+int xMouse = 1200;
+int xCat = 1200;
 bool playClick = false, leaderClick = false, logoutClick = false, settingClick = false;
 bool gameSoundClick = false, objectSoundClick = false, gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false;
 bool isDataChanged = false; // This variable is used to check if the user's data is changed or not, if changed, calls sort function
@@ -212,22 +215,25 @@ void drawWindow2(HWND hWnd) {
 void drawWindow3(HWND hWnd) {
 	
 	render_state.drawImage(background_city, 0, 0, 1);
-	render_state.draw_text("HELLO", -73, 40, 1, 0xffffff);
-	Cat.draw(render_state);
+	render_state.draw_text("HELLO", 0, 40, 1, 0x5fff4f);
+	/*Cat.draw(render_state);
 	Cat.Move(1);
 	Mouse.draw(render_state);
-	Mouse.Move(1);
+	Mouse.Move(1);*/
 
 	render_state.drawImage(train_h, xTrain, 40, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_p, xTrain_p, 40, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_p, xTrain_p1, 40, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_e, xTrain_e, 40, 2, DEFAULT_BACKGROUND_COLOR);
-	player.draw(render_state);
+	render_state.drawImage(car, xCar, 150, 1, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(bird, xMouse, 500, 2, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(person, player.GetmX(), player.GetmY(), 3, DEFAULT_BACKGROUND_COLOR);
+	//player.draw(render_state);
 	if (xTrain > -1000) {
-		xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--;
+		xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--; xMouse--; xCar++;
 	}
-	Car.draw(render_state);
-	Car.Move(1);
+	//Car.draw(render_state);
+	//Car.Move(1);
 	apply(hWnd);
 }
 
