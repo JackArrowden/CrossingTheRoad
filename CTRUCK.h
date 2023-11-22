@@ -13,6 +13,7 @@ class CTRUCK : protected CVEHICLE
 	static const bitmapHandMake image;
 public:
 	CTRUCK(int startX, int startY, int direction);
+	CTRUCK();
 	void tell();
 	void Move(int deltaX);
 	void draw(Render_State& screen);

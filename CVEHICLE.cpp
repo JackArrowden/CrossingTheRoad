@@ -1,5 +1,22 @@
 #include "CVEHICLE.h"
 
+void CVEHICLE::setX(int newX)
+{
+    mX = newX;
+}
+
+void CVEHICLE::setY(int newY)
+{
+    mY = newY;
+}
+
+void CVEHICLE::setDirection(int newDirec)
+{
+    if (newDirec != -1 && newDirec != 1) return;
+    direc = newDirec;
+}
+
+
 void CVEHICLE::tell()
 {
     //PlaySound(TEXT("Sound/birds.wav"), NULL, SND_FILENAME | SND_ASYNC);

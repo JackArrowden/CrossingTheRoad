@@ -11,6 +11,15 @@ CBIRD::CBIRD(int startX, int startY, int direction)
     topY = BIRD_TOP;
 }
 
+CBIRD::CBIRD()
+{
+    this->mX = 0;
+    this->mY = 0;
+    this->direc = 1;
+    bottomY = BIRD_BOTTOM;
+    topY = BIRD_TOP;
+}
+
 void CBIRD::tell()
 {
 	//PlaySound(TEXT("Sound/birds.wav"), NULL, SND_FILENAME | SND_ASYNC);

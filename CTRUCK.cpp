@@ -12,6 +12,16 @@ CTRUCK::CTRUCK(int startX, int startY, int direction)
     bottomY = TRUCK_BOTTOM;
 }
 
+CTRUCK::CTRUCK()
+{
+    mX = 0;
+    mY = 0;
+    direc = 1;
+    mode = MOVE_MODE;
+    topY = TRUCK_TOP;
+    bottomY = TRUCK_BOTTOM;
+}
+
 void CTRUCK::tell()
 {
     //PlaySound(TEXT("Sound/birds.wav"), NULL, SND_FILENAME | SND_ASYNC);

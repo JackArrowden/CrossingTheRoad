@@ -16,6 +16,10 @@ using namespace std;
 class CGAME
 {
 private:
+	string NameOfPlayer;
+	int CurrentScore;
+	int m_isRunning;
+	int m_currentLevel;
 	CPEOPLE* mainChar;
 	int numOfCars;
 	CAR* car;
@@ -30,10 +34,6 @@ private:
 	CAT* cat;
 	int numOfMouse;
 	CMOUSE* mouse;
-	int m_isRunning;
-	int m_currentLevel;
-	int CurrentScrore;
-	string NameOfPlayer;
 
 	
 
@@ -61,7 +61,13 @@ public:
 	static const string INSTRUCTIONS[];
 	static const string SETTINGS[];
 
+	CGAME();
+	CGAME(const std::string& file);
+	bool readFile(const std::string& file);
+
+	void run();
 	virtual void tell();
+	std::string getName();
 	void Draw();
 };
 

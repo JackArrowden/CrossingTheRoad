@@ -15,6 +15,24 @@ CTRAIN::CTRAIN(int startX, int startY, int direction, int numCarriges)
     topY = TRAIN_TOP;
 }
 
+CTRAIN::CTRAIN()
+{
+    mX = 0;
+    mY = 0;
+    direc = 1;
+    mode = MOVE_MODE;
+    numCarriges = 0;
+    bottomY = TRAIN_BOTTOM;
+    topY = TRAIN_TOP;
+}
+
+bool CTRAIN::setCarriges(int numCarriges)
+{
+    if (numCarriges < 0) return false;
+    this->numCarriges = numCarriges;
+    return true;
+}
+
 void CTRAIN::tell()
 {
     if (PlaySound(TEXT("Sound\\TRAIN.wav"), NULL, SND_FILENAME | SND_LOOP)) //| SND_ASYNC)) 

@@ -11,6 +11,15 @@ CMOUSE::CMOUSE(int startX, int startY, int direction)
     bottomY = MOUSE_BOTTOM;
 }
 
+CMOUSE::CMOUSE()
+{
+    mX = 0;
+    mY = 0;
+    direc = 0;
+    topY = MOUSE_TOP;
+    bottomY = MOUSE_BOTTOM;
+}
+
 void CMOUSE::tell()
 {
     if (PlaySound(TEXT("Sound\\MOUSE.wav"), NULL, SND_FILENAME | SND_LOOP)) //| SND_ASYNC)) 

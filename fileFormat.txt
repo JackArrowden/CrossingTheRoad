@@ -1,0 +1,12 @@
+line 1: ten_nhan_vat
+line 2: CurrentScore m_isRunning m_currentLevel
+
+line 3: mX mY mState  // (mainChar)
+
+line 4: numOfCars [mX mY direc] ... [mX mY direc] // numCars is the number of elements
+line 5: numOfTrucks [mX mY direc] ... [mX mY direc]
+line 6: numOfTrains [mx mY direc numCarriges] ...[mx mY direc numCarriges]
+line 7:	numOfBirds [mX mY direc] ... [mX mY direc]
+line 8: numOfCats [mX mY direc] ... [mX mY direc]
+line 9: numOfMouse [mX mY direc] ... [mX mY direc]
+

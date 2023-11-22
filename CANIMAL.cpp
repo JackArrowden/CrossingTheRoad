@@ -1,5 +1,23 @@
 #include "CANIMAL.h"
 
+void CANIMAL::setX(int newX)
+{
+    mX = newX;
+}
+
+void CANIMAL::setY(int newY)
+{
+    mY = newY;
+}
+
+void CANIMAL::setDirection(int newDirec)
+{
+    if (newDirec != -1 && newDirec != 1) return;
+    direc = newDirec;
+}
+
+
+
 pair<pair<int, int>, pair<int, int>> CANIMAL::objectZone() const
 {
     pair<pair<int, int>, pair<int, int>> res;

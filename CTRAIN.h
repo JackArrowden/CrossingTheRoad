@@ -20,6 +20,8 @@ class CTRAIN final : public CVEHICLE
 	static const bitmapHandMake imageLocomotive;
 public:
 	CTRAIN(int startX, int startY, int direction, int numCarriges);
+	CTRAIN();
+	bool setCarriges(int numCarriges);
 	void tell();
 	void Move(int deltaX);
 	void draw(Render_State& screen);

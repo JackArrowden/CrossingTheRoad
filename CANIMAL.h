@@ -14,6 +14,9 @@ protected:
     int topY;
     int bottomY;
 public:
+    void setX(int newX);
+    void setY(int newY);
+    void setDirection(int newDirec);
     virtual int getRightX() const = 0;
     virtual int getLeftX() const = 0;
     virtual void tell();

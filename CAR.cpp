@@ -12,6 +12,16 @@ CAR::CAR(int startX, int startY, int direction)
     topY = CAR_TOP;
 }
 
+CAR::CAR()
+{
+    mode = MOVE_MODE;
+    bottomY = CAR_BOTTOM;
+    topY = CAR_TOP;
+    mX = 0;
+    mY = 0;
+    direc = 1;
+}
+
 void CAR::tell()
 {
     //PlaySound(TEXT("Sound/birds.wav"), NULL, SND_FILENAME | SND_ASYNC);

@@ -22,6 +22,38 @@ void CGAME::clearGame() {
 	delete[]mouse;
 }
 
+CGAME::CGAME()
+{
+	mainChar = NULL;
+	numOfCars = 0;
+	car = NULL;
+	numOfTrucks = 0;
+	truck = NULL;
+	numOfTrains = 0;
+	train = NULL;
+
+	numOfBirds = 0;
+	bird = NULL;
+	numOfCats = 0;
+	cat = NULL;
+	numOfMouse = 0;
+	mouse = NULL;
+	m_isRunning = 0;
+	m_currentLevel = 0;
+	CurrentScore = 0;
+	NameOfPlayer = "";
+}
+
+CGAME::CGAME(const std::string& file)
+{
+
+}
+
+bool CGAME::readFile(const std::string& file)
+{
+	
+}
+
 void CGAME::tell()
 {
 	if (PlaySound(TEXT("Sound\\BACKGROUND.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC)) 

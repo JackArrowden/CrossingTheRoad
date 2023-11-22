@@ -13,6 +13,7 @@ class CBIRD final : public CANIMAL
 public:
 	static const bitmapHandMake image;
 	CBIRD(int startX, int startY, int direction);
+	CBIRD();
 	void tell();
 	void Move(int deltaX);
 	void draw(Render_State& screen);

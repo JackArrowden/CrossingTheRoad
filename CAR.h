@@ -14,6 +14,7 @@ class CAR final : protected CVEHICLE
 public:
 	static const bitmapHandMake image;
 	CAR(int startX, int startY, int direction);
+	CAR();
 	void tell();
 	void Move(int deltaX);
 	void draw(Render_State& screen);

@@ -13,6 +13,7 @@ class CMOUSE final : protected CANIMAL
 public:
 	static const bitmapHandMake image;
 	CMOUSE(int startX, int startY, int direction);
+	CMOUSE();
 	void tell();
 	void Move(int deltaX);
 	void draw(Render_State& screen);
