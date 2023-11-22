@@ -54,6 +54,15 @@ bool CGAME::readFile(const std::string& file)
 	return true;
 }
 
+void CGAME::run()
+{
+	if (currentPeople == 1) mainChar->Left(10);
+	else if (currentPeople == 2) mainChar->Right(10);
+	else if (currentPeople == 3) mainChar->Up(10);
+	else if (currentPeople == 4) mainChar->Down(10);
+
+}
+
 void CGAME::tell()
 {
 	if (PlaySound(TEXT("Sound\\BACKGROUND.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC)) 

@@ -710,24 +710,28 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			break;
 			case VK_A:
 			{
+				currentPeople = 1;
 				player.Left(10);
 				
 			}
 			break;
 			case VK_D:
 			{
+				currentPeople = 2;
 				player.Right(10);
 				
 			}
 			break;
 			case VK_S:
 			{
+				currentPeople = 4;
 				player.Down(10);
 
 			}
 			break;
 			case VK_W:
 			{
+				currentPeople = 3;
 				player.Up(10);
 
 			}

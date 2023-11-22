@@ -12,7 +12,7 @@
 #include "CAT.h"
 #include "CMOUSE.h"
 using namespace std;
-
+int currentPeople = 0;
 class CGAME
 {
 private:
