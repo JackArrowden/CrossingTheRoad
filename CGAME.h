@@ -34,6 +34,7 @@ private:
 	int m_currentLevel;
 	int CurrentScrore;
 	string NameOfPlayer;
+	
 
 	
 
