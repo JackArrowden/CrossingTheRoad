@@ -72,9 +72,12 @@ bitmapHandMake backClickLeader("Image\\leaderBoard\\backClickLeader.bmp");
 
 static bool running = true;
 CPEOPLE player;
-CAR Car(1000, 160, -1);
-CAT Cat(1500, 300, -1);
-CMOUSE Mouse(1000, 300, -1);
+CBIRD Bird(1300, 500, -1);
+CAR Car(1300, 160, -1);
+CAT Cat(1300, 300, -1);
+CTRAIN Train(1300, 350, -1, 3);
+CMOUSE Mouse(1300, 300, -1);
+CTRUCK Truck(1300, 50, -1);
 enum {
 	BUTTON_UP,
 	BUTTON_DOWN,
@@ -218,14 +221,17 @@ void drawWindow3(HWND hWnd) {
 	Mouse.draw(render_state);
 	Mouse.Move(1);
 
-	render_state.drawImage(train_h, xTrain, 40, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(train_p, xTrain_p, 40, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(train_p, xTrain_p1, 40, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(train_e, xTrain_e, 40, 2, DEFAULT_BACKGROUND_COLOR);
+	Train.draw(render_state);
+	Train.Move(1);
+
+	Bird.draw(render_state);
+	Bird.Move(1);
+
+	Truck.draw(render_state);
+	Truck.Move(1);
+
 	player.draw(render_state);
-	if (xTrain > -1000) {
-		xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--;
-	}
+
 	Car.draw(render_state);
 	Car.Move(1);
 	apply(hWnd);

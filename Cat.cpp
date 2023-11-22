@@ -41,13 +41,13 @@ void CAT::draw(Render_State& screen)
     else screen.drawReverseImage(image, mX - image.width / CAT_PER, mY, CAT_PER, DEFAULT_BACKGROUND_COLOR);
 }
 
-int CAT::getRightX()
+int CAT::getRightX() const
 {
     if (direc < 0) return mX + CAT_RIGHT;
     return mX - CAT_LEFT;
 }
 
-int CAT::getLeftX()
+int CAT::getLeftX() const
 {
     if (direc < 0) return mX + CAT_LEFT;
     return mX - CAT_RIGHT;

@@ -22,11 +22,10 @@ protected:
 	int direc;
 	int topY;
 	int bottomY;
-	int rightX, leftX;
 	
 public:
-	virtual int getRightX() = 0;
-	virtual int getLeftX() = 0;
+	virtual int getRightX() const = 0;
+	virtual int getLeftX() const = 0;
 	virtual void Move(int) = 0;
 	virtual void tell() = 0;
 	virtual void draw(Render_State& screen) = 0;

@@ -182,11 +182,10 @@ void Render_State::drawReverseImage(const bitmapHandMake& image, int leftX, int 
 	int startX = clamp(0, leftX, width);
 	int lastX = clamp(0, image.width / perPixel + leftX, width);
 	int lastY = clamp(0, image.height / perPixel + bottomY, height);
-
 	for (int y = startY; y < lastY; y++)
 	{
 		u32* pixel = (u32*)memory + y * width + startX;
-		u32 idxInImage = (y - bottomY + 1) * image.width * perPixel + perPixel / 2 * (image.width - 1) - (startX - leftX) * perPixel - 1;
+		u32 idxInImage = (y - bottomY) * image.width * perPixel + (perPixel / 2 + 1) * image.width - 1 - perPixel / 2 - (startX - leftX) * perPixel;
 		for (int x = startX; x < lastX; x++)
 		{
 			if (backgroundColor != image.memory[idxInImage]) *pixel = image.memory[idxInImage];
