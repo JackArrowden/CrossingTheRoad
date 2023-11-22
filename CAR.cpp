@@ -46,12 +46,13 @@ void CAR::draw(Render_State& screen)
     else screen.drawImage(CAR::image, mX - image.width / CAR_PER, mY, CAR_PER, DEFAULT_BACKGROUND_COLOR);
 }
 
-int CAR::getRightX() {
+int CAR::getRightX() const 
+{
     if (direc < 0) return mX + CAR_RIGHT;
     return mX - CAR_LEFT;
 }
 
-int CAR::getLeftX()
+int CAR::getLeftX() const
 {
     if (direc < 0) return mX + CAR_LEFT;
     return mX - CAR_RIGHT;

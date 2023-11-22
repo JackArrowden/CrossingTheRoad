@@ -41,13 +41,13 @@ void CMOUSE::draw(Render_State& screen)
     else screen.drawImage(image, mX - image.width / MOUSE_PER, mY, MOUSE_PER, DEFAULT_BACKGROUND_COLOR);
 }
 
-int CMOUSE::getRightX()
+int CMOUSE::getRightX() const
 {
     if (direc < 0) return mX + MOUSE_RIGHT;
     return mX - MOUSE_LEFT;
 }
 
-int CMOUSE::getLeftX()
+int CMOUSE::getLeftX() const
 {
     if (direc < 0) return mX + MOUSE_LEFT;
     return  mX - MOUSE_RIGHT;

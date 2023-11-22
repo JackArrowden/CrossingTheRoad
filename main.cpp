@@ -13,7 +13,10 @@ int xTrain_p = 1360;
 int xTrain_p1 = 1594;
 int xTrain_e = 1828;
 int xCar = 0;
-bool button1 = false, button2 = false, button3 = false, button4 = false, button5 = false;
+int xBird = 1200;
+int xMouse = 1200;
+int xCat = 1200;
+bool playClick = false, leaderClick = false, logoutClick = false, settingClick = false;
 bool gameSoundClick = false, objectSoundClick = false, gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false;
 bool isDataChanged = false; // This variable is used to check if the user's data is changed or not, if changed, calls sort function
 
@@ -86,9 +89,12 @@ bitmapHandMake backClickedWin5("Image\\playOrResume\\backClickedWin5.bmp");
 
 static bool running = true;
 CPEOPLE player;
-CAR Car(1000, 160, -1);
-CAT Cat(1500, 300, -1);
-CMOUSE Mouse(1000, 300, -1);
+CBIRD Bird(1300, 500, -1);
+CAR Car(1300, 160, -1);
+CAT Cat(1300, 300, -1);
+CTRAIN Train(1300, 350, -1, 3);
+CMOUSE Mouse(1300, 300, -1);
+CTRUCK Truck(1300, 50, -1);
 enum {
 	BUTTON_UP,
 	BUTTON_DOWN,
@@ -233,22 +239,25 @@ void drawWindow2(HWND hWnd) {
 
 void drawWindow3(HWND hWnd) {
 	render_state.drawImage(background_city, 0, 0, 1);
-	render_state.draw_text("HELLO", -73, 40, 1, 0xffffff);
-	Cat.draw(render_state);
+	render_state.draw_text("HELLO", 0, 40, 1, 0x5fff4f);
+	/*Cat.draw(render_state);
 	Cat.Move(1);
 	Mouse.draw(render_state);
-	Mouse.Move(1);
+	Mouse.Move(1);*/
 
 	render_state.drawImage(train_h, xTrain, 40, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_p, xTrain_p, 40, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_p, xTrain_p1, 40, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_e, xTrain_e, 40, 2, DEFAULT_BACKGROUND_COLOR);
-	player.draw(render_state);
+	render_state.drawImage(car, xCar, 150, 1, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(bird, xMouse, 500, 2, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(person, player.GetmX(), player.GetmY(), 3, DEFAULT_BACKGROUND_COLOR);
+	//player.draw(render_state);
 	if (xTrain > -1000) {
-		xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--;
+		xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--; xMouse--; xCar++;
 	}
-	Car.draw(render_state);
-	Car.Move(1);
+	//Car.draw(render_state);
+	//Car.Move(1);
 	apply(hWnd);
 }
 
