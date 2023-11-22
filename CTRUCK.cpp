@@ -7,9 +7,7 @@ CTRUCK::CTRUCK(int startX, int startY, int direction)
     mX = startX;
     mY = startY;
     direc = direction;
-    mode = STOP_MODE;
-    rightX = TRUCK_RIGHT;
-    leftX = TRUCK_LEFT;
+    mode = MOVE_MODE;
     topY = TRUCK_TOP;
     bottomY = TRUCK_BOTTOM;
 }
@@ -38,11 +36,24 @@ void CTRUCK::tell()
 
 void CTRUCK::Move(int deltaX)
 {
-    deltaX += direc * deltaX;
+    mX += direc * deltaX;
 }
 
 void CTRUCK::draw(Render_State& screen)
 {
-    if (direc < 0) screen.drawImage(image, mX, mY, TRUCK_PER, DEFAULT_BACKGROUND_COLOR);
-    else screen.drawReverseImage(image, mX - image.width / TRUCK_PER, mY, TRUCK_PER, DEFAULT_BACKGROUND_COLOR);
+    screen.drawReac2P(getLeftX(), getRightX(), mY + bottomY, mY + topY, 1348109);
+    if (direc < 0) screen.drawReverseImage(image, mX , mY, TRUCK_PER, DEFAULT_BACKGROUND_COLOR);
+    else screen.drawImage(image, mX - image.width / TRUCK_PER, mY, TRUCK_PER, DEFAULT_BACKGROUND_COLOR);
+}
+
+int CTRUCK::getRightX() const
+{
+    if (direc < 0) return mX + TRUCK_RIGHT;
+    return mX - TRUCK_LEFT;
+}
+
+int CTRUCK::getLeftX() const
+{
+    if (direc < 0) return mX + TRUCK_LEFT;
+    return mX - TRUCK_RIGHT;
 }

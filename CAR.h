@@ -17,7 +17,7 @@ public:
 	void tell();
 	void Move(int deltaX);
 	void draw(Render_State& screen);
-	int getRightX();
-	int getLeftX();
+	int getRightX() const;
+	int getLeftX() const;
 };
 
