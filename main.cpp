@@ -16,7 +16,7 @@ int xCar = 0;
 int xBird = 1200;
 int xMouse = 1200;
 int xCat = 1200;
-bool playClick = false, leaderClick = false, logoutClick = false, settingClick = false;
+bool button1 = false, button2 = false, button3 = false, button4 = false, button5 = false;
 bool gameSoundClick = false, objectSoundClick = false, gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false;
 bool isDataChanged = false; // This variable is used to check if the user's data is changed or not, if changed, calls sort function
 
@@ -1049,5 +1049,4 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	}
 }
 
-/////////////////////////// CAN THEM CAC BIEN DE LUU DU LIEU VI TRI CAC DOI TUONG KHI LOAD GAME
 /////////////////////////// XU LY AM THANH TRONG SETTING NHU THE NAO?
