@@ -50,7 +50,7 @@ public:
 class Render_State {
 	
 public:
-	static const char* letters[][7];
+	static const char* letters[][5];
 	static const double renderScale;	
 	int height, width;
 	void* memory;
