@@ -8,11 +8,12 @@
 #define CAT_RIGHT 80
 #define CAT_PER 1
 
-class CAT final : protected CANIMAL
+class CAT final : public CANIMAL
 {
 public:
 	static const bitmapHandMake image;
 	CAT(int startX, int startY, int direction);
+	CAT();
 	void tell();
 	void Move(int deltaX);
 	void draw(Render_State& screen);

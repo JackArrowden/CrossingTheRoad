@@ -46,3 +46,19 @@ pair<pair<int, int>, pair<int, int>> CVEHICLE::objectZone() const
     res.second = make_pair(getRightX(), mY + topY);
     return res;
 }
+
+istream& operator>>(istream& in, CVEHICLE& x)
+{
+    int mX, mY, direc;
+    in >> mX >> mY >> direc;
+    x.setDirection(direc);
+    x.setX(mX);
+    x.setY(mY);
+    return in;
+}
+
+ostream& operator<<(ostream& out, const CVEHICLE& x)
+{
+    out << x.mX << ' ' << x.mY << ' ' << x.direc;
+    return out;
+}

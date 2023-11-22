@@ -27,5 +27,8 @@ public:
 	void draw(Render_State& screen);
 	int getRightX() const;
 	int getLeftX() const;
+
+	friend istream& operator>>(istream& in, CTRAIN& x);
+	friend ostream& operator<<(ostream& out, const CTRAIN& x);
 };
 

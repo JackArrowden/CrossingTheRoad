@@ -83,3 +83,18 @@ int CTRAIN::getLeftX() const
     if (direc < 0) return mX;
     return mX - LOCOMOTIVE_WIDTH - numCarriges * CARRIGE_WIDTH;
 }
+
+istream& operator>>(istream& in, CTRAIN& x)
+{
+    int direc, numCarriges;
+    in >> x.mX >> x.mY >> direc >> numCarriges;
+    x.setDirection(direc);
+    x.setCarriges(numCarriges);
+    return in;
+}
+
+ostream& operator<<(ostream& out, const CTRAIN& x)
+{
+    out << x.mX << ' ' << x.mY << ' ' << x.direc << ' ' << x.numCarriges;
+    return out;
+}

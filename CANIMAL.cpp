@@ -31,3 +31,19 @@ void CANIMAL::tell()
 {
 	PlaySound(TEXT("birds.wav"), NULL, SND_FILENAME | SND_ASYNC);
 }
+
+istream& operator>>(istream& in, CANIMAL& x)
+{
+    int mX, mY, direc;
+    in >> mX >> mY >> direc;
+    x.setDirection(direc);
+    x.setX(mX);
+    x.setY(mY);
+    return in;
+}
+
+ostream& operator<<(ostream& out, const CANIMAL& x)
+{
+    out << x.mX << ' ' << x.mY << ' ' << x.direc;
+    return out;
+}
