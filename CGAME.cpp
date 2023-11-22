@@ -22,6 +22,8 @@ void CGAME::clearGame() {
 	delete[]mouse;
 }
 
+
+
 void CGAME::tell()
 {
 	if (PlaySound(TEXT("Sound\\BACKGROUND.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC)) 
