@@ -88,6 +88,13 @@ bitmapHandMake playClicked("Image\\playOrResume\\playClicked.bmp");
 bitmapHandMake backWin5("Image\\playOrResume\\backWin5.bmp");
 bitmapHandMake backClickedWin5("Image\\playOrResume\\backClickedWin5.bmp");
 
+// Game over window
+bitmapHandMake background6("Image\\gameOver\\background6.bmp");
+bitmapHandMake backWin6("Image\\gameOver\\backWin6.bmp");
+bitmapHandMake backClickedWin6("Image\\gameOver\\backClickedWin6.bmp");
+bitmapHandMake leaderWin6("Image\\gameOver\\leaderWin6.bmp");
+bitmapHandMake leaderClickedWin6("Image\\gameOver\\leaderClickedWin6.bmp");
+
 static bool running = true;
 CPEOPLE player;
 CBIRD Bird(1300, 500, -1);
@@ -128,11 +135,13 @@ void drawWindow3(HWND);
 void settingWindow(HWND);
 void leaderboardWindow(HWND);
 void enterGameWindow(HWND);
+void gameOverWindow(HWND);
 void resetWindow1();
 void resetWindow2();
 void resetSettingWindow();
 void resetLeaderboardWindow();
 void resetEnterGameWindow();
+void resetGameOverWindow();
 void apply(HWND);
 void resetBtn();
 void resetCharArray(char[]);
@@ -195,6 +204,8 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 			case 5:
 				enterGameWindow(window);
 				break;
+			case 6:
+				gameOverWindow(window);
 			default:
 				break;
 		}
@@ -297,6 +308,18 @@ void enterGameWindow(HWND hWnd) {
 	}
 	tempName[index] = '\0';
 	render_state.draw_text(tempNameChar, -50, -25, 1, 0x000000);
+
+	apply(hWnd);
+}
+
+void gameOverWindow(HWND hWnd) {
+	render_state.drawImage(background6, 0, 0, 1);
+
+	if (!button1) render_state.drawImage(backWin6, 50, 320, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(backClickedWin6, 50, 320, 4, DEFAULT_BACKGROUND_COLOR);
+
+	if (!button2) render_state.drawImage(leaderWin6, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(leaderClickedWin6, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
 
 	apply(hWnd);
 }
@@ -409,6 +432,11 @@ void resetWindow2() {
 	xTrain_p1 = 1594;
 	xTrain_e = 1828;
 	xCar = 0;
+	resetBtn();
+}
+
+void resetGameOverWindow() {
+	windowState = 6;
 	resetBtn();
 }
 
@@ -583,13 +611,10 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	if (windowState == 1) {
 		switch (msg)
 		{
-		case WM_CLOSE:
 		case WM_DESTROY: {
 			running = false;
 			PostQuitMessage(0);
 		} break;
-		case WM_CREATE:
-			break;
 		case WM_SIZE: {
 			RECT rect;
 			GetClientRect(hWnd, &rect);
@@ -616,6 +641,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					resetLeaderboardWindow();
 					break;
 				case 3:
+					resetGameOverWindow();
 					break;
 				default:
 					break;
@@ -625,42 +651,30 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			case VK_UP:
 				{
 					if (curState > 0) curState--;
-					switch (curState) {
-					case 0:
+					if (curState == 0) {
 						button1 = true;
 						button2 = false;
-						break;
-					case 1:
+					} else if (curState == 1) {
 						button2 = true;
 						button3 = false;
-						break;
-					case 2:
+					} else if (curState == 2) {
 						button3 = true;
 						button4 = false;
-						break;
-					default:
-						break;
 					}
 				}
 				break;
 			case VK_DOWN:
 				{
 					if (curState < 3) curState++;
-					switch (curState) {
-					case 1:
+					if (curState == 1) {
 						button1 = false;
 						button2 = true;
-						break;
-					case 2:
+					} else if (curState == 2) {
 						button2 = false;
 						button3 = true;
-						break;
-					case 3:
+					} else if (curState == 3) {
 						button3 = false;
 						button4 = true;
-						break;
-					default:
-						break;
 					}
 				}
 				break;
@@ -689,13 +703,10 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	} else if (windowState == 2) {
 		switch (msg)
 		{
-		case WM_CLOSE:
 		case WM_DESTROY: {
 			running = false;
 			PostQuitMessage(0);
 		} break;
-		case WM_CREATE:
-			break;
 		case WM_SIZE: {
 			RECT rect;
 			GetClientRect(hWnd, &rect);
@@ -764,13 +775,10 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	} else if (windowState == 3) {
 		switch (msg)
 		{
-		case WM_CLOSE:
 		case WM_DESTROY: {
 			running = false;
 			PostQuitMessage(0);
 		} break;
-		case WM_CREATE:
-			break;
 		case WM_SIZE: {
 			RECT rect;
 			GetClientRect(hWnd, &rect);
@@ -882,13 +890,10 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	} else if (windowState == 4) {
 		switch (msg)
 		{
-		case WM_CLOSE:
 		case WM_DESTROY: {
 			running = false;
 			PostQuitMessage(0);
 		} break;
-		case WM_CREATE:
-			break;
 		case WM_SIZE: {
 			RECT rect;
 			GetClientRect(hWnd, &rect);
@@ -916,13 +921,10 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	} else if (windowState == 5) {
 		switch (msg)
 		{
-		case WM_CLOSE:
 		case WM_DESTROY: {
 			running = false;
 			PostQuitMessage(0);
 		} break;
-		case WM_CREATE:
-			break;
 		case WM_SIZE: {
 			RECT rect;
 			GetClientRect(hWnd, &rect);
@@ -1052,6 +1054,41 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			break;
 			default:
 				break;
+			}
+		}
+		break;
+		default:
+			return DefWindowProcW(hWnd, msg, wp, lp);
+		}
+	} else if (windowState == 6) {
+		switch (msg)
+		{
+		case WM_DESTROY: {
+			running = false;
+			PostQuitMessage(0);
+		} break;
+		case WM_SIZE: {
+			RECT rect;
+			GetClientRect(hWnd, &rect);
+			int newWidth = rect.right - rect.left;
+			int newHeight = rect.bottom - rect.top;
+			render_state.resize(newHeight, newWidth);
+
+		} break;
+		case WM_KEYDOWN:
+		{
+			int key = LOWORD(wp);
+			if (key == VK_RETURN) {
+				if (curState == 0) resetWindow1();
+				else if (curState == 1) resetLeaderboardWindow();
+			} else if (key == VK_RIGHT) {
+				curState = 1;
+				button1 = false;
+				button2 = true;
+			} else if (key == VK_LEFT) {
+				curState = 0;
+				button1 = true;
+				button2 = false;
 			}
 		}
 		break;
