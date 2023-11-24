@@ -105,4 +105,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="fileFormat.txt" />
+    <Text Include="Data\Default2.txt" />
+  </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@
 #define CAR_PER 1
 #define CAR_LINK_IMAGE "image\\gameWindow\\car.bmp"
 
-class CAR final : protected CVEHICLE
+class CAR : public CVEHICLE
 {
 public:
 	static const bitmapHandMake image;

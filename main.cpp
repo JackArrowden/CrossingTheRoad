@@ -37,6 +37,7 @@ bitmapHandMake background_city("Image\\gameWindow\\gameBgr_city.bmp");
 bitmapHandMake train_h("Image\\gameWindow\\train_h.bmp");
 //bitmapHandMake train_p("Image\\gameWindow\\train_p.bmp");
 bitmapHandMake train_e("Image\\gameWindow\\train_e.bmp");
+bitmapHandMake truck("Image\\gameWindow\\truck.bmp");
 bitmapHandMake person("Image\\person.bmp");
 bitmapHandMake car("Image\\gameWindow\\car.bmp");
 bitmapHandMake mouse("Image\\gameWindow\\mouse.bmp");

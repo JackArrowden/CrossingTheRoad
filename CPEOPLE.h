@@ -20,12 +20,15 @@ public:
 	bool isFinish();
 	bool isDead();
 	CPEOPLE();
-	int GetmX();
-	int GetmY();
+	int GetmX() const;
+	int GetmY() const;
 	void Up(int);
 	void Left(int);
 	void Right(int);
 	void Down(int);
 	void draw(Render_State& screen);
+
+	friend istream& operator>>(istream& in, CPEOPLE& x);
+	friend ostream& operator<<(ostream& out, const CPEOPLE& x);
 };
 

@@ -23,5 +23,8 @@ public:
     virtual void Move(int deltaX) = 0;
     virtual void draw(Render_State& screen) = 0;
     pair<pair<int, int>, pair<int, int>> objectZone() const;
+
+    friend istream& operator>>(istream& in, CANIMAL& x);
+    friend ostream& operator<<(ostream& out, const CANIMAL& x);
 };
 

@@ -30,12 +30,12 @@ CPEOPLE::CPEOPLE()
 	mState = true;
 }
 
-int CPEOPLE::GetmX()
+int CPEOPLE::GetmX() const
 {
 	return mX;
 }
 
-int CPEOPLE::GetmY()
+int CPEOPLE::GetmY() const
 {
 	return mY;
 }
@@ -65,4 +65,18 @@ void CPEOPLE::draw(Render_State& screen)
 {
 	screen.drawImage(image, mX, mY, 4, DEFAULT_BACKGROUND_COLOR);
 	screen.drawReac2P(mX + PEOPLE_LEFT, mX + PEOPLE_RIGHT, mY + PEOPLE_BOTTOM, mY + PEOPLE_TOP, 1348109);
+}
+
+istream& operator>>(istream& in, CPEOPLE& x)
+{
+	int mX, mY;
+	in >> x.mX >> x.mY;
+	x.mState = true;
+	return in;
+}
+
+ostream& operator<<(ostream& out, const CPEOPLE& x)
+{
+	out << x.GetmX() << ' ' << x.GetmY();
+	return out;
 }

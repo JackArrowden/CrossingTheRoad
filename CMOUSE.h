@@ -8,7 +8,7 @@
 #define MOUSE_PER 3
 #define	MOUSE_LINK_IMAGE "image\\gameWindow\\mouse.bmp"
 
-class CMOUSE final : protected CANIMAL
+class CMOUSE final : public CANIMAL
 {
 public:
 	static const bitmapHandMake image;

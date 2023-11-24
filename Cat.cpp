@@ -11,6 +11,15 @@ CAT::CAT(int startX, int startY, int direction)
     topY = CAT_TOP;
 }
 
+CAT::CAT()
+{
+    this->mX = 0;
+    this->mY = 0;
+    this->direc = 1;
+    bottomY = CAT_BOTTOM;
+    topY = CAT_TOP;
+}
+
 void CAT::tell()
 {
     if (PlaySound(TEXT("Sound\\CAT.wav"), NULL, SND_FILENAME | SND_LOOP)) //| SND_ASYNC)) 

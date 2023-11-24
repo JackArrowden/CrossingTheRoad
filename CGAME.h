@@ -32,13 +32,12 @@ private:
 	CBIRD* bird;
 	int numOfCats;
 	CAT* cat;
-	int numOfMouse;
+	int numOfMouses;
 	CMOUSE* mouse;
 	
 
 
 	//void copyGame(const CGAME&);
-	void clearGame();
 
 	//static void drawRectangle(ConsoleHandle*, int, int, int, int);//Vẽ hình chữ nhật bao quanh 2 đỉnh tham số (trái trên, phải dưới)
 	//static void removeRectangle(ConsoleHandle*, int, int, int, int);
@@ -64,7 +63,8 @@ public:
 	CGAME();
 	CGAME(const std::string& file);
 	bool readFile(const std::string& file);
-
+	void PeopleMove();
+	void clear();
 	void run();
 	virtual void tell();
 	std::string getName();

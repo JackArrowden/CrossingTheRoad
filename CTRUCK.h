@@ -8,7 +8,7 @@
 #define TRUCK_PER 1
 #define TRUCK_LINK_IMAGE "image\\gameWindow\\truck.bmp"
 
-class CTRUCK : protected CVEHICLE
+class CTRUCK : public CVEHICLE
 {
 	static const bitmapHandMake image;
 public:

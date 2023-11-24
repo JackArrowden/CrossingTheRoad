@@ -215,23 +215,23 @@ void Render_State::dynamicDrawReac(double dynamicCenterX, double dynamicCenterY,
 }
 
 const char* Render_State:: letters[][5] = {
+	" 0",
+	"0 0",
+	"000",
+	"0 0",
+	"0 0",
+
+	"00",
+	"0 0",
+	"00",
+	"0 0",
+	"00",
+
 	" 00",
-	"0  0",
-	"0000",
-	"0  0",
-	"0  0",
-
-	"000",
-	"0  0",
-	"000",
-	"0  0",
-	"000",
-
-	" 000",
 	"0",
 	"0",
 	"0",
-	" 000",
+	" 00",
 
 	"00",
 	"0 0",
@@ -251,7 +251,7 @@ const char* Render_State:: letters[][5] = {
 	"0",
 	"0",
 
-	" 000",
+	" 00",
 	"0",
 	"0 00",
 	"0  0",
@@ -293,21 +293,21 @@ const char* Render_State:: letters[][5] = {
 	"0   0",
 	"0   0",
 
-	"00  0",
-	"0 0 0",
-	"0 0 0",
-	"0 0 0",
-	"0  00",
-
-	"0000",
+	"0  0",
+	"00 0",
+	"0 00",
 	"0  0",
 	"0  0",
-	"0  0",
-	"0000",
 
 	"000",
-	"0  0",
+	"0 0",
+	"0 0",
+	"0 0",
 	"000",
+
+	"00",
+	"0 0",
+	"00",
 	"0",
 	"0",
 
@@ -324,16 +324,16 @@ const char* Render_State:: letters[][5] = {
 	"0  0",
 
 	" 000",
-	"0 ",
+	"0",
 	" 00",
 	"   0",
 	"000 ",
 
-	"000",
-	" 0",
-	" 0",
-	" 0",
-	" 0",
+	"00000",
+	"  0",
+	"  0",
+	"  0",
+	"  0",
 
 	"0  0",
 	"0  0",
@@ -386,7 +386,7 @@ const char* Render_State:: letters[][5] = {
 
 
 void Render_State::draw_text(const char* text, float x, float y, float size, u32 color) {
-	float half_size = size * .5f;
+	float half_size = size * .47f;
 	float original_y = y;
 
 	while (*text) {
@@ -411,7 +411,7 @@ void Render_State::draw_text(const char* text, float x, float y, float size, u32
 			}
 		}
 		text++;
-		x += size * 6.f;
+		x += size * 5.5f;
 		y = original_y;
 	}
 }

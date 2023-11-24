@@ -159,6 +159,10 @@
     <ClInclude Include="CMOUSE.h" />
     <ClInclude Include="fileHandling.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Data\Default2.txt" />
+    <Text Include="fileFormat.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
