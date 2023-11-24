@@ -108,6 +108,14 @@ bool CGAME::readFile(const std::string& file)
 	return true;
 }
 
+void CGAME::PeopleMove()
+{
+	if (currentPeople == 1) mainChar->Left(10);
+	else if (currentPeople == 2) mainChar->Right(10);
+	else if (currentPeople == 3) mainChar->Up(10);
+	else if (currentPeople == 4) mainChar->Down(10);
+}
+
 void CGAME::clear()
 {
 	m_isRunning = 0;

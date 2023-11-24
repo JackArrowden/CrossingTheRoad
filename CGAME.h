@@ -71,7 +71,7 @@ public:
 	CGAME();
 	CGAME(const std::string& file);
 	bool readFile(const std::string& file);
-
+	void PeopleMove();
 	void clear();
 	void run();
 	virtual void tell();

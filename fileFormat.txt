@@ -7,4 +7,3 @@ line 6: numOfTrains [mx mY direc numCarriges] ...[mx mY direc numCarriges]
 line 7:	numOfBirds [mX mY direc] ... [mX mY direc]
 line 8: numOfCats [mX mY direc] ... [mX mY direc]
 line 9: numOfMouse [mX mY direc] ... [mX mY direc]
-
