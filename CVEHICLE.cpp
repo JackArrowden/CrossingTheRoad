@@ -1,5 +1,15 @@
 #include "CVEHICLE.h"
 
+int CVEHICLE::getX()
+{
+    return mX;
+}
+
+int CVEHICLE::getY()
+{
+    return mY;
+}
+
 void CVEHICLE::setX(int newX)
 {
     mX = newX;

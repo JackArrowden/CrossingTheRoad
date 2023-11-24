@@ -1,5 +1,15 @@
 #include "CANIMAL.h"
 
+int CANIMAL::getX()
+{
+    return mX;
+}
+
+int CANIMAL::getY()
+{
+    return mY;
+}
+
 void CANIMAL::setX(int newX)
 {
     mX = newX;

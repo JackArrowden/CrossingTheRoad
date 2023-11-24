@@ -14,6 +14,8 @@ protected:
     int topY;
     int bottomY;
 public:
+    int getX();
+    int getY();
     void setX(int newX);
     void setY(int newY);
     void setDirection(int newDirec);
