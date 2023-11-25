@@ -13,6 +13,13 @@
 #include "CMOUSE.h"
 using namespace std;
 
+#define CAR_NUMBER 1
+#define TRUCK_NUMBER 2
+#define TRAIN_NUMBER 3
+#define BIRD_NUMBER 4
+#define CAT_NUMBER 5
+#define MOUSE_NUMBER 6
+
 class CGAME
 {
 private:
@@ -35,7 +42,8 @@ private:
 	int numOfMouses;
 	CMOUSE* mouse;
 	
-
+	bitmapHandMake gameBackground;
+	std::map<int, vector<pair<void*, int>>> m;
 
 	//void copyGame(const CGAME&);
 
@@ -68,6 +76,6 @@ public:
 	void run();
 	virtual void tell();
 	std::string getName();
-	void Draw();
+	void Draw(Render_State& screen);
 };
 
