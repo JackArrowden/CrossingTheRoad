@@ -148,6 +148,7 @@ void CGAME::clear()
 		numOfMouses = 0;
 		mouse = NULL;
 	}
+	mciSendStringA("close MyFile", NULL, 0, NULL);
 }
 
 void CGAME::run()
@@ -161,22 +162,33 @@ void CGAME::run()
 
 void CGAME::tell()
 {
-	if (PlaySound(TEXT("Sound\\BACKGROUND.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC)) 
-	{
-		// Sound started playing successfully
-		// You can add additional code here if needed
-		//getch();
-		//PlaySound(0, 0, 0);
-		//getch();
-	}
-	else {
-		// Error handling
-		DWORD error = GetLastError();
-		if (error != MMSYSERR_NOERROR) {
-			// Handle the error
-			// You can print an error message or perform other actions
-		}
-	}
+	//if (PlaySound(TEXT("Sound\\BACKGROUND.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC)) 
+	//{
+	//	// Sound started playing successfully
+	//	// You can add additional code here if needed
+	//	//getch();
+	//	//PlaySound(0, 0, 0);
+	//	//getch();
+	//}
+	//else {
+	//	// Error handling
+	//	DWORD error = GetLastError();
+	//	if (error != MMSYSERR_NOERROR) {
+	//		// Handle the error
+	//		// You can print an error message or perform other actions
+	//	}
+	//}
+	mciSendStringA("open Sound/BACKGROUND.wav type waveaudio alias MyFile", NULL, 0, 0);
+	// Play the audio
+	mciSendStringA("play MyFile", NULL, 0, NULL);	//std::cerr << "Error playing the sound." << std::endl;
+	
+
+	// You might want to add some delay to let the sound play before closing
+	// For example, using Sleep function (don't forget to include Windows.h)
+	// Sleep(5000); // Sleep for 5000 milliseconds (5 seconds)
+
+	// Close the audio file
+	//mciSendStringA("close MyFile", NULL, 0, NULL);
 
 }
 
