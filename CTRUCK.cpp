@@ -28,20 +28,23 @@ void CTRUCK::tell()
     //const char* soundFilePath = "Sound\\birds.wav";
 
     // Use PlaySound to play the sound file
-    if (PlaySound(TEXT("Sound\\TRUCK.wav"), NULL, SND_FILENAME | SND_LOOP)) //| SND_ASYNC)) 
-    {
-        // Sound started playing successfully
-        // You can add additional code here if needed
-    }
-    else {
-        // Error handling
-        DWORD error = GetLastError();
-        if (error != MMSYSERR_NOERROR) {
-            // Handle the error
-            // You can print an error message or perform other actions
-        }
-    }
-
+    //if (PlaySound(TEXT("Sound\\TRUCK.wav"), NULL, SND_FILENAME | SND_LOOP)) //| SND_ASYNC)) 
+    //{
+    //    // Sound started playing successfully
+    //    // You can add additional code here if needed
+    //}
+    //else {
+    //    // Error handling
+    //    DWORD error = GetLastError();
+    //    if (error != MMSYSERR_NOERROR) {
+    //        // Handle the error
+    //        // You can print an error message or perform other actions
+    //    }
+    //}
+    mciSendStringA("open Sound/TRUCK.wav type waveaudio alias Truck", NULL, 0, 0);
+    // Play the audio
+    mciSendStringA("play Truck", NULL, 0, NULL);
+    // mciSendStringA("close Truck", NULL, 0, NULL);
 }
 
 void CTRUCK::Move(int deltaX)

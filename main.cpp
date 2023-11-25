@@ -155,8 +155,8 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	//sortDescendingData(listUser);
 
 	game->currentPeople = 0;
-	//game->tell();
-
+	game->tell();
+	Train.tell();
 	//ShowCursor(FALSE);
 	// ########################################################
 	//						Window Class
@@ -177,13 +177,14 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	LONG style = GetWindowLong(window, GWL_STYLE);
 	style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
 	SetWindowLong(window, GWL_STYLE, style);
-
+	
 	while (running) {
 		if (gameSoundClick_temp) {
 			if (gameSound) {
-				game->tell();
+				game->tell(); 
 			} else {
-				PlaySound(0, NULL, 0);
+				mciSendStringA("close MyFile", NULL, 0, NULL);
+				//PlaySound(0, NULL, 0);
 			}
 			gameSoundClick_temp = false;
 		}
@@ -240,16 +241,17 @@ void drawWindow1(HWND hWnd) {
 }
 
 void drawWindow2(HWND hWnd) {
+	
 	render_state.drawImage(background2, 0, 0, 1);
 	render_state.drawImage(train_h, xTrain, 350, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_e, xTrain_p, 350, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_e, xTrain_p1, 350, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(train_e, xTrain_e, 350, 2, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(person, player.GetmX(), player.GetmY(), 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(truck, xCar, 100, 1, DEFAULT_BACKGROUND_COLOR);
 	if (xTrain > -1000) {
 		xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--;
 	}
-	render_state.drawImage(car, xCar, 80, 1, DEFAULT_BACKGROUND_COLOR);
 	if (xCar < 1300) xCar++;
 	apply(hWnd);
 }

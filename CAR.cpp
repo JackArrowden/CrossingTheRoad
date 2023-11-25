@@ -28,20 +28,23 @@ void CAR::tell()
     //const char* soundFilePath = "Sound\\birds.wav";
 
     // Use PlaySound to play the sound file
-    if (PlaySound(TEXT("Sound\\CAR.wav"), NULL, SND_FILENAME | SND_LOOP)) //| SND_ASYNC)) 
-    {
-        // Sound started playing successfully
-        // You can add additional code here if needed
-    }
-    else {
-        // Error handling
-        DWORD error = GetLastError();
-        if (error != MMSYSERR_NOERROR) {
-            // Handle the error
-            // You can print an error message or perform other actions
-        }
-    }
-
+    //if (PlaySound(TEXT("Sound\\CAR.wav"), NULL, SND_FILENAME | SND_LOOP)) //| SND_ASYNC)) 
+    //{
+    //    // Sound started playing successfully
+    //    // You can add additional code here if needed
+    //}
+    //else {
+    //    // Error handling
+    //    DWORD error = GetLastError();
+    //    if (error != MMSYSERR_NOERROR) {
+    //        // Handle the error
+    //        // You can print an error message or perform other actions
+    //    }
+    //}
+    mciSendStringA("open Sound/CAR.wav type waveaudio alias Car", NULL, 0, 0);
+    // Play the audio
+    mciSendStringA("play Car", NULL, 0, NULL);
+    // mciSendStringA("close Car", NULL, 0, NULL);
 }
 
 void CAR::Move(int deltaX)

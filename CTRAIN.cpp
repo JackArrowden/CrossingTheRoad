@@ -50,6 +50,7 @@ void CTRAIN::tell()
     mciSendStringA("open Sound/TRAIN.wav type waveaudio alias Train", NULL, 0, 0);
     // Play the audio
     mciSendStringA("play Train", NULL, 0, NULL);
+   // mciSendStringA("close Train", NULL, 0, NULL);
 }
 
 void CTRAIN::Move(int deltaX)
