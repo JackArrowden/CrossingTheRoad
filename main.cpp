@@ -154,7 +154,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	//userFileToVect("USER", listUser);
 	//sortDescendingData(listUser);
 
-	game->currentPeople = 0;
+	game->readFile("Data\\Default.txt");
 	//game->tell();
 
 	//ShowCursor(FALSE);
@@ -240,42 +240,27 @@ void drawWindow1(HWND hWnd) {
 }
 
 void drawWindow2(HWND hWnd) {
-	render_state.drawImage(background2, 0, 0, 1);
-	render_state.drawImage(train_h, xTrain, 350, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(train_e, xTrain_p, 350, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(train_e, xTrain_p1, 350, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(train_e, xTrain_e, 350, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(person, player.GetmX(), player.GetmY(), 3, DEFAULT_BACKGROUND_COLOR);
-	if (xTrain > -1000) {
-		xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--;
-	}
-	render_state.drawImage(car, xCar, 80, 1, DEFAULT_BACKGROUND_COLOR);
-	if (xCar < 1300) xCar++;
+	//render_state.drawImage(background2, 0, 0, 1);
+	//render_state.drawImage(train_h, xTrain, 350, 2, DEFAULT_BACKGROUND_COLOR);
+	//render_state.drawImage(train_e, xTrain_p, 350, 2, DEFAULT_BACKGROUND_COLOR);
+	//render_state.drawImage(train_e, xTrain_p1, 350, 2, DEFAULT_BACKGROUND_COLOR);
+	//render_state.drawImage(train_e, xTrain_e, 350, 2, DEFAULT_BACKGROUND_COLOR);
+	//render_state.drawImage(person, player.GetmX(), player.GetmY(), 3, DEFAULT_BACKGROUND_COLOR);
+	//if (xTrain > -1000) {
+	//	xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--;
+	//}
+	//render_state.drawImage(car, xCar, 80, 1, DEFAULT_BACKGROUND_COLOR);
+	//if (xCar < 1300) xCar++;
+	game->Draw(render_state);
+	game->run();
 	apply(hWnd);
 }
 
 void drawWindow3(HWND hWnd) {
-	render_state.drawImage(background_city, 0, 0, 1);
-	render_state.draw_text("HELLO", 0, 40, 1, 0x5fff4f);
-	/*Cat.draw(render_state);
-	Cat.Move(1);
-	Mouse.draw(render_state);
-	Mouse.Move(1);*/
-
-	render_state.drawImage(train_h, xTrain, 40, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(train_e, xTrain_p, 40, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(train_e, xTrain_p1, 40, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(train_e, xTrain_e, 40, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(car, xCar, 150, 1, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(bird, xMouse, 500, 2, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(person, player.GetmX(), player.GetmY(), 3, DEFAULT_BACKGROUND_COLOR);
-	//player.draw(render_state);
-	if (xTrain > -2000) {
-		xTrain--; xTrain_p--; xTrain_p1--; xTrain_e--; xMouse--; xCar++;
-	}
-	//Car.draw(render_state);
-	//Car.Move(1);
-	apply(hWnd);
+	//render_state.drawImage(background_city, 0, 0, 1);
+	//game->Draw(render_state);
+	//game->run();
+	//apply(hWnd);
 }
 
 void enterGameWindow(HWND hWnd) {
@@ -727,32 +712,35 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			break;
 			case VK_A:
 			{
-				game->currentPeople = 1;
-				player.Left(10);
+				//game->currentPeople = 1;
+				//player.Left(10);
+				game->PeopleMove(1);
 				
 			}
 			break;
 			case VK_D:
 			{
-				game->currentPeople = 2;
-				
-				player.Right(10);
+				//game->currentPeople = 2;
+				//
+				//player.Right(10);
+				game->PeopleMove(2);
 				
 			}
 			break;
 			case VK_S:
 			{
-				game->currentPeople = 4;
-				
-				player.Down(10);
+				//game->currentPeople = 4;
+				//
+				//player.Down(10);
+				game->PeopleMove(4);
 
 			}
 			break;
 			case VK_W:
 			{
-				game->currentPeople = 3;
-				player.Up(10);
-
+				//game->currentPeople = 3;
+				//player.Up(10);
+				game->PeopleMove(3);
 			}
 			break;
 

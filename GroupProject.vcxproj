@@ -160,6 +160,7 @@
     <ClInclude Include="fileHandling.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Data\Default.txt" />
     <Text Include="Data\Default2.txt" />
     <Text Include="fileFormat.txt" />
   </ItemGroup>

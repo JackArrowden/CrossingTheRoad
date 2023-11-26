@@ -12,6 +12,8 @@ Game::Game(int level)
 	resetGame(level);
 }*/
 
+bitmapHandMake CGAME::gameBackground("image\\gameWindow\\gameBgr.bmp");
+
 
 CGAME::CGAME()
 {
@@ -37,7 +39,25 @@ CGAME::CGAME()
 
 CGAME::CGAME(const std::string& file)
 {
-	CGAME();
+	mainChar = NULL;
+	numOfCars = 0;
+	car = NULL;
+	numOfTrucks = 0;
+	truck = NULL;
+	numOfTrains = 0;
+	train = NULL;
+
+	numOfBirds = 0;
+	bird = NULL;
+	numOfCats = 0;
+	cat = NULL;
+	numOfMouses = 0;
+	mouse = NULL;
+	m_isRunning = 0;
+	m_currentLevel = 0;
+	CurrentScore = 0;
+	NameOfPlayer = "";
+
 	readFile(file);
 }
 
@@ -47,7 +67,7 @@ bool CGAME::readFile(const std::string& file)
 	if (!ifs.is_open()) return false;
 	clear();
 	getline(ifs, NameOfPlayer);
-	ifs >> CurrentScore;
+	ifs >> CurrentScore >> m_currentLevel;
 	mainChar = new CPEOPLE();
 	ifs >> *mainChar;
 
@@ -57,7 +77,7 @@ bool CGAME::readFile(const std::string& file)
 	{
 		CVEHICLE* it = dynamic_cast<CVEHICLE*> (&car[i]);
 		ifs >> *it;
-		m[it->getY()].push_back(make_pair((void*)it, CAR_NUMBER));
+		m[-it->getY()].push_back(make_pair((void*)it, CAR_NUMBER));
 	}
 
 	ifs >> numOfTrucks;
@@ -66,15 +86,15 @@ bool CGAME::readFile(const std::string& file)
 	{
 		CVEHICLE* it = dynamic_cast<CVEHICLE*> (&truck[i]);
 		ifs >> *it;
-		m[it->getY()].push_back(make_pair((void*)it, TRUCK_NUMBER));
+		m[-it->getY()].push_back(make_pair((void*)it, TRUCK_NUMBER));
 	}
 
 	ifs >> numOfTrains;
 	if (numOfTrains > 0) train = new CTRAIN[numOfTrains];
-	for (int i = 0; i < numOfCars; i++)
+	for (int i = 0; i < numOfTrains; i++)
 	{
 		ifs >> train[i];
-		m[train[i].getY()].push_back(make_pair(((void*)&train[i]), TRAIN_NUMBER));
+		m[-train[i].getY()].push_back(make_pair(((void*)&train[i]), TRAIN_NUMBER));
 	}
 	
 	ifs >> numOfBirds;
@@ -83,7 +103,7 @@ bool CGAME::readFile(const std::string& file)
 	{
 		CANIMAL* it = dynamic_cast<CANIMAL*> (&bird[i]);
 		ifs >> *it;
-		m[it->getY()].push_back(make_pair((void*)it, BIRD_NUMBER));
+		m[-it->getY()].push_back(make_pair((void*)it, BIRD_NUMBER));
 	}
 
 	ifs >> numOfCats;
@@ -92,7 +112,7 @@ bool CGAME::readFile(const std::string& file)
 	{
 		CANIMAL* it = dynamic_cast<CANIMAL*> (&cat[i]);
 		ifs >> *it;
-		m[it->getY()].push_back(make_pair((void*)it, CAT_NUMBER));
+		m[-it->getY()].push_back(make_pair((void*)it, CAT_NUMBER));
 	}
 
 	ifs >> numOfMouses;
@@ -101,19 +121,19 @@ bool CGAME::readFile(const std::string& file)
 	{
 		CANIMAL* it = dynamic_cast<CANIMAL*> (&mouse[i]);
 		ifs >> *it;
-		m[it->getY()].push_back(make_pair((void*)it, MOUSE_NUMBER));
+		m[-it->getY()].push_back(make_pair((void*)it, MOUSE_NUMBER));
 	}
 
 	ifs.close();
 	return true;
 }
 
-void CGAME::PeopleMove()
+void CGAME::PeopleMove(int direc)
 {
-	if (currentPeople == 1) mainChar->Left(10);
-	else if (currentPeople == 2) mainChar->Right(10);
-	else if (currentPeople == 3) mainChar->Up(10);
-	else if (currentPeople == 4) mainChar->Down(10);
+	if (direc == 1) mainChar->Left(10);
+	else if (direc== 2) mainChar->Right(10);
+	else if (direc == 3) mainChar->Up(10);
+	else if (direc == 4) mainChar->Down(10);
 }
 
 void CGAME::clear()
@@ -163,12 +183,6 @@ void CGAME::clear()
 
 void CGAME::run()
 {
-	if (currentPeople == 1) mainChar->Left(10);
-	else if (currentPeople == 2) mainChar->Right(10);
-	else if (currentPeople == 3) mainChar->Up(10);
-	else if (currentPeople == 4) mainChar->Down(10);
-
-
 	// update index of CANIMAL and CVEHICLE
 	for (int i = 0; i < numOfCars; i++) car[i].Move(this->m_currentLevel);
 	for (int i = 0; i < numOfTrucks; i++) truck[i].Move(this->m_currentLevel);
@@ -200,33 +214,48 @@ void CGAME::tell()
 
 }
 
+std::string CGAME::getName() const
+{
+	return this->NameOfPlayer;
+}
+
 void CGAME::Draw(Render_State& screen)
 {
+	screen.drawImage(this->gameBackground, 0, 0, 1);
 	bool peopleDraw = false;
 	for (const auto& it : m)
 	{
 		for (const auto& x : it.second)
 		{
-			switch (x.second)
+			if (x.second == CAR_NUMBER)
 			{
-			case CAR_NUMBER:
-				(reinterpret_cast<CAR*> (x.first))->draw(screen);
-				break;
-			case TRUCK_NUMBER:
-				(reinterpret_cast<CTRUCK*> (x.first))->draw(screen);
-				break;
-			case TRAIN_NUMBER:
-				(reinterpret_cast<CTRAIN*> (x.first))->draw(screen);
-				break;
-			case CAT_NUMBER:
-				(reinterpret_cast<CAT*> (x.first))->draw(screen);
-				break;
-			case BIRD_NUMBER:
-				(reinterpret_cast<CBIRD*> (x.first))->draw(screen);
-				break;
-			case MOUSE_NUMBER:
-				(reinterpret_cast<CMOUSE*> (x.first))->draw(screen);
-				break;
+				((CAR*)x.first)->draw(screen);
+				continue;
+			}
+			if (x.second == CAT_NUMBER)
+			{
+				((CAT*)x.first)->draw(screen);
+				continue;
+			}
+			if (x.second == TRUCK_NUMBER)
+			{
+				((CTRUCK*)x.first)->draw(screen);
+				continue;
+			}
+			if (x.second == TRAIN_NUMBER)
+			{
+				((CTRAIN*)x.first)->draw(screen);
+				continue;
+			}
+			if (x.second == BIRD_NUMBER)
+			{
+				((CBIRD*)x.first)->draw(screen);
+				continue;
+			}
+			if (x.second == MOUSE_NUMBER)
+			{
+				((CMOUSE*)x.first)->draw(screen);
+				continue;
 			}
 		}
 		if (it.first >= -mainChar->GetmY() && !peopleDraw)
@@ -234,5 +263,10 @@ void CGAME::Draw(Render_State& screen)
 			mainChar->draw(screen);
 			peopleDraw = true;
 		}
+	}
+	if (!peopleDraw)
+	{
+		mainChar->draw(screen);
+		peopleDraw = true;
 	}
 }

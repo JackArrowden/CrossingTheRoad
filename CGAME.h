@@ -42,7 +42,7 @@ private:
 	int numOfMouses;
 	CMOUSE* mouse;
 	
-	bitmapHandMake gameBackground;
+	static bitmapHandMake gameBackground;
 	std::map<int, vector<pair<void*, int>>> m;
 
 	//void copyGame(const CGAME&);
@@ -71,11 +71,11 @@ public:
 	CGAME();
 	CGAME(const std::string& file);
 	bool readFile(const std::string& file);
-	void PeopleMove();
+	void PeopleMove(int direc);
 	void clear();
 	void run();
 	virtual void tell();
-	std::string getName();
+	std::string getName() const;
 	void Draw(Render_State& screen);
 };
 

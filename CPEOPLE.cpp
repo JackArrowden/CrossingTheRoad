@@ -69,7 +69,6 @@ void CPEOPLE::draw(Render_State& screen)
 
 istream& operator>>(istream& in, CPEOPLE& x)
 {
-	int mX, mY;
 	in >> x.mX >> x.mY;
 	x.mState = true;
 	return in;
