@@ -22,20 +22,24 @@ CAT::CAT()
 
 void CAT::tell()
 {
-    if (PlaySound(TEXT("Sound\\CAT.wav"), NULL, SND_FILENAME | SND_LOOP)) //| SND_ASYNC)) 
-    {
-        // Sound started playing successfully
-        // You can add additional code here if needed
-    }
-    else {
-        // Error handling
-        DWORD error = GetLastError();
-        if (error != MMSYSERR_NOERROR) {
-            // Handle the error
-            // You can print an error message or perform other actions
-            cout << "ERROR\n";
-        }
-    }
+    //if (PlaySound(TEXT("Sound\\CAT.wav"), NULL, SND_FILENAME | SND_LOOP)) //| SND_ASYNC)) 
+    //{
+    //    // Sound started playing successfully
+    //    // You can add additional code here if needed
+    //}
+    //else {
+    //    // Error handling
+    //    DWORD error = GetLastError();
+    //    if (error != MMSYSERR_NOERROR) {
+    //        // Handle the error
+    //        // You can print an error message or perform other actions
+    //        cout << "ERROR\n";
+    //    }
+    //}
+    mciSendStringA("open Sound/CAT.wav type waveaudio alias Cat", NULL, 0, 0);
+    // Play the audio
+    mciSendStringA("play Cat", NULL, 0, NULL);
+    // mciSendStringA("close Cat", NULL, 0, NULL);
 }
 
 void CAT::Move(int deltaX)

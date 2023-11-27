@@ -26,20 +26,23 @@ void CBIRD::tell()
     //const char* soundFilePath = "Sound\\birds.wav";
 
     // Use PlaySound to play the sound file
-    if (PlaySound(TEXT("Sound\\BIRD.wav"), NULL, SND_FILENAME | SND_LOOP)) //| SND_ASYNC)) 
-    {
-        // Sound started playing successfully
-        // You can add additional code here if needed
-    }
-    else {
-        // Error handling
-        DWORD error = GetLastError();
-        if (error != MMSYSERR_NOERROR) {
-            // Handle the error
-            // You can print an error message or perform other actions
-        }
-    }
-
+    //if (PlaySound(TEXT("Sound\\BIRD.wav"), NULL, SND_FILENAME | SND_LOOP)) //| SND_ASYNC)) 
+    //{
+    //    // Sound started playing successfully
+    //    // You can add additional code here if needed
+    //}
+    //else {
+    //    // Error handling
+    //    DWORD error = GetLastError();
+    //    if (error != MMSYSERR_NOERROR) {
+    //        // Handle the error
+    //        // You can print an error message or perform other actions
+    //    }
+    //}
+    mciSendStringA("open Sound/BIRD.wav type waveaudio alias Bird", NULL, 0, 0);
+    // Play the audio
+    mciSendStringA("play Bird", NULL, 0, NULL);
+    // mciSendStringA("close Bird", NULL, 0, NULL);
 }
 
 void CBIRD::Move(int deltaX)

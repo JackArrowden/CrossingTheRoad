@@ -177,13 +177,14 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	LONG style = GetWindowLong(window, GWL_STYLE);
 	style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
 	SetWindowLong(window, GWL_STYLE, style);
-
+	
 	while (running) {
 		if (gameSoundClick_temp) {
 			if (gameSound) {
-				game->tell();
+				game->tell(); 
 			} else {
-				PlaySound(0, NULL, 0);
+				mciSendStringA("close MyFile", NULL, 0, NULL);
+				//PlaySound(0, NULL, 0);
 			}
 			gameSoundClick_temp = false;
 		}
