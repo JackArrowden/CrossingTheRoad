@@ -17,7 +17,7 @@ int xBird = 1200;
 int xMouse = 1200;
 int xCat = 1200;
 bool button1 = false, button2 = false, button3 = false, button4 = false, button5 = false;
-bool gameSoundClick = false, objectSoundClick = false, gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false;
+bool gameSoundClick = false, objectSoundClick = false, gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false, gameStage1Clicked = false;
 bool isDataChanged = false; // This variable is used to check if the user's data is changed or not, if changed, calls sort function
 
 //// Main window
@@ -145,6 +145,7 @@ void resetGameOverWindow();
 void apply(HWND);
 void resetBtn();
 void resetCharArray(char[]);
+void stopObjectSound();
 //void drawImage(const bitmapHandMake& image, Render_State&);
 
 CGAME* game = new CGAME;
@@ -156,7 +157,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 
 	game->currentPeople = 0;
 	game->tell();
-	Train.tell();
+	//Train.tell();
 	//ShowCursor(FALSE);
 	// ########################################################
 	//						Window Class
@@ -241,6 +242,12 @@ void drawWindow1(HWND hWnd) {
 }
 
 void drawWindow2(HWND hWnd) {
+	if (gameStage1Clicked) {
+		if (objectSound) {
+			Train.tell();
+		}
+		gameStage1Clicked = false;
+	}
 	
 	render_state.drawImage(background2, 0, 0, 1);
 	render_state.drawImage(train_h, xTrain, 350, 2, DEFAULT_BACKGROUND_COLOR);
@@ -440,6 +447,15 @@ void resetWindow2() {
 void resetGameOverWindow() {
 	windowState = 6;
 	resetBtn();
+}
+
+void stopObjectSound() {
+	mciSendStringA("close Train", NULL, 0, NULL);
+	mciSendStringA("close Bird", NULL, 0, NULL);
+	mciSendStringA("close Car", NULL, 0, NULL);
+	mciSendStringA("close Cat", NULL, 0, NULL);
+	mciSendStringA("close Mouse", NULL, 0, NULL);
+	mciSendStringA("close Truck", NULL, 0, NULL);
 }
 
 void apply(HWND hWnd) {
@@ -726,6 +742,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			case VK_RETURN:
 				resetWindow1();
 				drawWindow1(hWnd);
+				stopObjectSound();
 			break;
 			case VK_A:
 			{
@@ -955,9 +972,11 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					break;
 				case 2:
 					resetWindow2();
+					gameStage1Clicked = true;
 					break;
 				case 3:
 					resetWindow2();
+					gameStage1Clicked = true;
 					break;
 				case 4:
 					resetWindow1();
