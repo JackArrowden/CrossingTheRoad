@@ -35,6 +35,7 @@ CGAME::CGAME()
 	m_currentLevel = 0;
 	CurrentScore = 0;
 	NameOfPlayer = "";
+	FileBackGround = "";
 }
 
 CGAME::CGAME(const std::string& file)
