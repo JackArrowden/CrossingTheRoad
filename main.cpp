@@ -156,7 +156,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	//sortDescendingData(listUser);
 
 	game->readFile("Data\\Default.txt");
-	//game->tell();
+	game->tell();
 
 	//ShowCursor(FALSE);
 	// ########################################################
@@ -242,6 +242,12 @@ void drawWindow1(HWND hWnd) {
 }
 
 void drawWindow2(HWND hWnd) {
+	if (gameStage1Clicked) {
+		if (objectSound) {
+			Train.tell();
+		}
+		gameStage1Clicked = false;
+	}
 	//render_state.drawImage(background2, 0, 0, 1);
 	//render_state.drawImage(train_h, xTrain, 350, 2, DEFAULT_BACKGROUND_COLOR);
 	//render_state.drawImage(train_e, xTrain_p, 350, 2, DEFAULT_BACKGROUND_COLOR);
