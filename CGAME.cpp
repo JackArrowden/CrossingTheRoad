@@ -61,6 +61,11 @@ CGAME::CGAME(const std::string& file)
 	readFile(file);
 }
 
+CGAME::~CGAME()
+{
+	clear();
+}
+
 bool CGAME::readFile(const std::string& file)
 {
 	ifstream ifs(file);
@@ -239,42 +244,35 @@ void CGAME::Draw(Render_State& screen)
 	{
 		for (const auto& x : it.second)
 		{
-			if (x.second == CAR_NUMBER)
+			switch (x.second)
 			{
+			case CAR_NUMBER:
 				((CAR*)x.first)->draw(screen);
-				continue;
-			}
-			if (x.second == CAT_NUMBER)
-			{
+				break;
+
+			case CAT_NUMBER:
 				((CAT*)x.first)->draw(screen);
-				continue;
-			}
-			if (x.second == TRUCK_NUMBER)
-			{
+				break;
+
+			case TRUCK_NUMBER:
 				((CTRUCK*)x.first)->draw(screen);
-				continue;
-			}
-			if (x.second == TRAIN_NUMBER)
-			{
+				break;
+			case TRAIN_NUMBER:
 				((CTRAIN*)x.first)->draw(screen);
-				continue;
-			}
-			if (x.second == BIRD_NUMBER)
-			{
+				break;
+			case BIRD_NUMBER:
 				((CBIRD*)x.first)->draw(screen);
-				continue;
-			}
-			if (x.second == MOUSE_NUMBER)
-			{
+				break;
+			case MOUSE_NUMBER:
 				((CMOUSE*)x.first)->draw(screen);
-				continue;
+				break;
 			}
 		}
-		if (it.first >= -mainChar->GetmY() && !peopleDraw)
-		{
-			mainChar->draw(screen);
-			peopleDraw = true;
-		}
+			if (it.first >= -mainChar->GetmY() && !peopleDraw)
+			{
+				mainChar->draw(screen);
+				peopleDraw = true;
+			}
 	}
 	if (!peopleDraw)
 	{

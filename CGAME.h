@@ -70,6 +70,7 @@ public:
 
 	CGAME();
 	CGAME(const std::string& file);
+	~CGAME();
 	bool readFile(const std::string& file);
 	void PeopleMove(int direc);
 	void clear();
