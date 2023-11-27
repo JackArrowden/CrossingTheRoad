@@ -1,4 +1,5 @@
 line 1: ten_nhan_vat
+Link file background
 line 2: CurrentScore  m_currentLevel
 line 3: mX mY // (main char)
 line 4: numOfCars [mX mY direc] ... [mX mY direc] // numCars is the number of elements
