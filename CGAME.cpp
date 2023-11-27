@@ -148,34 +148,34 @@ bool CGAME::SaveGame(const std::string& file)
 	{
 		CVEHICLE* it = dynamic_cast<CVEHICLE*> (&car[i]);
 		ofs << *it<<" ";
-		if (i == numOfCars - 1) cout << endl;		
+		if (i == numOfCars - 1) ofs << endl;		
 	}
 	ofs << numOfTrucks <<" ";
 	for (int i = 0; i < numOfTrucks; i++)
 	{
 		CVEHICLE* it = dynamic_cast<CVEHICLE*> (&truck[i]);
 		ofs << *it << " ";
-		if (i == numOfTrucks - 1) cout << endl;
+		if (i == numOfTrucks - 1) ofs << endl;
 	}
 	ofs << numOfTrains << " ";
 	for (int i = 0; i < numOfTrains; i++)
 	{
 		ofs << train[i] << " ";
-		if (i == numOfTrains - 1) cout << endl;
+		if (i == numOfTrains - 1) ofs << endl;
 	}
 	ofs << numOfBirds << " ";
 	for (int i = 0; i < numOfBirds; i++)
 	{
 		CANIMAL* it = dynamic_cast<CANIMAL*> (&bird[i]);
 		ofs << *it;	
-		if (i == numOfBirds - 1) cout << endl;
+		if (i == numOfBirds - 1) ofs << endl;
 	}
 	ofs << numOfCats << " ";
 	for (int i = 0; i < numOfCats; i++)
 	{
 		CANIMAL* it = dynamic_cast<CANIMAL*> (&cat[i]);
 		ofs << *it;
-		if (i == numOfCats - 1) cout << endl;
+		if (i == numOfCats - 1) ofs << endl;
 
 	}
 	ofs << numOfMouses << " ";
@@ -183,7 +183,7 @@ bool CGAME::SaveGame(const std::string& file)
 	{
 		CANIMAL* it = dynamic_cast<CANIMAL*> (&mouse[i]);
 		ofs << *it;
-		if (i == numOfMouses - 1) cout << endl;
+		if (i == numOfMouses - 1) ofs << endl;
 
 	}
 	ofs.close();
