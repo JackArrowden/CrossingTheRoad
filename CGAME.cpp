@@ -148,21 +148,24 @@ bool CGAME::SaveGame(const std::string& file)
 	{
 		CVEHICLE* it = dynamic_cast<CVEHICLE*> (&car[i]);
 		ofs << *it<<" ";
-		if (i == numOfCars - 1) ofs << endl;		
+			
 	}
+	ofs << endl;
 	ofs << numOfTrucks <<" ";
 	for (int i = 0; i < numOfTrucks; i++)
 	{
 		CVEHICLE* it = dynamic_cast<CVEHICLE*> (&truck[i]);
 		ofs << *it << " ";
-		if (i == numOfTrucks - 1) ofs << endl;
+		
 	}
+	ofs << endl;
 	ofs << numOfTrains << " ";
 	for (int i = 0; i < numOfTrains; i++)
 	{
 		ofs << train[i] << " ";
 		if (i == numOfTrains - 1) ofs << endl;
 	}
+	ofs << endl;
 	ofs << numOfBirds << " ";
 	for (int i = 0; i < numOfBirds; i++)
 	{
@@ -170,6 +173,7 @@ bool CGAME::SaveGame(const std::string& file)
 		ofs << *it;	
 		if (i == numOfBirds - 1) ofs << endl;
 	}
+	ofs << endl;
 	ofs << numOfCats << " ";
 	for (int i = 0; i < numOfCats; i++)
 	{
@@ -178,12 +182,13 @@ bool CGAME::SaveGame(const std::string& file)
 		if (i == numOfCats - 1) ofs << endl;
 
 	}
+	ofs << endl;
 	ofs << numOfMouses << " ";
 	for (int i = 0; i < numOfMouses; i++)
 	{
 		CANIMAL* it = dynamic_cast<CANIMAL*> (&mouse[i]);
 		ofs << *it;
-		if (i == numOfMouses - 1) ofs << endl;
+		
 
 	}
 	ofs.close();
