@@ -16,7 +16,7 @@ int xCar = 0;
 int xBird = 1200;
 int xMouse = 1200;
 int xCat = 1200;
-bool button1 = false, button2 = false, button3 = false, button4 = false, button5 = false;
+bool button1 = false, button2 = false, button3 = false, button4 = false, button5 = false, button6 = false;
 bool gameSoundClick = false, objectSoundClick = false, gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false, gameStage1Clicked = false;
 bool isDataChanged = false; // This variable is used to check if the user's data is changed or not, if changed, calls sort function
 
@@ -95,6 +95,20 @@ bitmapHandMake backClickedWin6("Image\\gameOver\\backClickedWin6.bmp");
 bitmapHandMake leaderWin6("Image\\gameOver\\leaderWin6.bmp");
 bitmapHandMake leaderClickedWin6("Image\\gameOver\\leaderClickedWin6.bmp");
 
+// Save game window
+bitmapHandMake saveGameBgr("Image\\saveGame\\saveGameBgr.bmp");
+bitmapHandMake continueBtn("Image\\saveGame\\continueBtn.bmp");
+bitmapHandMake continueClicked("Image\\saveGame\\continueClicked.bmp");
+bitmapHandMake continueOrExit("Image\\saveGame\\continueOrExit.bmp");
+bitmapHandMake exitReplayBtn("Image\\saveGame\\exitReplayBtn.bmp");
+bitmapHandMake exitReplayBtnClicked("Image\\saveGame\\exitReplayBtnClicked.bmp");
+bitmapHandMake exitSaveGame("Image\\saveGame\\exitSaveGame.bmp");
+bitmapHandMake exitSaveGameClicked("Image\\saveGame\\exitSaveGameClicked.bmp");
+bitmapHandMake leaveGame("Image\\saveGame\\leaveGame.bmp");
+bitmapHandMake leaveGameClicked("Image\\saveGame\\leaveGameClicked.bmp");
+bitmapHandMake saveGameBtn("Image\\saveGame\\saveGameBtn.bmp");
+bitmapHandMake saveGameBtnClicked("Image\\saveGame\\saveGameBtnClicked.bmp");
+
 static bool running = true;
 CPEOPLE player;
 CBIRD Bird(1300, 500, -1);
@@ -136,12 +150,14 @@ void settingWindow(HWND);
 void leaderboardWindow(HWND);
 void enterGameWindow(HWND);
 void gameOverWindow(HWND);
+void saveGameWindow(HWND hWnd);
 void resetWindow1();
 void resetWindow2();
 void resetSettingWindow();
 void resetLeaderboardWindow();
 void resetEnterGameWindow();
 void resetGameOverWindow();
+void resetSaveGameWindow();
 void apply(HWND);
 void resetBtn();
 void resetCharArray(char[]);
@@ -151,12 +167,8 @@ void stopObjectSound();
 CGAME* game = new CGAME;
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
-	//vector<userData> listUser(10);
-	//userFileToVect("USER", listUser);
-	//sortDescendingData(listUser);
-
 	game->readFile("Data\\Default.txt");
-	game->tell();
+	//game->tell();
 
 	//ShowCursor(FALSE);
 	// ########################################################
@@ -208,6 +220,10 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 				break;
 			case 6:
 				gameOverWindow(window);
+				break;
+			case 7:
+				saveGameWindow(window);
+				break;
 			default:
 				break;
 		}
@@ -389,10 +405,49 @@ void leaderboardWindow(HWND hWnd) {
 	apply(hWnd);
 }
 
+void saveGameWindow(HWND hWnd) {
+	if (!button4) { // Button4: virtual button
+		render_state.drawImage(saveGameBgr, 0, 0, 1);
+
+		// back
+		if (!button1) render_state.drawImage(exitSaveGame, 160, 160, 3, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(exitSaveGameClicked, 160, 160, 3, DEFAULT_BACKGROUND_COLOR);
+
+		if (!button2) render_state.drawImage(saveGameBtn, 465, 130, 3, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(saveGameBtnClicked, 465, 130, 3, DEFAULT_BACKGROUND_COLOR);
+
+		if (!button3) render_state.drawImage(leaveGame, 780, 160, 3, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(leaveGameClicked, 780, 160, 3, DEFAULT_BACKGROUND_COLOR);
+
+		if (backSpace) {
+			resetCharArray(tempNameChar);
+			backSpace = false;
+		}
+
+		int index = 0;
+		for (auto i : tempName) {
+			tempNameChar[index] = i;
+			index++;
+		}
+		tempName[index] = '\0';
+		render_state.draw_text(tempNameChar, -70, -2, 1, 0x000000);
+	} else {
+		render_state.drawImage(continueOrExit, 0, 0, 1);
+
+		if (!button5) render_state.drawImage(continueBtn, 225, 165, 4, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(continueClicked, 225, 165, 4, DEFAULT_BACKGROUND_COLOR);
+
+		if (!button6) render_state.drawImage(exitReplayBtn, 650, 165, 4, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(exitReplayBtnClicked, 650, 165, 4, DEFAULT_BACKGROUND_COLOR);
+	}
+
+	apply(hWnd);
+}
+
 void resetBtn() {
 	curState = 0;
 	button1 = true;
-	button2 = button3 = button4 = button5 = false;
+	button2 = button3 = button4 = button5 = button6 = false;
 }
 
 void resetSettingWindow() {
@@ -430,6 +485,11 @@ void resetWindow2() {
 
 void resetGameOverWindow() {
 	windowState = 6;
+	resetBtn();
+}
+
+void resetSaveGameWindow() {
+	windowState = 7;
 	resetBtn();
 }
 
@@ -594,6 +654,9 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			case VK_Z:
 				tempName += 'Z';
 				break;
+			case VK_DOC:
+				tempName += '.';
+				break;
 			case VK_BACK:
 				backSpace = true;
 				tempName = tempName.substr(0, tempName.size() - 1);
@@ -725,7 +788,6 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			{
 			case VK_RETURN:
 				resetWindow1();
-				drawWindow1(hWnd);
 				stopObjectSound();
 			break;
 			case VK_A:
@@ -761,7 +823,13 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				game->PeopleMove(3);
 			}
 			break;
-
+			case VK_L:
+			{
+				writingMode = true;
+				resetSaveGameWindow();
+				stopObjectSound();
+			}
+			break;
 			case VK_RIGHT:
 				CreateWindowW(L"static", L"Enter right text here: ", WS_VISIBLE | WS_CHILD, 200, 100, 300, 50, hWnd, NULL, NULL, NULL);
 				//MessageBox(hWnd, L"Arrow right clicked", L"Alert", MB_OK | MB_ICONINFORMATION);
@@ -958,14 +1026,17 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					resetCharArray(tempNameChar);
 					break;
 				case 2:
+					tempName = "";
 					resetWindow2();
 					gameStage1Clicked = true;
 					break;
 				case 3:
+					tempName = "";
 					resetWindow2();
 					gameStage1Clicked = true;
 					break;
 				case 4:
+					tempName = "";
 					resetWindow1();
 					break;
 				default:
@@ -1097,6 +1168,68 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				curState = 0;
 				button1 = true;
 				button2 = false;
+			}
+		}
+		break;
+		default:
+			return DefWindowProcW(hWnd, msg, wp, lp);
+		}
+	} else if (windowState == 7) {
+		switch (msg)
+		{
+		case WM_DESTROY: {
+			running = false;
+			PostQuitMessage(0);
+		} break;
+		case WM_SIZE: {
+			RECT rect;
+			GetClientRect(hWnd, &rect);
+			int newWidth = rect.right - rect.left;
+			int newHeight = rect.bottom - rect.top;
+			render_state.resize(newHeight, newWidth);
+
+		} break;
+		case WM_KEYDOWN:
+		{
+			int key = LOWORD(wp);
+			if (key == VK_RETURN) {
+				writingMode = false;
+				if (curState == 0 || curState == 3) resetWindow2();
+				else if (curState == 1) {
+					game->SaveGame(tempName);
+					curState = 3;
+					button4 = button5 = true;
+				} else if (curState == 2 || curState == 4) resetWindow1();
+			}
+			else if (key == VK_RIGHT) {
+				if (curState == 0) {
+					curState = 1;
+					button1 = false;
+					button2 = true;
+				} else if (curState == 1) {
+					curState = 2;
+					button2 = false;
+					button3 = true;
+				} else if (curState == 3) {
+					curState = 4;
+					button5 = false;
+					button6 = true;
+				}
+			}
+			else if (key == VK_LEFT) {
+				if (curState == 1) {
+					curState = 0;
+					button1 = true;
+					button2 = false;
+				} else if (curState == 2) {
+					curState = 1;
+					button2 = true;
+					button3 = false;
+				} else if (curState == 4) {
+					curState = 3;
+					button5 = true;
+					button6 = false;
+				}
 			}
 		}
 		break;
