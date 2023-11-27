@@ -163,7 +163,7 @@ bool CGAME::SaveGame(const std::string& file)
 	for (int i = 0; i < numOfTrains; i++)
 	{
 		ofs << train[i] << " ";
-		if (i == numOfTrains - 1) ofs << endl;
+		
 	}
 	ofs << endl;
 	ofs << numOfBirds << " ";
@@ -171,7 +171,7 @@ bool CGAME::SaveGame(const std::string& file)
 	{
 		CANIMAL* it = dynamic_cast<CANIMAL*> (&bird[i]);
 		ofs << *it;	
-		if (i == numOfBirds - 1) ofs << endl;
+		
 	}
 	ofs << endl;
 	ofs << numOfCats << " ";
