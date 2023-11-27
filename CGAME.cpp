@@ -179,7 +179,7 @@ bool CGAME::SaveGame(const std::string& file)
 	{
 		CANIMAL* it = dynamic_cast<CANIMAL*> (&cat[i]);
 		ofs << *it;
-		if (i == numOfCats - 1) ofs << endl;
+		
 
 	}
 	ofs << endl;
