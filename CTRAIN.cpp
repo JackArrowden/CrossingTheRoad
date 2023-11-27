@@ -60,31 +60,31 @@ void CTRAIN::Move(int deltaX)
 
 void CTRAIN::draw(Render_State& screen)
 {
-    screen.drawReac2P(getLeftX(), getRightX(), bottomY, topY, 1348109);
+    screen.drawReac2P(getLeftX(), getRightX(), mY + bottomY, mY + topY, 1348109);
     if (direc < 0)
     {
-        screen.drawImage(CTRAIN::imageLocomotive, mX, mY, 1, DEFAULT_BACKGROUND_COLOR);
+        screen.drawImage(CTRAIN::imageLocomotive, mX, mY, TRAIN_PER, DEFAULT_BACKGROUND_COLOR);
         for (int i = 0; i < numCarriges; i++)
-            screen.drawImage(CTRAIN::imageCarrige, mX + LOCOMOTIVE_WIDTH + i * CARRIGE_WIDTH, mY, DEFAULT_BACKGROUND_COLOR);
+            screen.drawImage(CTRAIN::imageCarrige, mX + imageLocomotive.width / TRAIN_PER + i * imageCarrige.width / TRAIN_PER, mY, TRAIN_PER, DEFAULT_BACKGROUND_COLOR);
     }
     else
     {
-        screen.drawReverseImage(CTRAIN::imageLocomotive, mX - LOCOMOTIVE_WIDTH, mY, 1, DEFAULT_BACKGROUND_COLOR);
+        screen.drawReverseImage(CTRAIN::imageLocomotive, mX - imageLocomotive.width / TRAIN_PER, mY, TRAIN_PER, DEFAULT_BACKGROUND_COLOR);
         for (int i = 0; i < numCarriges; i++)
-            screen.drawReverseImage(CTRAIN::imageCarrige, mX - LOCOMOTIVE_WIDTH - (i + 1) * CARRIGE_WIDTH, mY, 1, DEFAULT_BACKGROUND_COLOR);
+            screen.drawReverseImage(CTRAIN::imageCarrige, mX - imageLocomotive.width / TRAIN_PER - (i + 1) * imageCarrige.width / TRAIN_PER, mY, TRAIN_PER, DEFAULT_BACKGROUND_COLOR);
     }
 }
 
 int CTRAIN::getRightX() const
 {
-    if (direc < 0) return mX + LOCOMOTIVE_WIDTH + numCarriges * CARRIGE_WIDTH;
-    return mX;
+    if (direc < 0) return mX + imageLocomotive.width / TRAIN_PER + numCarriges * imageCarrige.width / TRAIN_PER - TRAIN_RIGHT;
+    return mX - TRAIN_RIGHT;
 }
 
 int CTRAIN::getLeftX() const
 {
-    if (direc < 0) return mX;
-    return mX - LOCOMOTIVE_WIDTH - numCarriges * CARRIGE_WIDTH;
+    if (direc < 0) return mX + TRAIN_LEFT;
+    return mX - imageLocomotive.width / TRAIN_PER - numCarriges * imageCarrige.width / TRAIN_PER + TRAIN_LEFT;
 }
 
 istream& operator>>(istream& in, CTRAIN& x)

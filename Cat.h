@@ -2,7 +2,7 @@
 #include "CANIMAL.h"
 
 #define CAT_LINK_IMAGE "image\\gameWindow\\cat.bmp"
-#define CAT_TOP 50
+#define CAT_TOP 35
 #define CAT_BOTTOM 10
 #define CAT_LEFT 15
 #define CAT_RIGHT 80

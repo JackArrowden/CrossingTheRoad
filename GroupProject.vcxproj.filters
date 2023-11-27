@@ -108,5 +108,6 @@
   <ItemGroup>
     <Text Include="fileFormat.txt" />
     <Text Include="Data\Default2.txt" />
+    <Text Include="Data\Default.txt" />
   </ItemGroup>
 </Project>

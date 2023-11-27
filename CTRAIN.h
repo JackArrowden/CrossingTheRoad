@@ -3,15 +3,14 @@
 #include "CTRAFFIC_LIGHT.h"
 #include <wincrypt.h>
 
-#define TRAIN_TOP 10
-#define TRAIN_BOTTOM 1
+#define TRAIN_RIGHT 0
+#define TRAIN_TOP 90
+#define TRAIN_BOTTOM 10
 #define TRAIN_LEFT 1
+#define TRAIN_PER 2
 
-#define LOCOMOTIVE_WIDTH 20
-#define LOCOMOTIVE_LINK_IMAGE "image\\train.bmp"
-
-#define CARRIGE_WIDTH 20
-#define CARRIGE_LINK_IMAGE "image\\train.bmp"
+#define LOCOMOTIVE_LINK_IMAGE "image\\gameWindow\\train_h.bmp"
+#define CARRIGE_LINK_IMAGE "image\\gameWindow\\train_e.bmp"
 
 class CTRAIN final : public CVEHICLE
 {

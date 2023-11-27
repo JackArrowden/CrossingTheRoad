@@ -2,10 +2,10 @@
 #include "CVEHICLE.h"
 
 
-#define CAR_TOP 100
-#define CAR_BOTTOM 40
-#define CAR_RIGHT 200
-#define CAR_LEFT 10
+#define CAR_TOP 60
+#define CAR_BOTTOM 20
+#define CAR_RIGHT 190
+#define CAR_LEFT 3
 #define CAR_PER 1
 #define CAR_LINK_IMAGE "image\\gameWindow\\car.bmp"
 
