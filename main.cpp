@@ -168,7 +168,7 @@ CGAME* game = new CGAME;
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
 	game->readFile("Data\\Default.txt");
-	//game->tell();
+	game->tell();
 
 	//ShowCursor(FALSE);
 	// ########################################################
