@@ -17,8 +17,8 @@ class CPEOPLE {
 public:
 	bool isImpact(const CVEHICLE*&x);
 	bool isImpact(const CANIMAL*&x);
-	bool isFinish();
-	bool isDead();
+	//bool isFinish();
+	//bool isDead();
 	CPEOPLE();
 	int GetmX() const;
 	int GetmY() const;
