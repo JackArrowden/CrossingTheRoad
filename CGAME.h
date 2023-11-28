@@ -44,7 +44,7 @@ private:
 	
 	static bitmapHandMake gameBackground;
 	std::map<int, vector<pair<void*, int>>> m;
-
+	string FileBackGround;
 	//void copyGame(const CGAME&);
 
 	//static void drawRectangle(ConsoleHandle*, int, int, int, int);//Vẽ hình chữ nhật bao quanh 2 đỉnh tham số (trái trên, phải dưới)
@@ -72,6 +72,7 @@ public:
 	CGAME(const std::string& file);
 	~CGAME();
 	bool readFile(const std::string& file);
+	bool SaveGame(const std::string& file);
 	void PeopleMove(int direc);
 	void clear();
 	void run();

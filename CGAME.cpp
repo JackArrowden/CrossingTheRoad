@@ -35,6 +35,7 @@ CGAME::CGAME()
 	m_currentLevel = 0;
 	CurrentScore = 0;
 	NameOfPlayer = "";
+	FileBackGround = "";
 }
 
 CGAME::CGAME(const std::string& file)
@@ -131,6 +132,74 @@ bool CGAME::readFile(const std::string& file)
 
 	ifs.close();
 	return true;
+}
+
+bool CGAME::SaveGame(const std::string& file)
+{
+	ofstream ofs;
+	ofs.open(file);
+	if (!ofs.is_open()) return false;
+	ofs << NameOfPlayer << endl;
+	ofs << FileBackGround << endl;
+	ofs << CurrentScore << " " << m_currentLevel << endl;
+	ofs << *mainChar << endl;
+	ofs << numOfCars << " ";
+	for (int i = 0; i < numOfCars; i++)
+	{
+		CVEHICLE* it = dynamic_cast<CVEHICLE*> (&car[i]);
+		ofs << *it<<" ";
+			
+	}
+	ofs << endl;
+	ofs << numOfTrucks <<" ";
+	for (int i = 0; i < numOfTrucks; i++)
+	{
+		CVEHICLE* it = dynamic_cast<CVEHICLE*> (&truck[i]);
+		ofs << *it << " ";
+		
+	}
+	ofs << endl;
+	ofs << numOfTrains << " ";
+	for (int i = 0; i < numOfTrains; i++)
+	{
+		ofs << train[i] << " ";
+		
+	}
+	ofs << endl;
+	ofs << numOfBirds << " ";
+	for (int i = 0; i < numOfBirds; i++)
+	{
+		CANIMAL* it = dynamic_cast<CANIMAL*> (&bird[i]);
+		ofs << *it<<" ";
+		
+	}
+	ofs << endl;
+	ofs << numOfCats << " ";
+	for (int i = 0; i < numOfCats; i++)
+	{
+		CANIMAL* it = dynamic_cast<CANIMAL*> (&cat[i]);
+		ofs << *it<<" ";
+		
+
+	}
+	ofs << endl;
+	ofs << numOfMouses << " ";
+	for (int i = 0; i < numOfMouses; i++)
+	{
+		CANIMAL* it = dynamic_cast<CANIMAL*> (&mouse[i]);
+		ofs << *it<<" ";
+		
+
+	}
+	ofs.close();
+	return true;
+
+
+
+	
+	
+
+	
 }
 
 void CGAME::PeopleMove(int direc)
