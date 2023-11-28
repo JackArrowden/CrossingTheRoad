@@ -1,5 +1,12 @@
 #include "CANIMAL.h"
 
+int CANIMAL::vectorLimX = 640;
+
+void CANIMAL::setLim(unsigned int newLim)
+{
+    vectorLimX = newLim;
+}
+
 int CANIMAL::getX()
 {
     return mX;

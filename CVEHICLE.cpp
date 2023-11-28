@@ -1,5 +1,12 @@
 #include "CVEHICLE.h"
 
+int CVEHICLE::vectorLimX = 640;
+
+void CVEHICLE::setLim(unsigned int newLim)
+{
+    vectorLimX = newLim;
+}
+
 int CVEHICLE::getX()
 {
     return mX;

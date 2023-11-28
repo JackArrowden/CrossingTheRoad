@@ -49,7 +49,11 @@ void CTRUCK::tell()
 
 void CTRUCK::Move(int deltaX)
 {
-    mX += direc * deltaX;
+    mX += mode * direc * deltaX;
+    if (direc * vectorLimX * (direc + 1) < direc * (mX - direc * image.width))
+    {
+        mX = vectorLimX * (1 - direc);
+    }
 }
 
 void CTRUCK::draw(Render_State& screen)

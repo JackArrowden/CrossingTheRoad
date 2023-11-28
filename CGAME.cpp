@@ -1,16 +1,6 @@
 #include "CGAME.h"
 #include <conio.h>
-/*CGAME::CGAME()
-{
-	srand(time(NULL));
-	resetGame(1);
-}
 
-Game::Game(int level)
-{
-	srand(time(NULL));
-	resetGame(level);
-}*/
 
 bitmapHandMake CGAME::gameBackground("image\\gameWindow\\gameBgr.bmp");
 
