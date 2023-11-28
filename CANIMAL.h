@@ -13,7 +13,9 @@ protected:
     int direc;
     int topY;
     int bottomY;
+    static int vectorLimX;
 public:
+    static void setLim(unsigned int newLim);
     int getX();
     int getY();
     void setX(int newX);
@@ -22,7 +24,7 @@ public:
     virtual int getRightX() const = 0;
     virtual int getLeftX() const = 0;
     virtual void tell();
-    virtual void Move(int deltaX) = 0;
+    virtual void Move(int) = 0;
     virtual void draw(Render_State& screen) = 0;
     pair<pair<int, int>, pair<int, int>> objectZone() const;
 

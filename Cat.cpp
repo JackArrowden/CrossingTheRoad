@@ -45,6 +45,10 @@ void CAT::tell()
 void CAT::Move(int deltaX)
 {
     mX += direc * deltaX;
+    if (direc * vectorLimX * (direc + 1) < direc * (mX - direc * image.width))
+    {
+        mX = vectorLimX * (1 - direc);
+    }
 }
 
 void CAT::draw(Render_State& screen)

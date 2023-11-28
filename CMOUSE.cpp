@@ -45,6 +45,10 @@ void CMOUSE::tell()
 void CMOUSE::Move(int deltaX)
 {
     mX += direc * deltaX;
+    if (direc * vectorLimX * (direc + 1) < direc * (mX - direc * image.width))
+    {
+        mX = vectorLimX * (1 - direc);
+    }
 }
 
 void CMOUSE::draw(Render_State& screen)

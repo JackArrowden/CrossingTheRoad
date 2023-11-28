@@ -56,6 +56,10 @@ void CTRAIN::tell()
 void CTRAIN::Move(int deltaX)
 {
     mX += deltaX * direc * mode;
+    if ( direc * vectorLimX * (direc + 1) < direc * (mX - direc * (imageLocomotive.width + imageCarrige.width * numCarriges)))
+    {
+        mX = vectorLimX * (1 - direc);
+    }
 }
 
 void CTRAIN::draw(Render_State& screen)
