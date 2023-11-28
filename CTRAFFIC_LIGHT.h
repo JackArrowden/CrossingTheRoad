@@ -1,4 +1,7 @@
 ﻿#pragma once
+#include "CGAME.h"
+
+#define TRAFFICLIGHT_LINK_IMAGE "image\\gameWindow\\TRAFFIC_LIGHT.bmp"
 class CTRAFFIC_LIGHT
 {
 private:
