@@ -242,6 +242,11 @@ void CGAME::Draw(Render_State& screen)
 	bool peopleDraw = false;
 	for (const auto& it : m)
 	{
+		if (it.first >= -mainChar->GetmY() && !peopleDraw)
+		{
+			mainChar->draw(screen);
+			peopleDraw = true;
+		}
 		for (const auto& x : it.second)
 		{
 			switch (x.second)
@@ -268,11 +273,6 @@ void CGAME::Draw(Render_State& screen)
 				break;
 			}
 		}
-			if (it.first >= -mainChar->GetmY() && !peopleDraw)
-			{
-				mainChar->draw(screen);
-				peopleDraw = true;
-			}
 	}
 	if (!peopleDraw)
 	{
