@@ -59,6 +59,7 @@ void CTRAIN::Move(int deltaX)
     if ( direc * vectorLimX * (direc + 1) < direc * (mX - direc * (imageLocomotive.width + imageCarrige.width * numCarriges)))
     {
         mX = vectorLimX * (1 - direc);
+        
     }
 }
 

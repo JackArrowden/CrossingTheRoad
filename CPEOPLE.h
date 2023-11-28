@@ -15,8 +15,8 @@ class CPEOPLE {
 
 	bool isInRange(int l, int val, int r);
 public:
-	bool isImpact(const CVEHICLE*&x);
-	bool isImpact(const CANIMAL*&x);
+	bool isImpact(CVEHICLE* x);
+	bool isImpact(CANIMAL* x);
 	//bool isFinish();
 	//bool isDead();
 	CPEOPLE();

@@ -7,7 +7,7 @@ bool CPEOPLE::isInRange(int l, int val, int r)
 	return l <= val && val <= r;
 }
 
-bool CPEOPLE::isImpact(const CVEHICLE*& x)
+bool CPEOPLE::isImpact(CVEHICLE* x)
 {
 	pair<pair<int, int>, pair<int, int>> zone = x->objectZone();
 	bool res = isInRange(mX + PEOPLE_LEFT, zone.first.first, mX + PEOPLE_RIGHT) || isInRange(mX + PEOPLE_LEFT, zone.second.first, mX + PEOPLE_RIGHT);
@@ -15,7 +15,7 @@ bool CPEOPLE::isImpact(const CVEHICLE*& x)
 	return res;
 }
 
-bool CPEOPLE::isImpact(const CANIMAL*& x)
+bool CPEOPLE::isImpact(CANIMAL* x)
 {
 	pair<pair<int, int>, pair<int, int>> zone = x->objectZone();
 	bool res = isInRange(mX + PEOPLE_LEFT, zone.first.first, mX + PEOPLE_RIGHT) || isInRange(mX + PEOPLE_LEFT, zone.second.first, mX + PEOPLE_RIGHT);
