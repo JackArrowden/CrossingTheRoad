@@ -79,5 +79,6 @@ public:
 	virtual void tell();
 	std::string getName() const;
 	void Draw(Render_State& screen);
+	int CheckStatePepple();
 };
 

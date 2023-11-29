@@ -339,3 +339,31 @@ void CGAME::Draw(Render_State& screen)
 		peopleDraw = true;
 	}
 }
+
+int CGAME::CheckStatePepple() // 0: ko va cham, 1: va cham vehicle, 2: va cham animal
+{
+	for (auto it : m)
+	{
+		for (const auto& x : it.second)
+		{
+			switch (x.second)
+			{
+			case CAR_NUMBER:			
+			case TRAIN_NUMBER:
+			case TRUCK_NUMBER:
+				if (mainChar->isImpact((CVEHICLE*)x.first)) return 1;
+				
+			break;
+
+			case CAT_NUMBER:
+			case MOUSE_NUMBER:
+			case BIRD_NUMBER:
+				if (mainChar->isImpact((CANIMAL*)x.first)) return 2;
+				
+				break;
+			}
+		}
+	}
+
+	return 0;
+}
