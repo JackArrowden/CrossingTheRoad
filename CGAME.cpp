@@ -372,8 +372,9 @@ bool CGAME::SaveScoreToLeaderBoard()
 {
 	ofstream out;
 	out.open("\\Data\\LeaderBoard.txt", ios::app);
+	out << endl;
 	if (!out.is_open()) return false;
-	out << NameOfPlayer << " " << CurrentScore<<endl;
+	out << NameOfPlayer << " " << CurrentScore;
 	out.close();
 	return true;
 }
