@@ -342,7 +342,7 @@ void CGAME::Draw(Render_State& screen)
 
 int CGAME::CheckStatePepple() // 0: ko va cham, 1: va cham vehicle, 2: va cham animal
 {
-	for (auto it : m)
+	for (const auto& it : m)
 	{
 		for (const auto& x : it.second)
 		{
