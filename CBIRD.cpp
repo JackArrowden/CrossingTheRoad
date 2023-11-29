@@ -48,7 +48,7 @@ void CBIRD::tell()
 void CBIRD::Move(int deltaX)
 {
     mX += direc * deltaX;
-    if (direc * vectorLimX * (direc + 1) < direc * (mX - direc * image.width))
+    if (direc * vectorLimX * (direc + 1) < direc * (mX - direc * image.width / BIRD_PER))
     {
         mX = vectorLimX * (1 - direc);
     }

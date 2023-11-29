@@ -50,7 +50,7 @@ void CAR::tell()
 void CAR::Move(int deltaX)
 {
     mX += mode * direc * deltaX;
-    if (direc * vectorLimX * (direc + 1) < direc * (mX - direc * image.width))
+    if (direc * vectorLimX * (direc + 1) < direc * (mX - direc * image.width / CAR_PER))
     {
         mX = vectorLimX * (1 - direc);
     }

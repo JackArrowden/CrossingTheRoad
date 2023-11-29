@@ -45,7 +45,7 @@ void CAT::tell()
 void CAT::Move(int deltaX)
 {
     mX += direc * deltaX;
-    if (direc * vectorLimX * (direc + 1) < direc * (mX - direc * image.width))
+    if (direc * vectorLimX * (direc + 1) < direc * (mX - direc * image.width / CAT_PER))
     {
         mX = vectorLimX * (1 - direc);
     }
