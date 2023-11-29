@@ -276,6 +276,7 @@ void drawWindow2(HWND hWnd) {
 	//if (xCar < 1300) xCar++;
 	game->Draw(render_state);
 	game->run();
+	if (game->CheckStatePepple() == 1 || game->CheckStatePepple() == 2) resetGameOverWindow();
 	apply(hWnd);
 }
 
@@ -794,6 +795,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				//game->currentPeople = 1;
 				//player.Left(10);
 				game->PeopleMove(1);
+			
 				
 			}
 			break;
@@ -840,6 +842,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			default:
 				break;
 			}
+			if (game->CheckStatePepple() == 1 || game->CheckStatePepple() == 2) resetGameOverWindow();
 		}
 		break;
 		default:
