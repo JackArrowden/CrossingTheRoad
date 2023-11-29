@@ -367,3 +367,14 @@ int CGAME::CheckStatePepple() // 0: ko va cham, 1: va cham vehicle, 2: va cham a
 
 	return 0;
 }
+
+bool CGAME::SaveScoreToLeaderBoard()
+{
+	ofstream out;
+	out.open("\\Data\\LeaderBoard.txt", ios::app);
+	if (!out.is_open()) return false;
+	out << endl;
+	out << NameOfPlayer << " " << CurrentScore;
+	out.close();
+	return true;
+}

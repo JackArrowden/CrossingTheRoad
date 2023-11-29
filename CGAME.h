@@ -80,5 +80,6 @@ public:
 	std::string getName() const;
 	void Draw(Render_State& screen);
 	int CheckStatePepple();
+	bool SaveScoreToLeaderBoard();
 };
 
