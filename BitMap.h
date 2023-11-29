@@ -69,5 +69,3 @@ public:
 	void draw_text(const char* text, float x, float y, float size, u32 color);
 	void draw_number(int number, float x, float y, float size, u32 color);
 };
-
-

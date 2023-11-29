@@ -109,6 +109,48 @@ bitmapHandMake leaveGameClicked("Image\\saveGame\\leaveGameClicked.bmp");
 bitmapHandMake saveGameBtn("Image\\saveGame\\saveGameBtn.bmp");
 bitmapHandMake saveGameBtnClicked("Image\\saveGame\\saveGameBtnClicked.bmp");
 
+// Char 
+bitmapHandMake aUpper("Image\\char\\aUpper.bmp");
+bitmapHandMake bUpper("Image\\char\\bUpper.bmp");
+bitmapHandMake cUpper("Image\\char\\cUpper.bmp");
+bitmapHandMake dUpper("Image\\char\\dUpper.bmp");
+bitmapHandMake eUpper("Image\\char\\eUpper.bmp");
+bitmapHandMake fUpper("Image\\char\\fUpper.bmp");
+bitmapHandMake gUpper("Image\\char\\gUpper.bmp");
+bitmapHandMake hUpper("Image\\char\\hUpper.bmp");
+bitmapHandMake iUpper("Image\\char\\iUpper.bmp");
+bitmapHandMake jUpper("Image\\char\\jUpper.bmp");
+bitmapHandMake kUpper("Image\\char\\kUpper.bmp");
+bitmapHandMake lUpper("Image\\char\\lUpper.bmp");
+bitmapHandMake mUpper("Image\\char\\mUpper.bmp");
+bitmapHandMake nUpper("Image\\char\\nUpper.bmp");
+bitmapHandMake oUpper("Image\\char\\oUpper.bmp");
+bitmapHandMake pUpper("Image\\char\\pUpper.bmp");
+bitmapHandMake qUpper("Image\\char\\qUpper.bmp");
+bitmapHandMake rUpper("Image\\char\\rUpper.bmp");
+bitmapHandMake sUpper("Image\\char\\sUpper.bmp");
+bitmapHandMake tUpper("Image\\char\\tUpper.bmp");
+bitmapHandMake uUpper("Image\\char\\uUpper.bmp");
+bitmapHandMake vUpper("Image\\char\\vUpper.bmp");
+bitmapHandMake wUpper("Image\\char\\wUpper.bmp");
+bitmapHandMake xUpper("Image\\char\\xUpper.bmp");
+bitmapHandMake yUpper("Image\\char\\yUpper.bmp");
+bitmapHandMake zUpper("Image\\char\\zUpper.bmp");
+bitmapHandMake num0("Image\\char\\num0.bmp");
+bitmapHandMake num1("Image\\char\\num1.bmp");
+bitmapHandMake num2("Image\\char\\num2.bmp");
+bitmapHandMake num3("Image\\char\\num3.bmp");
+bitmapHandMake num4("Image\\char\\num4.bmp");
+bitmapHandMake num5("Image\\char\\num5.bmp");
+bitmapHandMake num6("Image\\char\\num6.bmp");
+bitmapHandMake num7("Image\\char\\num7.bmp");
+bitmapHandMake num8("Image\\char\\num8.bmp");
+bitmapHandMake num9("Image\\char\\num9.bmp");
+bitmapHandMake slash("Image\\char\\slash.bmp");
+bitmapHandMake dot("Image\\char\\dot.bmp");
+bitmapHandMake question("Image\\char\\question.bmp");
+bitmapHandMake colon("Image\\char\\colon.bmp");
+
 static bool running = true;
 CPEOPLE player;
 CBIRD Bird(1300, 500, -1);
@@ -162,6 +204,7 @@ void apply(HWND);
 void resetBtn();
 void resetCharArray(char[]);
 void stopObjectSound();
+void printString(string str, int x, int y, int size);
 //void drawImage(const bitmapHandMake& image, Render_State&);
 
 CGAME* game = new CGAME;
@@ -305,18 +348,7 @@ void enterGameWindow(HWND hWnd) {
 	if (!button5) render_state.drawImage(backWin5, 740, 120, 4, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(backClickedWin5, 740, 120, 4, DEFAULT_BACKGROUND_COLOR);
 
-	if (backSpace) {
-		resetCharArray(tempNameChar);
-		backSpace = false;
-	}
-
-	int index = 0;
-	for (auto i : tempName) {
-		tempNameChar[index] = i;
-		index++;
-	}
-	tempName[index] = '\0';
-	render_state.draw_text(tempNameChar, -50, -25, 1, 0x000000);
+	printString(tempName, 392, 183, 38);
 
 	apply(hWnd);
 }
@@ -419,18 +451,19 @@ void saveGameWindow(HWND hWnd) {
 		if (!button3) render_state.drawImage(leaveGame, 780, 160, 3, DEFAULT_BACKGROUND_COLOR);
 		else render_state.drawImage(leaveGameClicked, 780, 160, 3, DEFAULT_BACKGROUND_COLOR);
 
-		if (backSpace) {
-			resetCharArray(tempNameChar);
-			backSpace = false;
-		}
+		//if (backSpace) {
+		//	resetCharArray(tempNameChar);
+		//	backSpace = false;
+		//}
 
-		int index = 0;
-		for (auto i : tempName) {
-			tempNameChar[index] = i;
-			index++;
-		}
-		tempName[index] = '\0';
-		render_state.draw_text(tempNameChar, -70, -2, 1, 0x000000);
+		//int index = 0;
+		//for (auto i : tempName) {
+		//	tempNameChar[index] = i;
+		//	index++;
+		//}
+		//tempName[index] = '\0';
+		//render_state.draw_text(tempNameChar, -70, -2, 1, 0x000000);
+		printString(tempName, 130, 282, 14);
 	} else {
 		render_state.drawImage(continueOrExit, 0, 0, 1);
 
@@ -1237,6 +1270,196 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		break;
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
+		}
+	}
+}
+
+void printString(string str, int x, int y, int size) {
+	for (char c : str) {
+		if (c >= 'A' && c <= 'Z') {
+			if (c <= 'L') {
+				if (c <= 'F') {
+					switch (c) {
+					case 'A': {
+						render_state.drawImage(aUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 420 / size;
+					} break;
+					case 'B': {
+						render_state.drawImage(bUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 390 / size;
+					} break;
+					case 'C': {
+						render_state.drawImage(cUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'D': {
+						render_state.drawImage(dUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'E': {
+						render_state.drawImage(eUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 350 / size;
+					} break;
+					case 'F': {
+						render_state.drawImage(fUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 340 / size;
+					} break;
+					}
+				} else {
+					switch (c) {
+					case 'G': {
+						render_state.drawImage(gUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'H': {
+						render_state.drawImage(hUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'I': {
+						render_state.drawImage(iUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 350 / size;
+					} break;
+					case 'J': {
+						render_state.drawImage(jUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'K': {
+						render_state.drawImage(kUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'L': {
+						render_state.drawImage(lUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					}
+				}
+			}
+			else {
+				if (c <= 'S') {
+					switch (c) {
+					case 'M': {
+						render_state.drawImage(mUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 450 / size;
+					} break;
+					case 'N': {
+						render_state.drawImage(nUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'O': {
+						render_state.drawImage(oUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'P': {
+						render_state.drawImage(pUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'Q': {
+						render_state.drawImage(qUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'R': {
+						render_state.drawImage(rUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'S': {
+						render_state.drawImage(sUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					}
+				}
+				else {
+					switch (c) {
+					case 'T': {
+						render_state.drawImage(tUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'U': {
+						render_state.drawImage(uUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'V': {
+						render_state.drawImage(vUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'W': {
+						render_state.drawImage(wUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'X': {
+						render_state.drawImage(xUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'Y': {
+						render_state.drawImage(yUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					case 'Z': {
+						render_state.drawImage(zUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
+						x += 400 / size;
+					} break;
+					}
+				}
+			}
+		}
+		else if (c >= '0' && c <= '9') {
+			switch (c) {
+			case '0': {
+				render_state.drawImage(num0, x, y, size, DEFAULT_BACKGROUND_COLOR);
+				x += 400 / size;
+			} break;
+			case '1': {
+				render_state.drawImage(num1, x, y, size, DEFAULT_BACKGROUND_COLOR);
+				x += 400 / size;
+			} break;
+			case '2': {
+				render_state.drawImage(num2, x, y, size, DEFAULT_BACKGROUND_COLOR);
+				x += 400 / size;
+			} break;
+			case '3': {
+				render_state.drawImage(num3, x, y, size, DEFAULT_BACKGROUND_COLOR);
+				x += 400 / size;
+			} break;
+			case '4': {
+				render_state.drawImage(num4, x, y, size, DEFAULT_BACKGROUND_COLOR);
+				x += 400 / size;
+			} break;
+			case '5': {
+				render_state.drawImage(num5, x, y, size, DEFAULT_BACKGROUND_COLOR);
+				x += 400 / size;
+			} break;
+			case '6': {
+				render_state.drawImage(num6, x, y, size, DEFAULT_BACKGROUND_COLOR);
+				x += 400 / size;
+			} break;
+			case '7': {
+				render_state.drawImage(num7, x, y, size, DEFAULT_BACKGROUND_COLOR);
+				x += 400 / size;
+			} break;
+			case '8': {
+				render_state.drawImage(num8, x, y, size, DEFAULT_BACKGROUND_COLOR);
+				x += 400 / size;
+			} break;
+			case '9': {
+				render_state.drawImage(num9, x, y, size, DEFAULT_BACKGROUND_COLOR);
+				x += 400 / size;
+			} break;
+			}
+		}
+		else if (c == '/') { // 36: slash
+			render_state.drawImage(slash, x, y, size, DEFAULT_BACKGROUND_COLOR);
+			x += 400 / size;
+		}
+		else if (c == '.') { // 37: dot
+			render_state.drawImage(dot, x, y, size, DEFAULT_BACKGROUND_COLOR);
+			x += 400 / size;
+		}
+		else if (c == '?') { // 38: question
+			render_state.drawImage(question, x, y, size, DEFAULT_BACKGROUND_COLOR);
+			x += 400 / size;
+		}
+		else if (c == ':') { // 39: colon
+			render_state.drawImage(colon, x, y, size, DEFAULT_BACKGROUND_COLOR);
+			x += 400 / size;
 		}
 	}
 }

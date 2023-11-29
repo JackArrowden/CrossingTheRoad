@@ -19,7 +19,6 @@ bitmapHandMake::~bitmapHandMake()
 		width = 0;
 }
 
-
 // return false if there are any error when read file
 // if read file is fail, the bitmapHandMake object would have value {memory(NULL), height(0), width(0)}
 // this function would clear the data of the old image if any.
@@ -81,8 +80,6 @@ bool bitmapHandMake::readBitmapFile(const std::string& path)
 	}
 	return true;
 }
-
-
 
 /////////////////////////////////////////////
 Render_State:: Render_State() : memory(NULL), width(0), height(0) {
@@ -383,7 +380,6 @@ const char* Render_State:: letters[][5] = {
 	"0",
 	"0",
 };
-
 
 void Render_State::draw_text(const char* text, float x, float y, float size, u32 color) {
 	float half_size = size * .47f;
