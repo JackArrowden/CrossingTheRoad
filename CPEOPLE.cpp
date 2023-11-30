@@ -12,6 +12,9 @@ bool CPEOPLE::isImpact(CVEHICLE* x)
 	pair<pair<int, int>, pair<int, int>> zone = x->objectZone();
 	bool res = isInRange(mX + PEOPLE_LEFT, zone.first.first, mX + PEOPLE_RIGHT) || isInRange(mX + PEOPLE_LEFT, zone.second.first, mX + PEOPLE_RIGHT);
 	res = res && (isInRange(mY + PEOPLE_BOTTOM, zone.first.second, mY + PEOPLE_TOP) || isInRange(mY + PEOPLE_BOTTOM, zone.second.second, mY + PEOPLE_TOP));
+	if (res) return res;
+	res = isInRange(zone.first.first, mX + PEOPLE_LEFT, zone.second.first) || isInRange(zone.first.first, mX + PEOPLE_RIGHT, zone.second.first);
+	res = res && (isInRange(zone.first.second, mY + PEOPLE_BOTTOM,  zone.second.second) || isInRange(zone.first.second, mY + PEOPLE_TOP, zone.second.second));
 	return res;
 }
 
@@ -20,6 +23,9 @@ bool CPEOPLE::isImpact(CANIMAL* x)
 	pair<pair<int, int>, pair<int, int>> zone = x->objectZone();
 	bool res = isInRange(mX + PEOPLE_LEFT, zone.first.first, mX + PEOPLE_RIGHT) || isInRange(mX + PEOPLE_LEFT, zone.second.first, mX + PEOPLE_RIGHT);
 	res = res && (isInRange(mY + PEOPLE_BOTTOM, zone.first.second, mY + PEOPLE_TOP) || isInRange(mY + PEOPLE_BOTTOM, zone.second.second, mY + PEOPLE_TOP));
+	if (res) return res;
+	res = isInRange(zone.first.first, mX + PEOPLE_LEFT, zone.second.first) || isInRange(zone.first.first, mX + PEOPLE_RIGHT, zone.second.first);
+	res = res && (isInRange(zone.first.second, mY + PEOPLE_BOTTOM, zone.second.second) || isInRange(zone.first.second, mY + PEOPLE_TOP, zone.second.second));
 	return res;
 }
 
