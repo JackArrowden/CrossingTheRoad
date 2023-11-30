@@ -875,7 +875,10 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			default:
 				break;
 			}
-			if (game->CheckStatePepple() == 1 || game->CheckStatePepple() == 2) resetGameOverWindow();
+			if (game->CheckStatePepple() == 1 || game->CheckStatePepple() == 2) {
+				gameOverWindow(hWnd);
+				resetGameOverWindow();
+			}
 		}
 		break;
 		default:
