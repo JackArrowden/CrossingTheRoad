@@ -1,0 +1,40 @@
+I/
+SaveGame(string input)
+Thay doi FileName.txt
+Cấu trúc FileName.txt
+[số file hiện tại]  [vị trí chèn]
+Data\\1.txt [tên người chơi] [ngày tháng]
+Data\\2.txt
+Dataa\\3.txt
+vị trí chèn = vị trí chèn hiện tại  mod (số file tối đa) + 1
+số file tối đa = 5
+-------------------------------------------------------------------------------------
+II/
+dành cho  người chơi chọn continue playing:
+Hiện cái bảng có 
+1. [tên người chơi] [ngày tháng]
+2.
+3.
+Your choice: cin>>choice -> gọi hàm ReadFile, đường dẫn Data\\ + to_string(choice) + ".txt"
+-----------------------------------------------------------------------------------------
+III.
+// tìm hiểu về thư viện thời gian
+GameOver -> lưu kết quả vào file LeaderBoard ([tên người chơi] [thời gian] + điểm) // gọi giúp hàm SaveLeaderBoard
+//Tính  điểm
+ level 1: 500
+điểm = max[(500 - thời gian*...),0] // chức năng phụ
+level 2: 700
+------------------------------------------------------
+khi game over thì khi quay lại màn hình chính, play mới (load lại file mặc định)
+win ->  tăng level -> Gọi hàm ReadFile-> load file mặc định level đó
+4 file mặc địnhh
++ level1 : map1
++level 2: map2
++level3: map 1
++Level 4: map 2
+Neu hien tai level 4-> luu vao leaderboard -> hien giao dien win
+-----------------------------------------------------------------------------------
+1. Tạo thêm 2 fie mặc định, chỉnh lại 2 file cũ: kha va tran, Doc file LeaderBoard -> map<int,pair<string,string>> LeaderBoard;
+2. II/ thiện
+3. I và III: lân
+
