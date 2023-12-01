@@ -3,6 +3,8 @@
 
 
 bitmapHandMake CGAME::gameBackground("image\\gameWindow\\gameBgr.bmp");
+const int CGAME::MAX_LEVEL = 5;
+const int CGAME::BOTTOM = 1280;
 
 
 CGAME::CGAME()
@@ -45,9 +47,10 @@ CGAME::CGAME(const std::string& file)
 	numOfMouses = 0;
 	mouse = NULL;
 	m_isRunning = 0;
-	m_currentLevel = 0;
+	m_currentLevel = 1;
 	CurrentScore = 0;
 	NameOfPlayer = "";
+	FileBackGround = "";
 
 	readFile(file);
 }
@@ -62,8 +65,14 @@ bool CGAME::readFile(const std::string& file)
 	ifstream ifs(file);
 	if (!ifs.is_open()) return false;
 	clear();
+
 	getline(ifs, NameOfPlayer);
+
+	getline(ifs, this->FileBackGround);
+	this->gameBackground.readBitmapFile(FileBackGround);
+
 	ifs >> CurrentScore >> m_currentLevel;
+
 	mainChar = new CPEOPLE();
 	ifs >> *mainChar;
 
@@ -137,11 +146,11 @@ bool CGAME::SaveGame(const std::string& file)
 	for (int i = 0; i < numOfCars; i++)
 	{
 		CVEHICLE* it = dynamic_cast<CVEHICLE*> (&car[i]);
-		ofs << *it<<" ";
+		ofs << *it <<" ";
 			
 	}
 	ofs << endl;
-	ofs << numOfTrucks <<" ";
+	ofs << numOfTrucks << " ";
 	for (int i = 0; i < numOfTrucks; i++)
 	{
 		CVEHICLE* it = dynamic_cast<CVEHICLE*> (&truck[i]);
@@ -160,7 +169,7 @@ bool CGAME::SaveGame(const std::string& file)
 	for (int i = 0; i < numOfBirds; i++)
 	{
 		CANIMAL* it = dynamic_cast<CANIMAL*> (&bird[i]);
-		ofs << *it<<" ";
+		ofs << *it <<" ";
 		
 	}
 	ofs << endl;
@@ -168,7 +177,7 @@ bool CGAME::SaveGame(const std::string& file)
 	for (int i = 0; i < numOfCats; i++)
 	{
 		CANIMAL* it = dynamic_cast<CANIMAL*> (&cat[i]);
-		ofs << *it<<" ";
+		ofs << *it <<" ";
 		
 
 	}
@@ -177,19 +186,20 @@ bool CGAME::SaveGame(const std::string& file)
 	for (int i = 0; i < numOfMouses; i++)
 	{
 		CANIMAL* it = dynamic_cast<CANIMAL*> (&mouse[i]);
-		ofs << *it<<" ";
-		
-
+		ofs << *it <<" ";
 	}
 	ofs.close();
+
+	auto data = getListGames();
+	ofs.open("Data\\FileName.txt");
+	if (!ofs.is_open()) return false;
+
+	int newIt = data.first % 5 + 1;
+	data.second[data.first] = make_pair(file, make_pair(this->NameOfPlayer, CGAME::getCurTime()));
+	ofs << data.second.size() << ' ' << newIt << '\n';
+	for (const auto& x : data.second) 
+		ofs << x.first << ' ' << x.second.first << x.second.second << '\n';
 	return true;
-
-
-
-	
-	
-
-	
 }
 
 void CGAME::PeopleMove(int direc)
@@ -198,6 +208,9 @@ void CGAME::PeopleMove(int direc)
 	else if (direc== 2) mainChar->Right(10);
 	else if (direc == 3) mainChar->Up(10);
 	else if (direc == 4) mainChar->Down(10);
+
+	if (CheckStatePepple()) mainChar->setDead();
+	else if (mainChar->GetmY() > this->BOTTOM) loadNextLevel();
 }
 
 void CGAME::clear()
@@ -248,13 +261,16 @@ void CGAME::clear()
 
 void CGAME::run()
 {
+	int speed = this->getCurrentSpeed();
 	// update index of CANIMAL and CVEHICLE
-	for (int i = 0; i < numOfCars; i++) car[i].Move(this->m_currentLevel);
-	for (int i = 0; i < numOfTrucks; i++) truck[i].Move(this->m_currentLevel);
-	for (int i = 0; i < numOfTrains; i++) train[i].Move(this->m_currentLevel);
-	for (int i = 0; i < numOfCats; i++) cat[i].Move(this->m_currentLevel);
-	for (int i = 0; i < numOfBirds; i++) bird[i].Move(this->m_currentLevel);
-	for (int i = 0; i < numOfMouses; i++) mouse[i].Move(this->m_currentLevel);
+	for (int i = 0; i < numOfCars; i++) car[i].Move(speed);
+	for (int i = 0; i < numOfTrucks; i++) truck[i].Move(speed);
+	for (int i = 0; i < numOfTrains; i++) train[i].Move(speed);
+	for (int i = 0; i < numOfCats; i++) cat[i].Move(speed);
+	for (int i = 0; i < numOfBirds; i++) bird[i].Move(speed);
+	for (int i = 0; i < numOfMouses; i++) mouse[i].Move(speed);
+
+	if (CheckStatePepple()) mainChar->setDead();
 
 }
 
@@ -396,4 +412,71 @@ std::multimap<int, pair<string, string>> CGAME::GetLeaderBoard()
 
 	return res;
 	
+}
+
+int CGAME::getLevelScore() const
+{
+	return (this->m_currentLevel + 1) * 100;
+}
+
+int CGAME::getCurrentSpeed() const
+{
+	return this->m_currentLevel / 2;
+}
+
+bool CGAME::checkState() const
+{
+	return !this->mainChar->isDead();
+}
+
+bool CGAME::loadNextLevel()
+{
+	if (mainChar->isDead()) return false;
+	
+	string name = this->NameOfPlayer;
+	int score = this->CurrentScore;
+	int level = this->m_currentLevel + 1;
+	readFile("Data\\Default" + to_string(this->m_currentLevel) + ".txt");
+	this->NameOfPlayer = name;
+	this->CurrentScore = score;
+	this->m_currentLevel = level;
+	return true;
+}
+
+bool CGAME::isFinishGame()
+{
+	return m_currentLevel >= MAX_LEVEL;
+}
+
+pair<int, vector<pair<string, pair<string, string>>>> CGAME::getListGames()
+{
+	ifstream ifs("Data\\FileName.txt");
+	pair<int, vector <pair<string, pair<string, string>>>> res;
+	res.first = 0;
+	res.second.clear();
+
+	if (!ifs.is_open()) return res;
+
+	int numFile;
+	ifs >> numFile >> res.first;
+	res.second.resize(max(numFile, 0));
+	for (auto& x:res.second)
+	{
+		ifs >> x.first >> x.second.first;
+		ifs.ignore();
+		getline(ifs, x.second.second);
+	}
+	ifs.close();
+	return res;
+}
+
+string CGAME::getCurTime()
+{
+	string res;
+	auto now = std::chrono::system_clock::now();
+	auto now_c = std::chrono::system_clock::to_time_t(now);
+	long long time_as_ll = static_cast<long long>(now_c);
+
+	return std::to_string(time_as_ll);
+
 }

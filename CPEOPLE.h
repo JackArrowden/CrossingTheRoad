@@ -18,7 +18,8 @@ public:
 	bool isImpact(CVEHICLE* x);
 	bool isImpact(CANIMAL* x);
 	//bool isFinish();
-	//bool isDead();
+	bool isDead() const;
+	void setDead();
 	CPEOPLE();
 	int GetmX() const;
 	int GetmY() const;
