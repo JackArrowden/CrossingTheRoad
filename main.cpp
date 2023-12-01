@@ -210,7 +210,7 @@ void printString(string str, int x, int y, int size);
 CGAME* game = new CGAME;
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
-	game->readFile("Data\\Default3.txt");
+	game->readFile("Data\\Default4.txt");
 	game->tell();
 	//ShowCursor(FALSE);
 	// ########################################################
