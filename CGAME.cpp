@@ -379,6 +379,24 @@ bool CGAME::SaveScoreToLeaderBoard()
 	return true;
 }
 
+void fileForGameLoading(string fileName, vector <pair<string, string>>& vect) {
+	ifstream ifs;
+	ifs.open(fileName);
+	if (ifs.is_open()) {
+		string temp;
+		getline(ifs, temp);
+		int numFile = temp[0] - '0'; // 0 <= number of files <= 5
+		for (int i = 0; i < numFile; i++) {
+			string userName, date;
+			getline(ifs, temp, ' '); // No use
+			getline(ifs, userName, ' ');
+			getline(ifs, date);
+			vect.push_back(make_pair(userName, date));
+		}
+	}
+	ifs.close();
+}
+
 std::multimap<int, pair<string, string>> CGAME::GetLeaderBoard()
 {
 	std::multimap<int, pair<string, string>> res;
@@ -395,5 +413,5 @@ std::multimap<int, pair<string, string>> CGAME::GetLeaderBoard()
 	}
 
 	return res;
-	
+
 }

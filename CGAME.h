@@ -84,3 +84,4 @@ public:
 	std::multimap<int, pair<string, string>> GetLeaderBoard();
 };
 
+void fileForGameLoading(string, vector <pair<string, string>>&);
