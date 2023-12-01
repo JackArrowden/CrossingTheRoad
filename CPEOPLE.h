@@ -5,7 +5,7 @@
 #define PEOPLE_LEFT 22
 #define PEOPLE_RIGHT 60
 #define PEOPLE_BOTTOM 5
-#define PEOPLE_TOP 50
+#define PEOPLE_TOP 30
 #define PEOPLE_LINK_IMAGE "image\\person.bmp"
 
 class CPEOPLE {
