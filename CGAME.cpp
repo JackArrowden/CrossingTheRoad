@@ -396,3 +396,22 @@ void fileForGameLoading(string fileName, vector <pair<string, string>>& vect) {
 	}
 	ifs.close();
 }
+
+std::multimap<int, pair<string, string>> CGAME::GetLeaderBoard()
+{
+	std::multimap<int, pair<string, string>> res;
+	ifstream in;
+	in.open("Data\\LeaderBoard.txt");
+	string tmp, NamePlayer, Time;
+	int score;
+	in >> tmp;
+	while (!in.eof())
+	{
+		in >> NamePlayer >> Time >> score;
+		pair<string, string> tmp = { NamePlayer,Time };
+		res.insert({ score, tmp });
+	}
+
+	return res;
+
+}
