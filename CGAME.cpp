@@ -390,7 +390,7 @@ bool CGAME::SaveScoreToLeaderBoard()
 	out.open("Data\\LeaderBoard.txt", ios::app);
 	out << endl;
 	if (!out.is_open()) return false;
-	out << NameOfPlayer << " " << CurrentScore;
+	out << NameOfPlayer << " " << getCurTime() <<" "<<CurrentScore;
 	out.close();
 	return true;
 }
