@@ -81,5 +81,6 @@ public:
 	void Draw(Render_State& screen);
 	int CheckStatePepple();
 	bool SaveScoreToLeaderBoard();
+	std::multimap<int, pair<string, string>> GetLeaderBoard();
 };
 
