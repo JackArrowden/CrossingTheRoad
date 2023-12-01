@@ -76,7 +76,7 @@ bitmapHandMake backClickLeader("Image\\leaderBoard\\backClickLeader.bmp");
 
 // Enter game window
 bool writingMode = false;
-string tempName = "", choiceUserName = "", inputUserName = "";
+string tempName = "teo.txt", choiceUserName = "", inputUserName = "";
 char tempNameChar[1000] = "\0";
 bool backSpace = false, isErased = false;
 bitmapHandMake background5("Image\\playOrResume\\background5.bmp");
@@ -1410,7 +1410,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				writingMode = false;
 				if (curState == 0 || curState == 3) resetWindow2();
 				else if (curState == 1) {
-					game->SaveGame(tempName);
+					game->SaveGame();
 					curState = 3;
 					button4 = button5 = true;
 				}

@@ -4,7 +4,7 @@
 
 bitmapHandMake CGAME::gameBackground("image\\gameWindow\\gameBgr.bmp");
 const int CGAME::MAX_LEVEL = 5;
-const int CGAME::BOTTOM = 1280;
+const int CGAME::TOP = 1280;
 
 
 CGAME::CGAME()
@@ -133,9 +133,23 @@ bool CGAME::readFile(const std::string& file)
 	return true;
 }
 
-bool CGAME::SaveGame(const std::string& file)
+bool CGAME::SaveGame()
 {
 	ofstream ofs;
+	auto data = getListGames();
+	ofs.open("Data\\FileName.txt");
+	if (!ofs.is_open()) return false;
+
+	string file = "Data\\" + to_string(data.first) + ".txt";
+	int newIt = (data.first + 1) % 5;
+	if (data.first >= data.second.size()) data.second.push_back(make_pair(file, make_pair(this->NameOfPlayer, CGAME::getCurTime())));
+	else data.second[data.first] = make_pair(file, make_pair(this->NameOfPlayer, CGAME::getCurTime()));
+	ofs << data.second.size() << ' ' << newIt << '\n';
+	for (const auto& x : data.second)
+		ofs << x.first << ' ' << x.second.first << " " << x.second.second << '\n';
+	ofs.close();
+
+	
 	ofs.open(file);
 	if (!ofs.is_open()) return false;
 	ofs << NameOfPlayer << endl;
@@ -178,8 +192,6 @@ bool CGAME::SaveGame(const std::string& file)
 	{
 		CANIMAL* it = dynamic_cast<CANIMAL*> (&cat[i]);
 		ofs << *it <<" ";
-		
-
 	}
 	ofs << endl;
 	ofs << numOfMouses << " ";
@@ -190,15 +202,6 @@ bool CGAME::SaveGame(const std::string& file)
 	}
 	ofs.close();
 
-	auto data = getListGames();
-	ofs.open("Data\\FileName.txt");
-	if (!ofs.is_open()) return false;
-
-	int newIt = data.first % 5 + 1;
-	data.second[data.first] = make_pair(file, make_pair(this->NameOfPlayer, CGAME::getCurTime()));
-	ofs << data.second.size() << ' ' << newIt << '\n';
-	for (const auto& x : data.second) 
-		ofs << x.first << ' ' << x.second.first << x.second.second << '\n';
 	return true;
 }
 
@@ -210,7 +213,7 @@ void CGAME::PeopleMove(int direc)
 	else if (direc == 4) mainChar->Down(10);
 
 	if (CheckStatePepple()) mainChar->setDead();
-	else if (mainChar->GetmY() > this->BOTTOM) loadNextLevel();
+	else if (mainChar->GetmY() > this->TOP) loadNextLevel();
 }
 
 void CGAME::clear()

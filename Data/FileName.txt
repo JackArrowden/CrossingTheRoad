@@ -1,4 +1,3 @@
-3 2
-1.txt GNSDG 23/5/2023
-2.txt KSGS 4/4/2023
-3.txt SDGDSSD 5/5/2023
+2 2
+Data\0.txt Person 1701439720
+Data\1.txt Person 1701439726

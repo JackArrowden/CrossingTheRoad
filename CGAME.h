@@ -72,7 +72,7 @@ public:
 	CGAME(const std::string& file);
 	~CGAME();
 	bool readFile(const std::string& file);
-	bool SaveGame(const std::string& file);
+	bool SaveGame();
 	void PeopleMove(int direc);
 	void clear();
 	void run();
