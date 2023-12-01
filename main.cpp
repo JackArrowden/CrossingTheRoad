@@ -20,6 +20,7 @@ bool button1 = false, button2 = false, button3 = false, button4 = false, button5
 bool gameSoundClick = false, objectSoundClick = false, gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false, gameStage1Clicked = false;
 bool isDataChanged = false; // This variable is used to check if the user's data is changed or not, if changed, calls sort function
 vector <pair<string, string>> listAcc;
+multimap<int, pair<string, string>> leaderAcc;
 
 //// Main window
 bitmapHandMake background1("Image\\mainWindow\\background.bmp");
@@ -70,6 +71,7 @@ bitmapHandMake top2("Image\\leaderBoard\\top2.bmp");
 bitmapHandMake top3("Image\\leaderBoard\\top3.bmp");
 bitmapHandMake nameFrame("Image\\leaderBoard\\nameFrame.bmp");
 bitmapHandMake scoreFrame("Image\\leaderBoard\\scoreFrame.bmp");
+bitmapHandMake dateRank("Image\\leaderBoard\\dateRank.bmp");
 bitmapHandMake backClickLeader("Image\\leaderBoard\\backClickLeader.bmp");
 
 // Enter game window
@@ -429,17 +431,33 @@ void leaderboardWindow(HWND hWnd) {
 	// back
 	render_state.drawImage(backClickLeader, 30, 610, 5, DEFAULT_BACKGROUND_COLOR);
 
-	render_state.drawImage(top1, 320, 405, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(top2, 320, 285, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(top3, 320, 165, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(top1, 170, 405, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(top2, 170, 285, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(top3, 170, 165, 3, DEFAULT_BACKGROUND_COLOR);
 
-	render_state.drawImage(nameFrame, 470, 420, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(nameFrame, 470, 300, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(nameFrame, 470, 180, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(nameFrame, 320, 420, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(nameFrame, 320, 300, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(nameFrame, 320, 180, 3, DEFAULT_BACKGROUND_COLOR);
 
-	render_state.drawImage(scoreFrame, 830, 420, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(scoreFrame, 830, 300, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(scoreFrame, 830, 180, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(scoreFrame, 695, 420, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(scoreFrame, 695, 300, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(scoreFrame, 695, 180, 3, DEFAULT_BACKGROUND_COLOR);
+
+	render_state.drawImage(dateRank, 880, 420, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(dateRank, 880, 300, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(dateRank, 880, 180, 3, DEFAULT_BACKGROUND_COLOR);
+
+	int size = leaderAcc.size(), firstY = 0;
+	if (size == 3) firstY = 190;
+	else if (size == 2) firstY == 310;
+	else if (size == 1) firstY = 430;
+
+	for (auto i : leaderAcc) {
+		printString(i.second.first, 345, firstY, 16);
+		printString(to_string(i.first), 715, firstY, 16);
+		printString(i.second.second, 905, firstY, 16);
+		firstY += 120;
+	}
 
 	apply(hWnd);
 }
@@ -509,6 +527,7 @@ void resetEnterGameWindow() {
 
 void resetLeaderboardWindow() {
 	windowState = 4;
+	leaderAcc = game->GetLeaderBoard();
 	resetBtn();
 }
 
