@@ -2,7 +2,7 @@
 #include <conio.h>
 
 
-bitmapHandMake CGAME::gameBackground("image\\gameWindow\\gameBgr.bmp");
+bitmapHandMake CGAME::gameBackground("image\\gameWindow\\gameBgr_city.bmp");
 
 
 CGAME::CGAME()
@@ -408,10 +408,9 @@ std::multimap<int, pair<string, string>> CGAME::GetLeaderBoard()
 	while (!in.eof())
 	{
 		in >> NamePlayer >> Time >> score;
-		pair<string, string> tmp = { NamePlayer,Time };
-		res.insert({ score, tmp });
+		pair<string, string> tmp2 = { NamePlayer,Time };
+		res.insert({ score, tmp2 });
 	}
 
 	return res;
-
 }
