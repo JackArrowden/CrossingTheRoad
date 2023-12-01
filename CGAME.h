@@ -45,6 +45,7 @@ private:
 	static bitmapHandMake gameBackground;
 	std::map<int, vector<pair<void*, int>>> m;
 	string FileBackGround;
+
 	//void copyGame(const CGAME&);
 
 	//static void drawRectangle(ConsoleHandle*, int, int, int, int);//Vẽ hình chữ nhật bao quanh 2 đỉnh tham số (trái trên, phải dưới)
@@ -56,7 +57,6 @@ private:
 	//int crashPos();
 public:
 	//Tọa độ khung game
-	int currentPeople;
 	static const int MAX_LEVEL;
 	static const int LEFT;
 	static const int RIGHT;
@@ -82,6 +82,14 @@ public:
 	int CheckStatePepple();
 	bool SaveScoreToLeaderBoard();
 	std::multimap<int, pair<string, string>> GetLeaderBoard();
+	int getLevelScore() const;
+	int getCurrentSpeed() const;
+	bool checkState() const;
+	bool loadNextLevel();
+	bool isFinishGame();
+
+	static pair<int, vector<pair<string, pair<string, string>>>> getListGames();
+	static string getCurTime();
 };
 
 void fileForGameLoading(string, vector <pair<string, string>>&);
