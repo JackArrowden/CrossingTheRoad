@@ -2,7 +2,7 @@
 #include <conio.h>
 
 
-bitmapHandMake CGAME::gameBackground("image\\gameWindow\\gameBgr.bmp");
+bitmapHandMake CGAME::gameBackground("image\\gameWindow\\gameBgr_city.bmp");
 
 
 CGAME::CGAME()
