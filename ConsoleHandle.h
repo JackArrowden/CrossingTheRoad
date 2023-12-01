@@ -86,6 +86,8 @@ using namespace std;
 #define VK_Y			0x59
 #define VK_Z			0x5A
 #define VK_DOC			0xBE
+#define VK_SEMICOLON	0xBA
+#define VK_SLASH		0xBF
 //////////////////////////
 #define IDS_APP_TITLE			103
 

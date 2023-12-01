@@ -92,3 +92,4 @@ public:
 	static string getCurTime();
 };
 
+void fileForGameLoading(string, vector <pair<string, string>>&);

@@ -19,6 +19,7 @@ int xCat = 1200;
 bool button1 = false, button2 = false, button3 = false, button4 = false, button5 = false, button6 = false;
 bool gameSoundClick = false, objectSoundClick = false, gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false, gameStage1Clicked = false;
 bool isDataChanged = false; // This variable is used to check if the user's data is changed or not, if changed, calls sort function
+vector <pair<string, string>> listAcc;
 
 //// Main window
 bitmapHandMake background1("Image\\mainWindow\\background.bmp");
@@ -73,7 +74,7 @@ bitmapHandMake backClickLeader("Image\\leaderBoard\\backClickLeader.bmp");
 
 // Enter game window
 bool writingMode = false;
-string tempName = "";
+string tempName = "", choiceUserName = "", inputUserName = "";
 char tempNameChar[1000] = "\0";
 bool backSpace = false, isErased = false;
 bitmapHandMake background5("Image\\playOrResume\\background5.bmp");
@@ -210,7 +211,7 @@ void printString(string str, int x, int y, int size);
 CGAME* game = new CGAME;
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
-	game->readFile("Data\\Default.txt");
+	game->readFile("Data\\Default4.txt");
 	game->tell();
 	//ShowCursor(FALSE);
 	// ########################################################
@@ -232,12 +233,13 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	LONG style = GetWindowLong(window, GWL_STYLE);
 	style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
 	SetWindowLong(window, GWL_STYLE, style);
-	
+
 	while (running) {
 		if (gameSoundClick_temp) {
 			if (gameSound) {
-				game->tell(); 
-			} else {
+				game->tell();
+			}
+			else {
 				mciSendStringA("close MyFile", NULL, 0, NULL);
 				//PlaySound(0, NULL, 0);
 			}
@@ -245,29 +247,29 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 		}
 
 		switch (windowState) {
-			case 1:
-				drawWindow1(window);
-				break;
-			case 2:
-				drawWindow2(window);
-				break;
-			case 3:
-				settingWindow(window);
-				break;
-			case 4:
-				leaderboardWindow(window);
-				break;
-			case 5:
-				enterGameWindow(window);
-				break;
-			case 6:
-				gameOverWindow(window);
-				break;
-			case 7:
-				saveGameWindow(window);
-				break;
-			default:
-				break;
+		case 1:
+			drawWindow1(window);
+			break;
+		case 2:
+			drawWindow2(window);
+			break;
+		case 3:
+			settingWindow(window);
+			break;
+		case 4:
+			leaderboardWindow(window);
+			break;
+		case 5:
+			enterGameWindow(window);
+			break;
+		case 6:
+			gameOverWindow(window);
+			break;
+		case 7:
+			saveGameWindow(window);
+			break;
+		default:
+			break;
 		}
 
 		MSG msg;
@@ -290,7 +292,7 @@ void drawWindow1(HWND hWnd) {
 	if (!button2) render_state.drawImage(playBtn, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(playRed, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button3) render_state.drawImage(leaderBtn, 490, 150, 10,DEFAULT_BACKGROUND_COLOR);
+	if (!button3) render_state.drawImage(leaderBtn, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(leaderRed, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
 
 	if (!button4) render_state.drawImage(logoutBtn, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
@@ -318,6 +320,10 @@ void drawWindow3(HWND hWnd) {
 	//game->Draw(render_state);
 	//game->run();
 	//apply(hWnd);
+	game->Draw(render_state);
+	game->run();
+	if (game->CheckStatePepple() == 1 || game->CheckStatePepple() == 2) resetGameOverWindow();
+	apply(hWnd);
 }
 
 void enterGameWindow(HWND hWnd) {
@@ -338,7 +344,18 @@ void enterGameWindow(HWND hWnd) {
 	if (!button5) render_state.drawImage(backWin5, 740, 120, 4, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(backClickedWin5, 740, 120, 4, DEFAULT_BACKGROUND_COLOR);
 
-	printString(tempName, 392, 183, 38);
+	////////////////////////////// LIST ACCOUNT /////////////////
+	int firstX = 270, firstY = 475, index = 1;
+	for (int i = 0; i < listAcc.size(); i++) {
+		printString(to_string(index) + '.', firstX, firstY, 34);
+		printString(listAcc[i].first, firstX + 25, firstY, 34);
+		printString(listAcc[i].second, firstX + 170, firstY, 34);
+		firstY -= 50;
+		index++;
+	}
+
+	printString(choiceUserName, 392, 183, 38);
+	printString(inputUserName, 870, 420, 38);
 
 	apply(hWnd);
 }
@@ -423,7 +440,7 @@ void leaderboardWindow(HWND hWnd) {
 	render_state.drawImage(scoreFrame, 830, 420, 3, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(scoreFrame, 830, 300, 3, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(scoreFrame, 830, 180, 3, DEFAULT_BACKGROUND_COLOR);
-	
+
 	apply(hWnd);
 }
 
@@ -454,7 +471,8 @@ void saveGameWindow(HWND hWnd) {
 		//tempName[index] = '\0';
 		//render_state.draw_text(tempNameChar, -70, -2, 1, 0x000000);
 		printString(tempName, 130, 282, 14);
-	} else {
+	}
+	else {
 		render_state.drawImage(continueOrExit, 0, 0, 1);
 
 		if (!button5) render_state.drawImage(continueBtn, 225, 165, 4, DEFAULT_BACKGROUND_COLOR);
@@ -483,6 +501,9 @@ void resetSettingWindow() {
 
 void resetEnterGameWindow() {
 	windowState = 5;
+	writingMode = true;
+	listAcc.clear();
+	fileForGameLoading("Data\\FileName.txt", listAcc);
 	resetBtn();
 }
 
@@ -513,6 +534,7 @@ void resetGameOverWindow() {
 
 void resetSaveGameWindow() {
 	windowState = 7;
+	writingMode = true;
 	resetBtn();
 }
 
@@ -558,7 +580,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	if (writingMode) {
 		switch (msg)
 		{
-		case WM_DESTROY: 
+		case WM_DESTROY:
 		{
 			running = false;
 			PostQuitMessage(0);
@@ -567,128 +589,261 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		case WM_KEYDOWN:
 		{
 			int key = LOWORD(wp);
-			switch (key)
-			{
-			case VK_0:
-				tempName += '0';
-				break;
-			case VK_1:
-				tempName += '1';
-				break;
-			case VK_2:
-				tempName += '2';
-				break;
-			case VK_3:
-				tempName += '3';
-				break;
-			case VK_4:
-				tempName += '4';
-				break;
-			case VK_5:
-				tempName += '5';
-				break;
-			case VK_6:
-				tempName += '6';
-				break;
-			case VK_7:
-				tempName += '7';
-				break;
-			case VK_8:
-				tempName += '8';
-				break;
-			case VK_9:
-				tempName += '9';
-				break;
-			case VK_A:
-				tempName += 'A';
-				break;
-			case VK_B:
-				tempName += 'B';
-				break;
-			case VK_C:
-				tempName += 'C';
-				break;
-			case VK_D:
-				tempName += 'D';
-				break;
-			case VK_E:
-				tempName += 'E';
-				break;
-			case VK_F:
-				tempName += 'F';
-				break;
-			case VK_G:
-				tempName += 'G';
-				break;
-			case VK_H:
-				tempName += 'H';
-				break;
-			case VK_I:
-				tempName += 'I';
-				break;
-			case VK_J:
-				tempName += 'J';
-				break;
-			case VK_K:
-				tempName += 'K';
-				break;
-			case VK_L:
-				tempName += 'L';
-				break;
-			case VK_M:
-				tempName += 'M';
-				break;
-			case VK_N:
-				tempName += 'N';
-				break;
-			case VK_O:
-				tempName += 'O';
-				break;
-			case VK_P:
-				tempName += 'P';
-				break;
-			case VK_Q:
-				tempName += 'Q';
-				break;
-			case VK_R:
-				tempName += 'R';
-				break;
-			case VK_S:
-				tempName += 'S';
-				break;
-			case VK_T:
-				tempName += 'T';
-				break;
-			case VK_U:
-				tempName += 'U';
-				break;
-			case VK_V:
-				tempName += 'V';
-				break;
-			case VK_W:
-				tempName += 'W';
-				break;
-			case VK_X:
-				tempName += 'X';
-				break;
-			case VK_Y:
-				tempName += 'Y';
-				break;
-			case VK_Z:
-				tempName += 'Z';
-				break;
-			case VK_DOC:
-				tempName += '.';
-				break;
-			case VK_BACK:
-				backSpace = true;
-				tempName = tempName.substr(0, tempName.size() - 1);
-				break;
-			case VK_DOWN:
-				writingMode = false;
-				break;
-			default:
-				break;
+			if (button1) {
+				switch (key)
+				{
+				case VK_0:
+					choiceUserName += '0';
+					break;
+				case VK_1:
+					choiceUserName += '1';
+					break;
+				case VK_2:
+					choiceUserName += '2';
+					break;
+				case VK_3:
+					choiceUserName += '3';
+					break;
+				case VK_4:
+					choiceUserName += '4';
+					break;
+				case VK_5:
+					choiceUserName += '5';
+					break;
+				case VK_6:
+					choiceUserName += '6';
+					break;
+				case VK_7:
+					choiceUserName += '7';
+					break;
+				case VK_8:
+					choiceUserName += '8';
+					break;
+				case VK_9:
+					choiceUserName += '9';
+					break;
+				case VK_A:
+					choiceUserName += 'A';
+					break;
+				case VK_B:
+					choiceUserName += 'B';
+					break;
+				case VK_C:
+					choiceUserName += 'C';
+					break;
+				case VK_D:
+					choiceUserName += 'D';
+					break;
+				case VK_E:
+					choiceUserName += 'E';
+					break;
+				case VK_F:
+					choiceUserName += 'F';
+					break;
+				case VK_G:
+					choiceUserName += 'G';
+					break;
+				case VK_H:
+					choiceUserName += 'H';
+					break;
+				case VK_I:
+					choiceUserName += 'I';
+					break;
+				case VK_J:
+					choiceUserName += 'J';
+					break;
+				case VK_K:
+					choiceUserName += 'K';
+					break;
+				case VK_L:
+					choiceUserName += 'L';
+					break;
+				case VK_M:
+					choiceUserName += 'M';
+					break;
+				case VK_N:
+					choiceUserName += 'N';
+					break;
+				case VK_O:
+					choiceUserName += 'O';
+					break;
+				case VK_P:
+					choiceUserName += 'P';
+					break;
+				case VK_Q:
+					choiceUserName += 'Q';
+					break;
+				case VK_R:
+					choiceUserName += 'R';
+					break;
+				case VK_S:
+					choiceUserName += 'S';
+					break;
+				case VK_T:
+					choiceUserName += 'T';
+					break;
+				case VK_U:
+					choiceUserName += 'U';
+					break;
+				case VK_V:
+					choiceUserName += 'V';
+					break;
+				case VK_W:
+					choiceUserName += 'W';
+					break;
+				case VK_X:
+					choiceUserName += 'X';
+					break;
+				case VK_Y:
+					choiceUserName += 'Y';
+					break;
+				case VK_Z:
+					choiceUserName += 'Z';
+					break;
+				case VK_DOC:
+					choiceUserName += '.';
+					break;
+				case VK_SLASH:
+					choiceUserName += '/';
+					break;
+				case VK_BACK:
+					backSpace = true;
+					choiceUserName = choiceUserName.substr(0, choiceUserName.size() - 1);
+					break;
+				case VK_DOWN:
+					writingMode = false;
+					break;
+				default:
+					break;
+				}
+			}
+			else if (button2) {
+				switch (key)
+				{
+				case VK_0:
+					inputUserName += '0';
+					break;
+				case VK_1:
+					inputUserName += '1';
+					break;
+				case VK_2:
+					inputUserName += '2';
+					break;
+				case VK_3:
+					inputUserName += '3';
+					break;
+				case VK_4:
+					inputUserName += '4';
+					break;
+				case VK_5:
+					inputUserName += '5';
+					break;
+				case VK_6:
+					inputUserName += '6';
+					break;
+				case VK_7:
+					inputUserName += '7';
+					break;
+				case VK_8:
+					inputUserName += '8';
+					break;
+				case VK_9:
+					inputUserName += '9';
+					break;
+				case VK_A:
+					inputUserName += 'A';
+					break;
+				case VK_B:
+					inputUserName += 'B';
+					break;
+				case VK_C:
+					inputUserName += 'C';
+					break;
+				case VK_D:
+					inputUserName += 'D';
+					break;
+				case VK_E:
+					inputUserName += 'E';
+					break;
+				case VK_F:
+					inputUserName += 'F';
+					break;
+				case VK_G:
+					inputUserName += 'G';
+					break;
+				case VK_H:
+					inputUserName += 'H';
+					break;
+				case VK_I:
+					inputUserName += 'I';
+					break;
+				case VK_J:
+					inputUserName += 'J';
+					break;
+				case VK_K:
+					inputUserName += 'K';
+					break;
+				case VK_L:
+					inputUserName += 'L';
+					break;
+				case VK_M:
+					inputUserName += 'M';
+					break;
+				case VK_N:
+					inputUserName += 'N';
+					break;
+				case VK_O:
+					inputUserName += 'O';
+					break;
+				case VK_P:
+					inputUserName += 'P';
+					break;
+				case VK_Q:
+					inputUserName += 'Q';
+					break;
+				case VK_R:
+					inputUserName += 'R';
+					break;
+				case VK_S:
+					inputUserName += 'S';
+					break;
+				case VK_T:
+					inputUserName += 'T';
+					break;
+				case VK_U:
+					inputUserName += 'U';
+					break;
+				case VK_V:
+					inputUserName += 'V';
+					break;
+				case VK_W:
+					inputUserName += 'W';
+					break;
+				case VK_X:
+					inputUserName += 'X';
+					break;
+				case VK_Y:
+					inputUserName += 'Y';
+					break;
+				case VK_Z:
+					inputUserName += 'Z';
+					break;
+				case VK_DOC:
+					inputUserName += '.';
+					break;
+				case VK_SLASH:
+					inputUserName += '/';
+					break;
+				case VK_BACK:
+					backSpace = true;
+					inputUserName = inputUserName.substr(0, inputUserName.size() - 1);
+					break;
+				case VK_DOWN:
+					writingMode = false;
+					break;
+				default:
+					break;
+				}
 			}
 		}
 		break;
@@ -717,7 +872,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			switch (key)
 			{
 			case VK_RETURN:
-				{
+			{
 				switch (curState) {
 				case 0:
 					resetSettingWindow();
@@ -734,52 +889,56 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				default:
 					break;
 				}
-				}
-				break;
+			}
+			break;
 			case VK_UP:
-				{
-					if (curState > 0) curState--;
-					if (curState == 0) {
-						button1 = true;
-						button2 = false;
-					} else if (curState == 1) {
-						button2 = true;
-						button3 = false;
-					} else if (curState == 2) {
-						button3 = true;
-						button4 = false;
-					}
-				}
-				break;
-			case VK_DOWN:
-				{
-					if (curState < 3) curState++;
-					if (curState == 1) {
-						button1 = false;
-						button2 = true;
-					} else if (curState == 2) {
-						button2 = false;
-						button3 = true;
-					} else if (curState == 3) {
-						button3 = false;
-						button4 = true;
-					}
-				}
-				break;
-			case VK_RIGHT:
-				{
-					if (curState > 0) curState = 0;
+			{
+				if (curState > 0) curState--;
+				if (curState == 0) {
 					button1 = true;
-					button2 = button3 = button4 = false;
+					button2 = false;
 				}
-				break;
-			case VK_LEFT:
-				{
-					curState = 1;
+				else if (curState == 1) {
+					button2 = true;
+					button3 = false;
+				}
+				else if (curState == 2) {
+					button3 = true;
+					button4 = false;
+				}
+			}
+			break;
+			case VK_DOWN:
+			{
+				if (curState < 3) curState++;
+				if (curState == 1) {
 					button1 = false;
 					button2 = true;
 				}
-				break;
+				else if (curState == 2) {
+					button2 = false;
+					button3 = true;
+				}
+				else if (curState == 3) {
+					button3 = false;
+					button4 = true;
+				}
+			}
+			break;
+			case VK_RIGHT:
+			{
+				if (curState > 0) curState = 0;
+				button1 = true;
+				button2 = button3 = button4 = false;
+			}
+			break;
+			case VK_LEFT:
+			{
+				curState = 1;
+				button1 = false;
+				button2 = true;
+			}
+			break;
 			default:
 				break;
 			}
@@ -788,7 +947,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	} else if (windowState == 2) {
+	}
+	else if (windowState == 2) {
 		switch (msg)
 		{
 		case WM_DESTROY: {
@@ -805,21 +965,21 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		} break;
 		case WM_KEYDOWN:
 		{
-			
+
 			int key = LOWORD(wp);
 			switch (key)
 			{
 			case VK_RETURN:
 				resetWindow1();
 				stopObjectSound();
-			break;
+				break;
 			case VK_A:
 			{
 				//game->currentPeople = 1;
 				//player.Left(10);
 				game->PeopleMove(1);
-			
-				
+
+
 			}
 			break;
 			case VK_D:
@@ -828,7 +988,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				//
 				//player.Right(10);
 				game->PeopleMove(2);
-				
+
 			}
 			break;
 			case VK_S:
@@ -874,7 +1034,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	} else if (windowState == 3) {
+	}
+	else if (windowState == 3) {
 		switch (msg)
 		{
 		case WM_DESTROY: {
@@ -989,7 +1150,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	} else if (windowState == 4) {
+	}
+	else if (windowState == 4) {
 		switch (msg)
 		{
 		case WM_DESTROY: {
@@ -1020,7 +1182,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	} else if (windowState == 5) {
+	}
+	else if (windowState == 5) {
 		switch (msg)
 		{
 		case WM_DESTROY: {
@@ -1043,28 +1206,25 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			case VK_RETURN:
 			{
 				switch (curState) {
-				case 0:
-					writingMode = true;
-					tempName = "";
-					resetCharArray(tempNameChar);
-					break;
-				case 1:
-					writingMode = true;
-					tempName = "";
-					resetCharArray(tempNameChar);
-					break;
 				case 2:
 					tempName = "";
 					resetWindow2();
+					choiceUserName = "";
+					inputUserName = "";
 					gameStage1Clicked = true;
 					break;
 				case 3:
 					tempName = "";
+					choiceUserName = "";
+					inputUserName = "";
+					game->readFile("Data\\Default.txt");
 					resetWindow2();
 					gameStage1Clicked = true;
 					break;
 				case 4:
 					tempName = "";
+					choiceUserName = "";
+					inputUserName = "";
 					resetWindow1();
 					break;
 				default:
@@ -1098,6 +1258,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					curState = 3;
 					button4 = true;
 					button5 = false;
+					break;
 				default:
 					break;
 				}
@@ -1130,13 +1291,14 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			}
 			break;
 			case VK_RIGHT:
-			{	
+			{
 				if (curState == 0) {
 					writingMode = true;
 					curState = 1;
 					button2 = true;
 					button1 = false;
-				} else if (curState == 2) {
+				}
+				else if (curState == 2) {
 					writingMode = false;
 					curState = 4;
 					button5 = true;
@@ -1151,7 +1313,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					curState = 0;
 					button1 = true;
 					button2 = button4 = false;
-				} else if (curState == 4) {
+				}
+				else if (curState == 4) {
 					writingMode = false;
 					curState = 2;
 					button3 = true;
@@ -1167,7 +1330,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	} else if (windowState == 6) {
+	}
+	else if (windowState == 6) {
 		switch (msg)
 		{
 		case WM_DESTROY: {
@@ -1188,11 +1352,13 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			if (key == VK_RETURN) {
 				if (curState == 0) resetWindow1();
 				else if (curState == 1) resetLeaderboardWindow();
-			} else if (key == VK_RIGHT) {
+			}
+			else if (key == VK_RIGHT) {
 				curState = 1;
 				button1 = false;
 				button2 = true;
-			} else if (key == VK_LEFT) {
+			}
+			else if (key == VK_LEFT) {
 				curState = 0;
 				button1 = true;
 				button2 = false;
@@ -1202,7 +1368,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	} else if (windowState == 7) {
+	}
+	else if (windowState == 7) {
 		switch (msg)
 		{
 		case WM_DESTROY: {
@@ -1227,18 +1394,21 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					game->SaveGame(tempName);
 					curState = 3;
 					button4 = button5 = true;
-				} else if (curState == 2 || curState == 4) resetWindow1();
+				}
+				else if (curState == 2 || curState == 4) resetWindow1();
 			}
 			else if (key == VK_RIGHT) {
 				if (curState == 0) {
 					curState = 1;
 					button1 = false;
 					button2 = true;
-				} else if (curState == 1) {
+				}
+				else if (curState == 1) {
 					curState = 2;
 					button2 = false;
 					button3 = true;
-				} else if (curState == 3) {
+				}
+				else if (curState == 3) {
 					curState = 4;
 					button5 = false;
 					button6 = true;
@@ -1249,11 +1419,13 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					curState = 0;
 					button1 = true;
 					button2 = false;
-				} else if (curState == 2) {
+				}
+				else if (curState == 2) {
 					curState = 1;
 					button2 = true;
 					button3 = false;
-				} else if (curState == 4) {
+				}
+				else if (curState == 4) {
 					curState = 3;
 					button5 = true;
 					button6 = false;
@@ -1279,7 +1451,7 @@ void printString(string str, int x, int y, int size) {
 					} break;
 					case 'B': {
 						render_state.drawImage(bUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
-						x += 390 / size;
+						x += 370 / size;
 					} break;
 					case 'C': {
 						render_state.drawImage(cUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
@@ -1295,10 +1467,11 @@ void printString(string str, int x, int y, int size) {
 					} break;
 					case 'F': {
 						render_state.drawImage(fUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
-						x += 340 / size;
+						x += 320 / size;
 					} break;
 					}
-				} else {
+				}
+				else {
 					switch (c) {
 					case 'G': {
 						render_state.drawImage(gUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
@@ -1310,11 +1483,11 @@ void printString(string str, int x, int y, int size) {
 					} break;
 					case 'I': {
 						render_state.drawImage(iUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
-						x += 350 / size;
+						x += 300 / size;
 					} break;
 					case 'J': {
 						render_state.drawImage(jUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
-						x += 400 / size;
+						x += 320 / size;
 					} break;
 					case 'K': {
 						render_state.drawImage(kUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
@@ -1322,7 +1495,7 @@ void printString(string str, int x, int y, int size) {
 					} break;
 					case 'L': {
 						render_state.drawImage(lUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
-						x += 400 / size;
+						x += 320 / size;
 					} break;
 					}
 				}
@@ -1332,7 +1505,7 @@ void printString(string str, int x, int y, int size) {
 					switch (c) {
 					case 'M': {
 						render_state.drawImage(mUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
-						x += 450 / size;
+						x += 480 / size;
 					} break;
 					case 'N': {
 						render_state.drawImage(nUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
@@ -1340,15 +1513,15 @@ void printString(string str, int x, int y, int size) {
 					} break;
 					case 'O': {
 						render_state.drawImage(oUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
-						x += 400 / size;
+						x += 440 / size;
 					} break;
 					case 'P': {
 						render_state.drawImage(pUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
-						x += 400 / size;
+						x += 380 / size;
 					} break;
 					case 'Q': {
 						render_state.drawImage(qUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
-						x += 400 / size;
+						x += 430 / size;
 					} break;
 					case 'R': {
 						render_state.drawImage(rUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
@@ -1356,7 +1529,7 @@ void printString(string str, int x, int y, int size) {
 					} break;
 					case 'S': {
 						render_state.drawImage(sUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
-						x += 400 / size;
+						x += 380 / size;
 					} break;
 					}
 				}
@@ -1376,7 +1549,7 @@ void printString(string str, int x, int y, int size) {
 					} break;
 					case 'W': {
 						render_state.drawImage(wUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
-						x += 400 / size;
+						x += 480 / size;
 					} break;
 					case 'X': {
 						render_state.drawImage(xUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
@@ -1388,7 +1561,7 @@ void printString(string str, int x, int y, int size) {
 					} break;
 					case 'Z': {
 						render_state.drawImage(zUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
-						x += 400 / size;
+						x += 380 / size;
 					} break;
 					}
 				}
@@ -1398,63 +1571,61 @@ void printString(string str, int x, int y, int size) {
 			switch (c) {
 			case '0': {
 				render_state.drawImage(num0, x, y, size, DEFAULT_BACKGROUND_COLOR);
-				x += 400 / size;
+				x += 380 / size;
 			} break;
 			case '1': {
 				render_state.drawImage(num1, x, y, size, DEFAULT_BACKGROUND_COLOR);
-				x += 400 / size;
+				x += 380 / size;
 			} break;
 			case '2': {
 				render_state.drawImage(num2, x, y, size, DEFAULT_BACKGROUND_COLOR);
-				x += 400 / size;
+				x += 380 / size;
 			} break;
 			case '3': {
 				render_state.drawImage(num3, x, y, size, DEFAULT_BACKGROUND_COLOR);
-				x += 400 / size;
+				x += 380 / size;
 			} break;
 			case '4': {
 				render_state.drawImage(num4, x, y, size, DEFAULT_BACKGROUND_COLOR);
-				x += 400 / size;
+				x += 380 / size;
 			} break;
 			case '5': {
 				render_state.drawImage(num5, x, y, size, DEFAULT_BACKGROUND_COLOR);
-				x += 400 / size;
+				x += 380 / size;
 			} break;
 			case '6': {
 				render_state.drawImage(num6, x, y, size, DEFAULT_BACKGROUND_COLOR);
-				x += 400 / size;
+				x += 380 / size;
 			} break;
 			case '7': {
 				render_state.drawImage(num7, x, y, size, DEFAULT_BACKGROUND_COLOR);
-				x += 400 / size;
+				x += 380 / size;
 			} break;
 			case '8': {
 				render_state.drawImage(num8, x, y, size, DEFAULT_BACKGROUND_COLOR);
-				x += 400 / size;
+				x += 380 / size;
 			} break;
 			case '9': {
 				render_state.drawImage(num9, x, y, size, DEFAULT_BACKGROUND_COLOR);
-				x += 400 / size;
+				x += 380 / size;
 			} break;
 			}
 		}
 		else if (c == '/') { // 36: slash
 			render_state.drawImage(slash, x, y, size, DEFAULT_BACKGROUND_COLOR);
-			x += 400 / size;
+			x += 300 / size;
 		}
 		else if (c == '.') { // 37: dot
 			render_state.drawImage(dot, x, y, size, DEFAULT_BACKGROUND_COLOR);
-			x += 400 / size;
+			x += 150 / size;
 		}
 		else if (c == '?') { // 38: question
 			render_state.drawImage(question, x, y, size, DEFAULT_BACKGROUND_COLOR);
-			x += 400 / size;
+			x += 380 / size;
 		}
 		else if (c == ':') { // 39: colon
 			render_state.drawImage(colon, x, y, size, DEFAULT_BACKGROUND_COLOR);
-			x += 400 / size;
+			x += 150 / size;
 		}
 	}
 }
-
-/////////////////////////// XU LY AM THANH TRONG SETTING NHU THE NAO?

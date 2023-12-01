@@ -2,8 +2,8 @@
 #include "CVEHICLE.h"
 
 
-#define CAR_TOP 60
-#define CAR_BOTTOM 20
+#define CAR_TOP 50
+#define CAR_BOTTOM 30
 #define CAR_RIGHT 190
 #define CAR_LEFT 3
 #define CAR_PER 1

@@ -387,7 +387,7 @@ int CGAME::CheckStatePepple() // 0: ko va cham, 1: va cham vehicle, 2: va cham a
 bool CGAME::SaveScoreToLeaderBoard()
 {
 	ofstream out;
-	out.open("\\Data\\LeaderBoard.txt", ios::app);
+	out.open("Data\\LeaderBoard.txt", ios::app);
 	out << endl;
 	if (!out.is_open()) return false;
 	out << NameOfPlayer << " " << CurrentScore;
@@ -395,11 +395,29 @@ bool CGAME::SaveScoreToLeaderBoard()
 	return true;
 }
 
+void fileForGameLoading(string fileName, vector <pair<string, string>>& vect) {
+	ifstream ifs;
+	ifs.open(fileName);
+	if (ifs.is_open()) {
+		string temp;
+		getline(ifs, temp);
+		int numFile = temp[0] - '0'; // 0 <= number of files <= 5
+		for (int i = 0; i < numFile; i++) {
+			string userName, date;
+			getline(ifs, temp, ' '); // No use
+			getline(ifs, userName, ' ');
+			getline(ifs, date);
+			vect.push_back(make_pair(userName, date));
+		}
+	}
+	ifs.close();
+}
+
 std::multimap<int, pair<string, string>> CGAME::GetLeaderBoard()
 {
 	std::multimap<int, pair<string, string>> res;
 	ifstream in;
-	in.open("\\Data\\LeaderBoard.txt");
+	in.open("Data\\LeaderBoard.txt");
 	string tmp, NamePlayer, Time;
 	int score;
 	in >> tmp;
@@ -411,6 +429,8 @@ std::multimap<int, pair<string, string>> CGAME::GetLeaderBoard()
 	}
 
 	return res;
+
+}
 	
 }
 

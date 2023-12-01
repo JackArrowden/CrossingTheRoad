@@ -4,8 +4,8 @@
 #include <wincrypt.h>
 
 #define TRAIN_RIGHT 0
-#define TRAIN_TOP 90
-#define TRAIN_BOTTOM 10
+#define TRAIN_TOP 70
+#define TRAIN_BOTTOM 20
 #define TRAIN_LEFT 1
 #define TRAIN_PER 2
 

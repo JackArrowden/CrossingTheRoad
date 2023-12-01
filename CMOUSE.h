@@ -2,7 +2,7 @@
 #include "CANIMAL.h"
 
 #define	MOUSE_TOP 35
-#define	MOUSE_BOTTOM 1
+#define	MOUSE_BOTTOM 10
 #define	MOUSE_RIGHT 50
 #define MOUSE_LEFT 10
 #define MOUSE_PER 3

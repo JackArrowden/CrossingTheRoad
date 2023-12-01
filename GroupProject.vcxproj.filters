@@ -109,5 +109,8 @@
     <Text Include="fileFormat.txt" />
     <Text Include="Data\Default2.txt" />
     <Text Include="Data\Default.txt" />
+    <Text Include="Data\Default4.txt" />
+    <Text Include="Data\LeaderBoard.txt" />
+    <Text Include="Data\Default3.txt" />
   </ItemGroup>
 </Project>
