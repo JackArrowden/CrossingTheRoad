@@ -431,8 +431,6 @@ std::multimap<int, pair<string, string>> CGAME::GetLeaderBoard()
 	return res;
 
 }
-	
-}
 
 int CGAME::getLevelScore() const
 {
@@ -441,7 +439,7 @@ int CGAME::getLevelScore() const
 
 int CGAME::getCurrentSpeed() const
 {
-	return this->m_currentLevel / 2;
+	return this->m_currentLevel / 3 + 1;
 }
 
 bool CGAME::checkState() const
