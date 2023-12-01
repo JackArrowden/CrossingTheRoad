@@ -1,4 +1,5 @@
 Person
+image\\gameWindow\\gameBgr_city.bmp
 0 4
 300 0
 2 200 190 1 1300 190 1
