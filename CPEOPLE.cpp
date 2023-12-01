@@ -29,6 +29,16 @@ bool CPEOPLE::isImpact(CANIMAL* x)
 	return res;
 }
 
+bool CPEOPLE::isDead() const
+{
+	return !mState;
+}
+
+void CPEOPLE::setDead()
+{
+	mState = false;
+}
+
 CPEOPLE::CPEOPLE()
 {
 	mY = 0;
