@@ -83,3 +83,4 @@ public:
 	bool SaveScoreToLeaderBoard();
 };
 
+void fileForGameLoading(string, vector <pair<string, string>>&);
