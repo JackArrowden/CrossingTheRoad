@@ -2,7 +2,7 @@
 #include "CVEHICLE.h"
 
 #define TRUCK_TOP 72
-#define TRUCK_BOTTOM 15
+#define TRUCK_BOTTOM 25
 #define TRUCK_LEFT 10
 #define TRUCK_RIGHT 320
 #define TRUCK_PER 1

@@ -371,7 +371,7 @@ int CGAME::CheckStatePepple() // 0: ko va cham, 1: va cham vehicle, 2: va cham a
 bool CGAME::SaveScoreToLeaderBoard()
 {
 	ofstream out;
-	out.open("\\Data\\LeaderBoard.txt", ios::app);
+	out.open("Data\\LeaderBoard.txt", ios::app);
 	out << endl;
 	if (!out.is_open()) return false;
 	out << NameOfPlayer << " " << CurrentScore;
@@ -383,7 +383,7 @@ std::multimap<int, pair<string, string>> CGAME::GetLeaderBoard()
 {
 	std::multimap<int, pair<string, string>> res;
 	ifstream in;
-	in.open("\\Data\\LeaderBoard.txt");
+	in.open("Data\\LeaderBoard.txt");
 	string tmp, NamePlayer, Time;
 	int score;
 	in >> tmp;

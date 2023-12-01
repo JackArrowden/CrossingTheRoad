@@ -210,7 +210,7 @@ void printString(string str, int x, int y, int size);
 CGAME* game = new CGAME;
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
-	game->readFile("Data\\Default.txt");
+	game->readFile("Data\\Default3.txt");
 	game->tell();
 	//ShowCursor(FALSE);
 	// ########################################################
@@ -328,6 +328,10 @@ void drawWindow3(HWND hWnd) {
 	//game->Draw(render_state);
 	//game->run();
 	//apply(hWnd);
+	game->Draw(render_state);
+	game->run();
+	if (game->CheckStatePepple() == 1 || game->CheckStatePepple() == 2) resetGameOverWindow();
+	apply(hWnd);
 }
 
 void enterGameWindow(HWND hWnd) {
