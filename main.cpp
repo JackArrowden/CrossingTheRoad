@@ -211,8 +211,8 @@ void printString(string str, int x, int y, int size);
 CGAME* game = new CGAME;
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
-	game->readFile("Data\\Default.txt");
-	//game->tell();
+	game->readFile("Data\\Default3.txt");
+	game->tell();
 	//ShowCursor(FALSE);
 	// ########################################################
 	//						Window Class
@@ -233,12 +233,13 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	LONG style = GetWindowLong(window, GWL_STYLE);
 	style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
 	SetWindowLong(window, GWL_STYLE, style);
-	
+
 	while (running) {
 		if (gameSoundClick_temp) {
 			if (gameSound) {
-				game->tell(); 
-			} else {
+				game->tell();
+			}
+			else {
 				mciSendStringA("close MyFile", NULL, 0, NULL);
 				//PlaySound(0, NULL, 0);
 			}
@@ -246,29 +247,29 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 		}
 
 		switch (windowState) {
-			case 1:
-				drawWindow1(window);
-				break;
-			case 2:
-				drawWindow2(window);
-				break;
-			case 3:
-				settingWindow(window);
-				break;
-			case 4:
-				leaderboardWindow(window);
-				break;
-			case 5:
-				enterGameWindow(window);
-				break;
-			case 6:
-				gameOverWindow(window);
-				break;
-			case 7:
-				saveGameWindow(window);
-				break;
-			default:
-				break;
+		case 1:
+			drawWindow1(window);
+			break;
+		case 2:
+			drawWindow2(window);
+			break;
+		case 3:
+			settingWindow(window);
+			break;
+		case 4:
+			leaderboardWindow(window);
+			break;
+		case 5:
+			enterGameWindow(window);
+			break;
+		case 6:
+			gameOverWindow(window);
+			break;
+		case 7:
+			saveGameWindow(window);
+			break;
+		default:
+			break;
 		}
 
 		MSG msg;
@@ -291,7 +292,7 @@ void drawWindow1(HWND hWnd) {
 	if (!button2) render_state.drawImage(playBtn, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(playRed, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button3) render_state.drawImage(leaderBtn, 490, 150, 10,DEFAULT_BACKGROUND_COLOR);
+	if (!button3) render_state.drawImage(leaderBtn, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(leaderRed, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
 
 	if (!button4) render_state.drawImage(logoutBtn, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
@@ -329,6 +330,10 @@ void drawWindow3(HWND hWnd) {
 	//game->Draw(render_state);
 	//game->run();
 	//apply(hWnd);
+	game->Draw(render_state);
+	game->run();
+	if (game->CheckStatePepple() == 1 || game->CheckStatePepple() == 2) resetGameOverWindow();
+	apply(hWnd);
 }
 
 void enterGameWindow(HWND hWnd) {
@@ -445,7 +450,7 @@ void leaderboardWindow(HWND hWnd) {
 	render_state.drawImage(scoreFrame, 830, 420, 3, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(scoreFrame, 830, 300, 3, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(scoreFrame, 830, 180, 3, DEFAULT_BACKGROUND_COLOR);
-	
+
 	apply(hWnd);
 }
 
@@ -476,7 +481,8 @@ void saveGameWindow(HWND hWnd) {
 		//tempName[index] = '\0';
 		//render_state.draw_text(tempNameChar, -70, -2, 1, 0x000000);
 		printString(tempName, 130, 282, 14);
-	} else {
+	}
+	else {
 		render_state.drawImage(continueOrExit, 0, 0, 1);
 
 		if (!button5) render_state.drawImage(continueBtn, 225, 165, 4, DEFAULT_BACKGROUND_COLOR);
@@ -584,7 +590,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	if (writingMode) {
 		switch (msg)
 		{
-		case WM_DESTROY: 
+		case WM_DESTROY:
 		{
 			running = false;
 			PostQuitMessage(0);
@@ -720,7 +726,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				default:
 					break;
 				}
-			} else if (button2) {
+			}
+			else if (button2) {
 				switch (key)
 				{
 				case VK_0:
@@ -875,7 +882,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			switch (key)
 			{
 			case VK_RETURN:
-				{
+			{
 				switch (curState) {
 				case 0:
 					resetSettingWindow();
@@ -892,52 +899,56 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				default:
 					break;
 				}
-				}
-				break;
+			}
+			break;
 			case VK_UP:
-				{
-					if (curState > 0) curState--;
-					if (curState == 0) {
-						button1 = true;
-						button2 = false;
-					} else if (curState == 1) {
-						button2 = true;
-						button3 = false;
-					} else if (curState == 2) {
-						button3 = true;
-						button4 = false;
-					}
-				}
-				break;
-			case VK_DOWN:
-				{
-					if (curState < 3) curState++;
-					if (curState == 1) {
-						button1 = false;
-						button2 = true;
-					} else if (curState == 2) {
-						button2 = false;
-						button3 = true;
-					} else if (curState == 3) {
-						button3 = false;
-						button4 = true;
-					}
-				}
-				break;
-			case VK_RIGHT:
-				{
-					if (curState > 0) curState = 0;
+			{
+				if (curState > 0) curState--;
+				if (curState == 0) {
 					button1 = true;
-					button2 = button3 = button4 = false;
+					button2 = false;
 				}
-				break;
-			case VK_LEFT:
-				{
-					curState = 1;
+				else if (curState == 1) {
+					button2 = true;
+					button3 = false;
+				}
+				else if (curState == 2) {
+					button3 = true;
+					button4 = false;
+				}
+			}
+			break;
+			case VK_DOWN:
+			{
+				if (curState < 3) curState++;
+				if (curState == 1) {
 					button1 = false;
 					button2 = true;
 				}
-				break;
+				else if (curState == 2) {
+					button2 = false;
+					button3 = true;
+				}
+				else if (curState == 3) {
+					button3 = false;
+					button4 = true;
+				}
+			}
+			break;
+			case VK_RIGHT:
+			{
+				if (curState > 0) curState = 0;
+				button1 = true;
+				button2 = button3 = button4 = false;
+			}
+			break;
+			case VK_LEFT:
+			{
+				curState = 1;
+				button1 = false;
+				button2 = true;
+			}
+			break;
 			default:
 				break;
 			}
@@ -946,7 +957,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	} else if (windowState == 2) {
+	}
+	else if (windowState == 2) {
 		switch (msg)
 		{
 		case WM_DESTROY: {
@@ -963,21 +975,21 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		} break;
 		case WM_KEYDOWN:
 		{
-			
+
 			int key = LOWORD(wp);
 			switch (key)
 			{
 			case VK_RETURN:
 				resetWindow1();
 				stopObjectSound();
-			break;
+				break;
 			case VK_A:
 			{
 				//game->currentPeople = 1;
 				//player.Left(10);
 				game->PeopleMove(1);
-			
-				
+
+
 			}
 			break;
 			case VK_D:
@@ -986,7 +998,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				//
 				//player.Right(10);
 				game->PeopleMove(2);
-				
+
 			}
 			break;
 			case VK_S:
@@ -1032,7 +1044,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	} else if (windowState == 3) {
+	}
+	else if (windowState == 3) {
 		switch (msg)
 		{
 		case WM_DESTROY: {
@@ -1147,7 +1160,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	} else if (windowState == 4) {
+	}
+	else if (windowState == 4) {
 		switch (msg)
 		{
 		case WM_DESTROY: {
@@ -1178,7 +1192,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	} else if (windowState == 5) {
+	}
+	else if (windowState == 5) {
 		switch (msg)
 		{
 		case WM_DESTROY: {
@@ -1286,13 +1301,14 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			}
 			break;
 			case VK_RIGHT:
-			{	
+			{
 				if (curState == 0) {
 					writingMode = true;
 					curState = 1;
 					button2 = true;
 					button1 = false;
-				} else if (curState == 2) {
+				}
+				else if (curState == 2) {
 					writingMode = false;
 					curState = 4;
 					button5 = true;
@@ -1307,7 +1323,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					curState = 0;
 					button1 = true;
 					button2 = button4 = false;
-				} else if (curState == 4) {
+				}
+				else if (curState == 4) {
 					writingMode = false;
 					curState = 2;
 					button3 = true;
@@ -1323,7 +1340,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	} else if (windowState == 6) {
+	}
+	else if (windowState == 6) {
 		switch (msg)
 		{
 		case WM_DESTROY: {
@@ -1344,11 +1362,13 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			if (key == VK_RETURN) {
 				if (curState == 0) resetWindow1();
 				else if (curState == 1) resetLeaderboardWindow();
-			} else if (key == VK_RIGHT) {
+			}
+			else if (key == VK_RIGHT) {
 				curState = 1;
 				button1 = false;
 				button2 = true;
-			} else if (key == VK_LEFT) {
+			}
+			else if (key == VK_LEFT) {
 				curState = 0;
 				button1 = true;
 				button2 = false;
@@ -1358,7 +1378,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	} else if (windowState == 7) {
+	}
+	else if (windowState == 7) {
 		switch (msg)
 		{
 		case WM_DESTROY: {
@@ -1383,18 +1404,21 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					game->SaveGame(tempName);
 					curState = 3;
 					button4 = button5 = true;
-				} else if (curState == 2 || curState == 4) resetWindow1();
+				}
+				else if (curState == 2 || curState == 4) resetWindow1();
 			}
 			else if (key == VK_RIGHT) {
 				if (curState == 0) {
 					curState = 1;
 					button1 = false;
 					button2 = true;
-				} else if (curState == 1) {
+				}
+				else if (curState == 1) {
 					curState = 2;
 					button2 = false;
 					button3 = true;
-				} else if (curState == 3) {
+				}
+				else if (curState == 3) {
 					curState = 4;
 					button5 = false;
 					button6 = true;
@@ -1405,11 +1429,13 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					curState = 0;
 					button1 = true;
 					button2 = false;
-				} else if (curState == 2) {
+				}
+				else if (curState == 2) {
 					curState = 1;
 					button2 = true;
 					button3 = false;
-				} else if (curState == 4) {
+				}
+				else if (curState == 4) {
 					curState = 3;
 					button5 = true;
 					button6 = false;
@@ -1454,7 +1480,8 @@ void printString(string str, int x, int y, int size) {
 						x += 320 / size;
 					} break;
 					}
-				} else {
+				}
+				else {
 					switch (c) {
 					case 'G': {
 						render_state.drawImage(gUpper, x, y, size, DEFAULT_BACKGROUND_COLOR);
