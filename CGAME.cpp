@@ -490,14 +490,49 @@ pair<int, vector<pair<string, pair<string, string>>>> CGAME::getListGames()
 	ifs.close();
 	return res;
 }
+void millisecondsToHoursMinutesSeconds(long long milliseconds, int& hours, int& minutes, int& seconds) {
+	
+	seconds = static_cast<int>(milliseconds / 1000);
 
+	
+	hours = seconds / 3600;
+	minutes = (seconds % 3600) / 60;
+	seconds = seconds % 60;
+}
+
+
+void millisecondsToDateTime(long long milliseconds, int& year, int& month, int& day, int& hours, int& minutes, int& seconds) {
+	
+	auto timePoint = std::chrono::system_clock::time_point(std::chrono::milliseconds(milliseconds));
+
+	
+	std::time_t time = std::chrono::system_clock::to_time_t(timePoint);
+	std::tm timeinfo;
+
+	
+	localtime_s(&timeinfo, &time);
+
+	
+	year = timeinfo.tm_year + 1900; 
+	month = timeinfo.tm_mon + 1;    
+	day = timeinfo.tm_mday;
+	hours = timeinfo.tm_hour;
+	minutes = timeinfo.tm_min;
+	seconds = timeinfo.tm_sec;
+}
 string CGAME::getCurTime()
 {
 	string res;
 	auto now = std::chrono::system_clock::now();
-	auto now_c = std::chrono::system_clock::to_time_t(now);
-	long long time_as_ll = static_cast<long long>(now_c);
-
-	return std::to_string(time_as_ll);
+	auto duration = now.time_since_epoch();
+	auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
+	long long currentTimeMillis = milliseconds.count();
+	std::cout << currentTimeMillis << std::endl;
+	int hours, minutes, seconds;
+	millisecondsToHoursMinutesSeconds(currentTimeMillis, hours, minutes, seconds);
+	int year, month, day;
+	millisecondsToDateTime(currentTimeMillis, year, month, day, hours, minutes, seconds);
+	res = to_string(day) + "/" + to_string(month) + "/" + to_string(year) + " " + to_string(hours) + ":" + to_string(minutes) + ":" + to_string(seconds);
+	return res;
 
 }
