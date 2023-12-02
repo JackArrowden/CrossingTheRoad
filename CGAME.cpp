@@ -532,7 +532,7 @@ string CGAME::getCurTime()
 	millisecondsToHoursMinutesSeconds(currentTimeMillis, hours, minutes, seconds);
 	int year, month, day;
 	millisecondsToDateTime(currentTimeMillis, year, month, day, hours, minutes, seconds);
-	res = to_string(day) + "/" + to_string(month) + "/" + to_string(year) + " " + to_string(hours) + ":" + to_string(minutes) + ":" + to_string(seconds);
+	res = to_string(day) + "/" + to_string(month) + "/" + to_string(year) + "_" + to_string(hours) + ":" + to_string(minutes) + ":" + to_string(seconds);
 	return res;
 
 }
