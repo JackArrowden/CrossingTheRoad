@@ -469,7 +469,7 @@ bool CGAME::loadNextLevel()
 	if (mainChar->isDead()) return false;
 	
 	string name = this->NameOfPlayer;
-	int score = this->CurrentScore;
+	int score = this->CurrentScore + this->getLevelScore();
 	int level = this->m_currentLevel + 1;
 	readFile("Data\\Default" + to_string(this->m_currentLevel) + ".txt");
 	this->NameOfPlayer = name;
@@ -481,6 +481,11 @@ bool CGAME::loadNextLevel()
 bool CGAME::isFinishGame()
 {
 	return m_currentLevel >= MAX_LEVEL;
+}
+
+int CGAME::getTotalScore() const
+{
+	return this->CurrentScore;
 }
 
 pair<int, vector<pair<string, pair<string, string>>>> CGAME::getListGames()
