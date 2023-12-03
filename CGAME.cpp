@@ -4,7 +4,10 @@
 
 bitmapHandMake CGAME::gameBackground("image\\gameWindow\\gameBgr.bmp");
 const int CGAME::MAX_LEVEL = 5;
-const int CGAME::TOP = 1280;
+const int CGAME::LEFT = 0;
+const int CGAME::RIGHT = 1280;
+const int CGAME::BOTTOM = 0;
+const int CGAME::TOP = 720;
 
 
 CGAME::CGAME()
@@ -207,10 +210,21 @@ bool CGAME::SaveGame()
 
 void CGAME::PeopleMove(int direc)
 {
-	if (direc == 1) mainChar->Left(10);
-	else if (direc== 2) mainChar->Right(10);
-	else if (direc == 3) mainChar->Up(10);
-	else if (direc == 4) mainChar->Down(10);
+	if (direc < 1 || 4 < direc) return;
+	if (direc < 3)
+	{
+		if (direc == 1) mainChar->Left(10);
+		else mainChar->Right(10);
+		if (mainChar->getLeft() < CGAME::LEFT) mainChar->Right(CGAME::LEFT - mainChar->getLeft());
+		else if (mainChar->getRight() > CGAME::RIGHT) mainChar->Left(mainChar->getRight() - CGAME::RIGHT);
+	}
+	else
+	{
+		if (direc == 3) mainChar->Up(10);
+		else mainChar->Down(10);
+		if (mainChar->GetmY() < CGAME::BOTTOM) mainChar->Up(CGAME::BOTTOM - mainChar->GetmY());
+	}
+
 
 	if (CheckStatePepple()) mainChar->setDead();
 	else if (mainChar->GetmY() > this->TOP) loadNextLevel();
