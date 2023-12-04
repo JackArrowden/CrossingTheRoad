@@ -33,6 +33,12 @@ bitmapHandMake logoutRed("Image\\mainWindow\\redLogOutBtn.bmp");
 bitmapHandMake setting("Image\\mainWindow\\setting.bmp");
 bitmapHandMake settingClicked("Image\\mainWindow\\settingClicked.bmp");
 
+//// Game window
+bitmapHandMake level1("Image\\gameWindow\\level1.bmp");
+bitmapHandMake level2("Image\\gameWindow\\level2.bmp");
+bitmapHandMake level3("Image\\gameWindow\\level3.bmp");
+bitmapHandMake level4("Image\\gameWindow\\level4.bmp");
+
 //// Setting window
 bitmapHandMake background3("Image\\soundSetting\\backgroundSetting.bmp");
 bitmapHandMake greenBgr("Image\\soundSetting\\greenBgr.bmp");
@@ -225,7 +231,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	// ########################################################
 	//						Main Window
 	// ########################################################
-	HWND window = CreateWindow(window_class.lpszClassName, L"Cross Game", WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720, 0, 0, hInstance, 0);
+	HWND window = CreateWindow(window_class.lpszClassName, L"Cross Game", WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 1280, 759, 0, 0, hInstance, 0);
 	LONG style = GetWindowLong(window, GWL_STYLE);
 	style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
 	SetWindowLong(window, GWL_STYLE, style);
@@ -323,6 +329,24 @@ void drawWindow2(HWND hWnd) {
 		resetGameOverWindow();
 		game->SaveScoreToLeaderBoard();
 	}
+
+	int level = game->getLevel();
+	int xPrint = 800, yPrint = 640, sizePrint = 4;
+	switch (level) {
+	case 1:
+		render_state.drawImage(level1, xPrint, yPrint, sizePrint, DEFAULT_BACKGROUND_COLOR);
+		break;
+	case 2:
+		render_state.drawImage(level2, xPrint, yPrint, sizePrint, DEFAULT_BACKGROUND_COLOR);
+		break;
+	case 3:
+		render_state.drawImage(level3, xPrint, yPrint, sizePrint, DEFAULT_BACKGROUND_COLOR);
+		break;
+	case 4:
+		render_state.drawImage(level4, xPrint, yPrint, sizePrint, DEFAULT_BACKGROUND_COLOR);
+		break;
+	}
+
 	apply(hWnd);
 }
 
