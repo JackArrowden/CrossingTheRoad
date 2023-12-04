@@ -326,7 +326,6 @@ void drawWindow2(HWND hWnd) {
 	apply(hWnd);
 }
 
-
 void enterGameWindow(HWND hWnd) {
 	render_state.drawImage(background5, 0, 0, 1);
 
@@ -468,11 +467,20 @@ void leaderboardWindow(HWND hWnd) {
 	else if (size == 1) firstY = 430;
 
 	for (auto i : leaderAcc) {
+		int size = 16;
+		if (to_string(i.first).length() > 4) size = 22; // small dummy code
 		printString(i.second.first, 235, firstY, 16);
-		printString(to_string(i.first), 585, firstY, 16);
-		//printString(i.second.second, 755, firstY, 16);
-		string strFirst = i.second.second.substr(0, i.second.second.length() - 9);
-		string strSecond = i.second.second.substr(i.second.second.length() - 8, i.second.second.length() - 1);
+		printString(to_string(i.first), 585, firstY, size);
+		string strFirst = "", strSecond = "", strTime = i.second.second;
+		bool next = false;
+		for (char c : strTime) {
+			if (c == 'T') {
+				next = true;
+				continue;
+			}
+			if (!next) strFirst += c;
+			else strSecond += c;
+		}
 		printString(strSecond, 748, firstY, 16);
 		printString(strFirst, 965, firstY, 16);
 		firstY += 120;
@@ -927,7 +935,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					resetLeaderboardWindow();
 					break;
 				case 3:
-					resetGameOverWindow();
+					running = false;
+					PostQuitMessage(0);
 					break;
 				default:
 					break;
