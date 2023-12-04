@@ -501,3 +501,7 @@ string CGAME::getCurTime()
 	return std::to_string(time_as_ll);
 
 }
+
+int CGAME::getCurScore() {
+	return this->CurrentScore;
+}

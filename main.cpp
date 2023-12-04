@@ -313,7 +313,10 @@ void drawWindow2(HWND hWnd) {
 
 	game->Draw(render_state);
 	game->run();
-	if (game->CheckStatePepple() == 1 || game->CheckStatePepple() == 2) resetGameOverWindow();
+	if (game->CheckStatePepple() == 1 || game->CheckStatePepple() == 2) {
+		resetGameOverWindow();
+		game->SaveScoreToLeaderBoard();
+	}
 	apply(hWnd);
 }
 
@@ -370,6 +373,8 @@ void gameOverWindow(HWND hWnd) {
 
 	if (!button2) render_state.drawImage(leaderWin6, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(leaderClickedWin6, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
+
+	printString(to_string(game->getCurScore()), 640, 542, 16);
 
 	apply(hWnd);
 }
@@ -986,8 +991,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		{
 
 			int key = LOWORD(wp);
-			switch (key)
-			{
+			switch (key) {
 			case VK_RETURN:
 				resetWindow1();
 				stopObjectSound();
@@ -997,8 +1001,6 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				//game->currentPeople = 1;
 				//player.Left(10);
 				game->PeopleMove(1);
-
-
 			}
 			break;
 			case VK_D:
@@ -1016,7 +1018,6 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				//
 				//player.Down(10);
 				game->PeopleMove(4);
-
 			}
 			break;
 			case VK_W:
@@ -1033,23 +1034,13 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				stopObjectSound();
 			}
 			break;
-			case VK_RIGHT:
-				CreateWindowW(L"static", L"Enter right text here: ", WS_VISIBLE | WS_CHILD, 200, 100, 300, 50, hWnd, NULL, NULL, NULL);
-				//MessageBox(hWnd, L"Arrow right clicked", L"Alert", MB_OK | MB_ICONINFORMATION);
-				break;
-			case VK_LEFT:
-				CreateWindowW(L"static", L"Enter left text here: ", WS_VISIBLE | WS_CHILD, 200, 100, 300, 50, hWnd, NULL, NULL, NULL);
-				//MessageBox(hWnd, L"Arrow left clicked", L"Alert", MB_OK | MB_ICONINFORMATION);
-				break;
-			default:
-				break;
-			}
 			if (game->CheckStatePepple() == 1 || game->CheckStatePepple() == 2) {
+				game->SaveScoreToLeaderBoard();
 				gameOverWindow(hWnd);
 				resetGameOverWindow();
 			}
-		}
-		break;
+			}
+		} break;
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}

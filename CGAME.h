@@ -87,6 +87,7 @@ public:
 	bool checkState() const;
 	bool loadNextLevel();
 	bool isFinishGame();
+	int getCurScore();
 
 	static pair<int, vector<pair<string, pair<string, string>>>> getListGames();
 	static string getCurTime();
