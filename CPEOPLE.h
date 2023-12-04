@@ -23,6 +23,8 @@ public:
 	CPEOPLE();
 	int GetmX() const;
 	int GetmY() const;
+	int getRight() const;
+	int getLeft() const;
 	void Up(int);
 	void Left(int);
 	void Right(int);

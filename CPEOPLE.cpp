@@ -56,6 +56,16 @@ int CPEOPLE::GetmY() const
 	return mY;
 }
 
+int CPEOPLE::getRight() const
+{
+	return mX + PEOPLE_RIGHT;
+}
+
+int CPEOPLE::getLeft() const
+{
+	return mX + PEOPLE_LEFT;
+}
+
 void CPEOPLE::Up(int y)
 {
 	mY += y;

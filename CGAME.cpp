@@ -4,7 +4,10 @@
 
 bitmapHandMake CGAME::gameBackground("image\\gameWindow\\gameBgr.bmp");
 const int CGAME::MAX_LEVEL = 5;
-const int CGAME::TOP = 1280;
+const int CGAME::LEFT = 0;
+const int CGAME::RIGHT = 1280;
+const int CGAME::BOTTOM = 0;
+const int CGAME::TOP = 720;
 
 
 CGAME::CGAME()
@@ -207,10 +210,21 @@ bool CGAME::SaveGame()
 
 void CGAME::PeopleMove(int direc)
 {
-	if (direc == 1) mainChar->Left(10);
-	else if (direc== 2) mainChar->Right(10);
-	else if (direc == 3) mainChar->Up(10);
-	else if (direc == 4) mainChar->Down(10);
+	if (direc < 1 || 4 < direc) return;
+	if (direc < 3)
+	{
+		if (direc == 1) mainChar->Left(10);
+		else mainChar->Right(10);
+		if (mainChar->getLeft() < CGAME::LEFT) mainChar->Right(CGAME::LEFT - mainChar->getLeft());
+		else if (mainChar->getRight() > CGAME::RIGHT) mainChar->Left(mainChar->getRight() - CGAME::RIGHT);
+	}
+	else
+	{
+		if (direc == 3) mainChar->Up(10);
+		else mainChar->Down(10);
+		if (mainChar->GetmY() < CGAME::BOTTOM) mainChar->Up(CGAME::BOTTOM - mainChar->GetmY());
+	}
+
 
 	if (CheckStatePepple()) mainChar->setDead();
 	else if (mainChar->GetmY() > this->TOP) loadNextLevel();
@@ -455,7 +469,7 @@ bool CGAME::loadNextLevel()
 	if (mainChar->isDead()) return false;
 	
 	string name = this->NameOfPlayer;
-	int score = this->CurrentScore;
+	int score = this->CurrentScore + this->getLevelScore();
 	int level = this->m_currentLevel + 1;
 	readFile("Data\\Default" + to_string(this->m_currentLevel) + ".txt");
 	this->NameOfPlayer = name;
@@ -467,6 +481,11 @@ bool CGAME::loadNextLevel()
 bool CGAME::isFinishGame()
 {
 	return m_currentLevel >= MAX_LEVEL;
+}
+
+int CGAME::getTotalScore() const
+{
+	return this->CurrentScore;
 }
 
 pair<int, vector<pair<string, pair<string, string>>>> CGAME::getListGames()
@@ -490,15 +509,50 @@ pair<int, vector<pair<string, pair<string, string>>>> CGAME::getListGames()
 	ifs.close();
 	return res;
 }
+void millisecondsToHoursMinutesSeconds(long long milliseconds, int& hours, int& minutes, int& seconds) {
+	
+	seconds = static_cast<int>(milliseconds / 1000);
 
+	
+	hours = seconds / 3600;
+	minutes = (seconds % 3600) / 60;
+	seconds = seconds % 60;
+}
+
+
+void millisecondsToDateTime(long long milliseconds, int& year, int& month, int& day, int& hours, int& minutes, int& seconds) {
+	
+	auto timePoint = std::chrono::system_clock::time_point(std::chrono::milliseconds(milliseconds));
+
+	
+	std::time_t time = std::chrono::system_clock::to_time_t(timePoint);
+	std::tm timeinfo;
+
+	
+	localtime_s(&timeinfo, &time);
+
+	
+	year = timeinfo.tm_year + 1900; 
+	month = timeinfo.tm_mon + 1;    
+	day = timeinfo.tm_mday;
+	hours = timeinfo.tm_hour;
+	minutes = timeinfo.tm_min;
+	seconds = timeinfo.tm_sec;
+}
 string CGAME::getCurTime()
 {
 	string res;
 	auto now = std::chrono::system_clock::now();
-	auto now_c = std::chrono::system_clock::to_time_t(now);
-	long long time_as_ll = static_cast<long long>(now_c);
-
-	return std::to_string(time_as_ll);
+	auto duration = now.time_since_epoch();
+	auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
+	long long currentTimeMillis = milliseconds.count();
+	std::cout << currentTimeMillis << std::endl;
+	int hours, minutes, seconds;
+	millisecondsToHoursMinutesSeconds(currentTimeMillis, hours, minutes, seconds);
+	int year, month, day;
+	millisecondsToDateTime(currentTimeMillis, year, month, day, hours, minutes, seconds);
+	res = to_string(day) + "/" + to_string(month) + "/" + to_string(year) + "_" + to_string(hours) + ":" + to_string(minutes) + ":" + to_string(seconds);
+	return res;
 
 }
 
