@@ -443,6 +443,8 @@ bool CGAME::SaveScoreToLeaderBoard()
 {
 	
 	multimap<int, pair<string, string>> res  = GetLeaderBoard();
+	auto it = res.begin();
+	if (it->first > CurrentScore) return true;
 	ofstream out;
 	out.open("Data\\LeaderBoard.txt");
 	if (!out.is_open()) return false;
