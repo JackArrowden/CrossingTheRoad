@@ -33,19 +33,6 @@ bitmapHandMake logoutRed("Image\\mainWindow\\redLogOutBtn.bmp");
 bitmapHandMake setting("Image\\mainWindow\\setting.bmp");
 bitmapHandMake settingClicked("Image\\mainWindow\\settingClicked.bmp");
 
-//// Game window
-bitmapHandMake background2("Image\\gameWindow\\gameBgr.bmp");
-bitmapHandMake background_city("Image\\gameWindow\\gameBgr_city.bmp");
-bitmapHandMake train_h("Image\\gameWindow\\train_h.bmp");
-//bitmapHandMake train_p("Image\\gameWindow\\train_p.bmp");
-bitmapHandMake train_e("Image\\gameWindow\\train_e.bmp");
-bitmapHandMake truck("Image\\gameWindow\\truck.bmp");
-bitmapHandMake person("Image\\person.bmp");
-bitmapHandMake car("Image\\gameWindow\\car.bmp");
-bitmapHandMake mouse("Image\\gameWindow\\mouse.bmp");
-bitmapHandMake bird("Image\\gameWindow\\bird.bmp");
-bitmapHandMake cat("Image\\gameWindow\\cat.bmp");
-
 //// Setting window
 bitmapHandMake background3("Image\\soundSetting\\backgroundSetting.bmp");
 bitmapHandMake greenBgr("Image\\soundSetting\\greenBgr.bmp");
@@ -217,12 +204,10 @@ void resetBtn();
 void resetCharArray(char[]);
 void stopObjectSound();
 void printString(string str, int x, int y, int size);
-//void drawImage(const bitmapHandMake& image, Render_State&);
 
 CGAME* game = new CGAME;
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
-	game->readFile("Data\\Default4.txt");
 	game->tell();
 	//ShowCursor(FALSE);
 	// ########################################################
@@ -252,7 +237,6 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 			}
 			else {
 				mciSendStringA("close MyFile", NULL, 0, NULL);
-				//PlaySound(0, NULL, 0);
 			}
 			gameSoundClick_temp = false;
 		}
@@ -1272,7 +1256,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					break;
 				case 3:
 					if (inputUserName.length() > 0) {
-						game->readFile("Data\\Default.txt");
+						game->readFile("Data\\Default1.txt");
 						game->SetNamePlayer(inputUserName);
 						choiceUserName = "";
 						inputUserName = "";
