@@ -401,16 +401,7 @@ int CGAME::CheckStatePepple() // 0: ko va cham, 1: va cham vehicle, 2: va cham a
 	return 0;
 }
 
-bool CGAME::SaveScoreToLeaderBoard()
-{
-	ofstream out;
-	out.open("Data\\LeaderBoard.txt", ios::app);
-	out << endl;
-	if (!out.is_open()) return false;
-	out << NameOfPlayer << " " << getCurTime() <<" "<<CurrentScore;
-	out.close();
-	return true;
-}
+
 
 void fileForGameLoading(string fileName, vector <pair<string, string>>& vect) {
 	ifstream ifs;
@@ -448,7 +439,29 @@ std::multimap<int, pair<string, string>> CGAME::GetLeaderBoard()
 	return res;
 
 }
+bool CGAME::SaveScoreToLeaderBoard()
+{
+	
+	multimap<int, pair<string, string>> res  = GetLeaderBoard();
+	ofstream out;
+	out.open("Data\\LeaderBoard.txt");
+	if (!out.is_open()) return false;
+	out << "Leaderboard";
 
+	pair<string, string> tmp2 = { NameOfPlayer, getCurTime()};
+	res.insert({ CurrentScore,tmp2 });
+	while (res.size() > 3)
+	{
+		res.erase(res.begin());
+	}
+	for (auto it : res)
+	{
+		out << endl;
+		out << it.second.first << " " << it.second.second << " " << it.first;
+	}
+	out.close();
+	return true;
+}
 int CGAME::getLevelScore() const
 {
 	return (this->m_currentLevel + 1) * 100;
@@ -486,6 +499,16 @@ bool CGAME::isFinishGame()
 int CGAME::getTotalScore() const
 {
 	return this->CurrentScore;
+}
+
+void CGAME::SetNamePlayer(string name)
+{
+	NameOfPlayer = name;
+}
+
+string CGAME::GetNameOfPlayer()
+{
+	return NameOfPlayer;
 }
 
 pair<int, vector<pair<string, pair<string, string>>>> CGAME::getListGames()

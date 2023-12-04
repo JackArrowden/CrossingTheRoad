@@ -1217,6 +1217,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			{
 				switch (curState) {
 				case 2:
+					game->SetNamePlayer(choiceUserName);
 					tempName = "";
 					resetWindow2();
 					choiceUserName = "";
@@ -1224,10 +1225,12 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					gameStage1Clicked = true;
 					break;
 				case 3:
+					game->readFile("Data\\Default.txt");
+					game->SetNamePlayer(inputUserName);
 					tempName = "";
 					choiceUserName = "";
 					inputUserName = "";
-					game->readFile("Data\\Default.txt");
+
 					resetWindow2();
 					gameStage1Clicked = true;
 					break;
