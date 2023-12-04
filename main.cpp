@@ -374,7 +374,7 @@ void gameOverWindow(HWND hWnd) {
 	if (!button2) render_state.drawImage(leaderWin6, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(leaderClickedWin6, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
 
-	printString(to_string(game->getCurScore()), 640, 542, 16);
+	printString(to_string(game->getTotalScore()), 640, 542, 16);
 
 	apply(hWnd);
 }

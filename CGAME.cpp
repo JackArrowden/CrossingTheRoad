@@ -555,7 +555,3 @@ string CGAME::getCurTime()
 	return res;
 
 }
-
-int CGAME::getCurScore() {
-	return this->CurrentScore;
-}
