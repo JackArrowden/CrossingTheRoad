@@ -98,6 +98,13 @@ bitmapHandMake backClickedWin6("Image\\gameOver\\backClickedWin6.bmp");
 bitmapHandMake leaderWin6("Image\\gameOver\\leaderWin6.bmp");
 bitmapHandMake leaderClickedWin6("Image\\gameOver\\leaderClickedWin6.bmp");
 
+// Game win window
+bitmapHandMake backgroundWin("Image\\gameWin\\backgroundWin.bmp");
+bitmapHandMake backWin("Image\\gameWin\\backWin.bmp");
+bitmapHandMake backWinClicked("Image\\gameWin\\backWinClicked.bmp");
+bitmapHandMake leaderWin("Image\\gameWin\\leaderWin.bmp");
+bitmapHandMake leaderWinClicked("Image\\gameWin\\leaderWinClicked.bmp");
+
 // Save game window
 bitmapHandMake saveGameBgr("Image\\saveGame\\saveGameBgr.bmp");
 bitmapHandMake continueBtn("Image\\saveGame\\continueBtn.bmp");
@@ -195,13 +202,15 @@ void settingWindow(HWND);
 void leaderboardWindow(HWND);
 void enterGameWindow(HWND);
 void gameOverWindow(HWND);
-void saveGameWindow(HWND hWnd);
+void gameWinWindow(HWND);
+void saveGameWindow(HWND);
 void resetWindow1();
 void resetWindow2();
 void resetSettingWindow();
 void resetLeaderboardWindow();
 void resetEnterGameWindow();
 void resetGameOverWindow();
+void resetGameWinWindow();
 void resetSaveGameWindow();
 void apply(HWND);
 void resetBtn();
@@ -269,6 +278,9 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 			break;
 		case 7:
 			saveGameWindow(window);
+			break;
+		case 8:
+			gameWinWindow(window);
 			break;
 		default:
 			break;
@@ -354,7 +366,7 @@ void enterGameWindow(HWND hWnd) {
 	for (int i = 0; i < listAcc.size(); i++) {
 		printString(to_string(index) + '.', firstX, firstY, 34);
 		printString(listAcc[i].first, firstX + 25, firstY, 34);
-		printString(listAcc[i].second, firstX + 170, firstY, 34);
+		printString(listAcc[i].second, firstX + 124, firstY, 34);
 		firstY -= 50;
 		index++;
 	}
@@ -373,6 +385,20 @@ void gameOverWindow(HWND hWnd) {
 
 	if (!button2) render_state.drawImage(leaderWin6, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(leaderClickedWin6, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
+
+	printString(to_string(game->getTotalScore()), 640, 542, 16);
+
+	apply(hWnd);
+}
+
+void gameWinWindow(HWND hWnd) {
+	render_state.drawImage(backgroundWin, 0, 0, 1);
+
+	if (!button1) render_state.drawImage(backWin, 50, 320, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(backWinClicked, 50, 320, 4, DEFAULT_BACKGROUND_COLOR);
+
+	if (!button2) render_state.drawImage(leaderWin, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(leaderWinClicked, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
 
 	printString(to_string(game->getTotalScore()), 640, 542, 16);
 
@@ -436,21 +462,21 @@ void leaderboardWindow(HWND hWnd) {
 	// back
 	render_state.drawImage(backClickLeader, 30, 610, 5, DEFAULT_BACKGROUND_COLOR);
 
-	render_state.drawImage(top1, 170, 405, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(top2, 170, 285, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(top3, 170, 165, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(top1, 70, 405, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(top2, 70, 285, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(top3, 70, 165, 3, DEFAULT_BACKGROUND_COLOR);
 
-	render_state.drawImage(nameFrame, 320, 420, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(nameFrame, 320, 300, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(nameFrame, 320, 180, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(nameFrame, 210, 420, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(nameFrame, 210, 300, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(nameFrame, 210, 180, 3, DEFAULT_BACKGROUND_COLOR);
 
-	render_state.drawImage(scoreFrame, 695, 420, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(scoreFrame, 695, 300, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(scoreFrame, 695, 180, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(scoreFrame, 565, 420, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(scoreFrame, 565, 300, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(scoreFrame, 565, 180, 3, DEFAULT_BACKGROUND_COLOR);
 
-	render_state.drawImage(dateRank, 880, 420, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(dateRank, 880, 300, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(dateRank, 880, 180, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(dateRank, 730, 420, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(dateRank, 730, 300, 3, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(dateRank, 730, 180, 3, DEFAULT_BACKGROUND_COLOR);
 
 	int size = leaderAcc.size(), firstY = 0;
 	if (size == 3) firstY = 190;
@@ -458,9 +484,13 @@ void leaderboardWindow(HWND hWnd) {
 	else if (size == 1) firstY = 430;
 
 	for (auto i : leaderAcc) {
-		printString(i.second.first, 345, firstY, 16);
-		printString(to_string(i.first), 715, firstY, 16);
-		printString(i.second.second, 905, firstY, 16);
+		printString(i.second.first, 235, firstY, 16);
+		printString(to_string(i.first), 585, firstY, 16);
+		//printString(i.second.second, 755, firstY, 16);
+		string strFirst = i.second.second.substr(0, i.second.second.length() - 9);
+		string strSecond = i.second.second.substr(i.second.second.length() - 8, i.second.second.length() - 1);
+		printString(strSecond, 748, firstY, 16);
+		printString(strFirst, 965, firstY, 16);
 		firstY += 120;
 	}
 
@@ -553,6 +583,11 @@ void resetWindow2() {
 
 void resetGameOverWindow() {
 	windowState = 6;
+	resetBtn();
+}
+
+void resetGameWinWindow() {
+	windowState = 8;
 	resetBtn();
 }
 
@@ -1217,22 +1252,33 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			{
 				switch (curState) {
 				case 2:
-					game->SetNamePlayer(choiceUserName);
-					tempName = "";
-					resetWindow2();
-					choiceUserName = "";
-					inputUserName = "";
-					gameStage1Clicked = true;
+					if (choiceUserName.length() == 1 && isdigit(choiceUserName[0])) {
+						game->readFile("Data\\" + choiceUserName + ".txt");
+						resetWindow2();
+						choiceUserName = "";
+						inputUserName = "";
+						gameStage1Clicked = true;
+					} else {
+						for (int i = 0; i < listAcc.size(); i++) {
+							if (listAcc[i].first == choiceUserName) {
+								game->readFile("Data\\" + to_string(i) + ".txt");
+								resetWindow2();
+								choiceUserName = "";
+								inputUserName = "";
+								gameStage1Clicked = true;
+							}
+						}
+					}
 					break;
 				case 3:
-					game->readFile("Data\\Default.txt");
-					game->SetNamePlayer(inputUserName);
-					tempName = "";
-					choiceUserName = "";
-					inputUserName = "";
-
-					resetWindow2();
-					gameStage1Clicked = true;
+					if (inputUserName.length() > 0) {
+						game->readFile("Data\\Default.txt");
+						game->SetNamePlayer(inputUserName);
+						choiceUserName = "";
+						inputUserName = "";
+						resetWindow2();
+						gameStage1Clicked = true;
+					}
 					break;
 				case 4:
 					tempName = "";
@@ -1344,7 +1390,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
 	}
-	else if (windowState == 6) {
+	else if (windowState == 6 || windowState == 8) {
 		switch (msg)
 		{
 		case WM_DESTROY: {
