@@ -461,9 +461,9 @@ void leaderboardWindow(HWND hWnd) {
 	render_state.drawImage(dateRank, 730, 300, 3, DEFAULT_BACKGROUND_COLOR);
 	render_state.drawImage(dateRank, 730, 180, 3, DEFAULT_BACKGROUND_COLOR);
 
-	int size = leaderAcc.size(), firstY = 0;
+	int size = static_cast<int>(leaderAcc.size()), firstY = 0;
 	if (size == 3) firstY = 190;
-	else if (size == 2) firstY == 310;
+	else if (size == 2) firstY = 310;
 	else if (size == 1) firstY = 430;
 
 	for (auto i : leaderAcc) {
@@ -1461,6 +1461,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
 	}
+	return DefWindowProcW(hWnd, msg, wp, lp);
 }
 
 void printString(string str, int x, int y, int size) {
