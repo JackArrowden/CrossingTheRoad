@@ -927,7 +927,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					resetLeaderboardWindow();
 					break;
 				case 3:
-					resetGameOverWindow();
+					running = false;
+					PostQuitMessage(0);
 					break;
 				default:
 					break;
