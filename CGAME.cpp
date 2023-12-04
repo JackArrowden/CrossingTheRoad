@@ -50,7 +50,7 @@ CGAME::CGAME(const std::string& file)
 	numOfMouses = 0;
 	mouse = NULL;
 	m_isRunning = 0;
-	m_currentLevel = 1;
+	m_currentLevel = 0;
 	CurrentScore = 0;
 	NameOfPlayer = "";
 	FileBackGround = "";
@@ -68,7 +68,7 @@ bool CGAME::readFile(const std::string& file)
 	ifstream ifs(file);
 	if (!ifs.is_open()) return false;
 	clear();
-
+	this->m_isRunning = 1;
 	getline(ifs, NameOfPlayer);
 
 	getline(ifs, this->FileBackGround);
@@ -210,7 +210,7 @@ bool CGAME::SaveGame()
 
 void CGAME::PeopleMove(int direc)
 {
-	if (direc < 1 || 4 < direc) return;
+	if (!m_isRunning || direc < 1 || 4 < direc) return;
 	if (direc < 3)
 	{
 		if (direc == 1) mainChar->Left(10);
@@ -278,6 +278,7 @@ void CGAME::clear()
 
 void CGAME::run()
 {
+	if (!m_isRunning) return;
 	int speed = this->getCurrentSpeed();
 	// update index of CANIMAL and CVEHICLE
 	for (int i = 0; i < numOfCars; i++) car[i].Move(speed);
@@ -481,15 +482,15 @@ bool CGAME::checkState() const
 
 bool CGAME::loadNextLevel()
 {
-	if (mainChar->isDead()) return false;
-	
+	if (mainChar->isDead() || this->isFinishGame()) return false;
+	int level = this->m_currentLevel + 1;
 	string name = this->NameOfPlayer;
 	int score = this->CurrentScore + this->getLevelScore();
-	int level = this->m_currentLevel + 1;
-	readFile("Data\\Default" + to_string(this->m_currentLevel) + ".txt");
+	readFile("Data\\Default" + to_string(level) + ".txt");
 	this->NameOfPlayer = name;
 	this->CurrentScore = score;
 	this->m_currentLevel = level;
+	if (this->m_currentLevel == CGAME::MAX_LEVEL) this->m_isRunning = 0;
 	return true;
 }
 
@@ -511,6 +512,11 @@ void CGAME::SetNamePlayer(string name)
 string CGAME::GetNameOfPlayer()
 {
 	return NameOfPlayer;
+}
+
+int CGAME::getLevel() const
+{
+	return this->m_currentLevel;
 }
 
 pair<int, vector<pair<string, pair<string, string>>>> CGAME::getListGames()
