@@ -90,6 +90,7 @@ public:
 	int getTotalScore() const;
 	void SetNamePlayer(string);
 	string GetNameOfPlayer();
+	int getLevel() const;
 
 	static pair<int, vector<pair<string, pair<string, string>>>> getListGames();
 	static string getCurTime();
