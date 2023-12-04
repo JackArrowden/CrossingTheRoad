@@ -58,7 +58,7 @@ void CAR::Move(int deltaX)
 
 void CAR::draw(Render_State& screen)
 {
-    screen.drawReac2P(CAR::getLeftX(), CAR::getRightX(), mY + bottomY, mY + topY, 1348109);
+    //screen.drawReac2P(CAR::getLeftX(), CAR::getRightX(), mY + bottomY, mY + topY, 1348109);
     if (direc < 0) screen.drawReverseImage(CAR::image, mX, mY, CAR_PER, DEFAULT_BACKGROUND_COLOR);
     else screen.drawImage(CAR::image, mX - image.width / CAR_PER, mY, CAR_PER, DEFAULT_BACKGROUND_COLOR);
 }

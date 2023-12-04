@@ -65,7 +65,7 @@ void CTRAIN::Move(int deltaX)
 
 void CTRAIN::draw(Render_State& screen)
 {
-    screen.drawReac2P(getLeftX(), getRightX(), mY + bottomY, mY + topY, 1348109);
+    //screen.drawReac2P(getLeftX(), getRightX(), mY + bottomY, mY + topY, 1348109);
     if (direc < 0)
     {
         screen.drawImage(CTRAIN::imageLocomotive, mX, mY, TRAIN_PER, DEFAULT_BACKGROUND_COLOR);

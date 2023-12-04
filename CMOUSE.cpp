@@ -53,7 +53,7 @@ void CMOUSE::Move(int deltaX)
 
 void CMOUSE::draw(Render_State& screen)
 {
-    screen.drawReac2P(CMOUSE::getLeftX(), CMOUSE::getRightX(), mY + bottomY, mY + topY, 1348109);
+    //screen.drawReac2P(CMOUSE::getLeftX(), CMOUSE::getRightX(), mY + bottomY, mY + topY, 1348109);
     if (direc < 0) screen.drawReverseImage(image, mX, mY, MOUSE_PER, DEFAULT_BACKGROUND_COLOR);
     else screen.drawImage(image, mX - image.width / MOUSE_PER, mY, MOUSE_PER, DEFAULT_BACKGROUND_COLOR);
 }

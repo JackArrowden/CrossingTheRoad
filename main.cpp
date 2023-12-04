@@ -307,8 +307,18 @@ void drawWindow2(HWND hWnd) {
 		gameStage1Clicked = false;
 	}
 
-	game->Draw(render_state);
-	game->run();
+	if (game->isFinishGame()) {
+		game->SaveScoreToLeaderBoard();
+		gameWinWindow(hWnd);
+		resetGameWinWindow();
+		
+	}
+	else
+	{
+		game->Draw(render_state);
+		game->run();
+	}
+
 	if (game->CheckStatePepple() == 1 || game->CheckStatePepple() == 2) {
 		resetGameOverWindow();
 		game->SaveScoreToLeaderBoard();
@@ -316,16 +326,6 @@ void drawWindow2(HWND hWnd) {
 	apply(hWnd);
 }
 
-void drawWindow3(HWND hWnd) {
-	//render_state.drawImage(background_city, 0, 0, 1);
-	//game->Draw(render_state);
-	//game->run();
-	//apply(hWnd);
-	game->Draw(render_state);
-	game->run();
-	if (game->CheckStatePepple() == 1 || game->CheckStatePepple() == 2) resetGameOverWindow();
-	apply(hWnd);
-}
 
 void enterGameWindow(HWND hWnd) {
 	render_state.drawImage(background5, 0, 0, 1);
@@ -1034,7 +1034,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				stopObjectSound();
 			}
 			break;
-			if (game->CheckStatePepple() == 1 || game->CheckStatePepple() == 2) {
+			if (game->checkState()) {
 				game->SaveScoreToLeaderBoard();
 				gameOverWindow(hWnd);
 				resetGameOverWindow();

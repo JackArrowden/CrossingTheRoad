@@ -58,7 +58,7 @@ void CTRUCK::Move(int deltaX)
 
 void CTRUCK::draw(Render_State& screen)
 {
-    screen.drawReac2P(getLeftX(), getRightX(), mY + bottomY, mY + topY, 1348109);
+    //screen.drawReac2P(getLeftX(), getRightX(), mY + bottomY, mY + topY, 1348109);
     if (direc < 0) screen.drawReverseImage(image, mX , mY, TRUCK_PER, DEFAULT_BACKGROUND_COLOR);
     else screen.drawImage(image, mX - image.width / TRUCK_PER, mY, TRUCK_PER, DEFAULT_BACKGROUND_COLOR);
 }

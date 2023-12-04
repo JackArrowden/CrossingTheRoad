@@ -56,7 +56,7 @@ void CBIRD::Move(int deltaX)
 
 void CBIRD::draw(Render_State& screen)
 {
-    screen.drawReac2P(getLeftX(), getRightX(), mY + bottomY, mY + topY, 1348109);
+    //screen.drawReac2P(getLeftX(), getRightX(), mY + bottomY, mY + topY, 1348109);
     if (direc < 0) screen.drawImage(image, mX, mY, BIRD_PER, DEFAULT_BACKGROUND_COLOR);
     else screen.drawReverseImage(image, mX - image.width / BIRD_PER, mY, BIRD_PER, DEFAULT_BACKGROUND_COLOR);
 }

@@ -7,7 +7,7 @@ const int CGAME::MAX_LEVEL = 5;
 const int CGAME::LEFT = 0;
 const int CGAME::RIGHT = 1280;
 const int CGAME::BOTTOM = 0;
-const int CGAME::TOP = 720;
+const int CGAME::TOP = 680;
 
 
 CGAME::CGAME()

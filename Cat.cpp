@@ -53,7 +53,7 @@ void CAT::Move(int deltaX)
 
 void CAT::draw(Render_State& screen)
 {
-    screen.drawReac2P(CAT::getLeftX(), CAT::getRightX(), mY + bottomY, mY + topY, 1348109);
+    //screen.drawReac2P(CAT::getLeftX(), CAT::getRightX(), mY + bottomY, mY + topY, 1348109);
     if (direc < 0) screen.drawImage(image, mX, mY, CAT_PER, DEFAULT_BACKGROUND_COLOR);
     else screen.drawReverseImage(image, mX - image.width / CAT_PER, mY, CAT_PER, DEFAULT_BACKGROUND_COLOR);
 }

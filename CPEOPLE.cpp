@@ -89,7 +89,7 @@ void CPEOPLE::Down(int y)
 
 void CPEOPLE::draw(Render_State& screen)
 {
-	screen.drawReac2P(mX + PEOPLE_LEFT, mX + PEOPLE_RIGHT, mY + PEOPLE_BOTTOM, mY + PEOPLE_TOP, 1348109);
+	//screen.drawReac2P(mX + PEOPLE_LEFT, mX + PEOPLE_RIGHT, mY + PEOPLE_BOTTOM, mY + PEOPLE_TOP, 1348109);
 	screen.drawImage(image, mX, mY, 4, DEFAULT_BACKGROUND_COLOR);
 }
 
