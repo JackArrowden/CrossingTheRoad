@@ -1016,36 +1016,17 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				stopObjectSound();
 				break;
 			case VK_A:
-			{
-				//game->currentPeople = 1;
-				//player.Left(10);
 				game->PeopleMove(1);
-			}
-			break;
+				break;
 			case VK_D:
-			{
-				//game->currentPeople = 2;
-				//
-				//player.Right(10);
 				game->PeopleMove(2);
-
-			}
-			break;
+				break;
 			case VK_S:
-			{
-				//game->currentPeople = 4;
-				//
-				//player.Down(10);
 				game->PeopleMove(4);
-			}
-			break;
+				break;
 			case VK_W:
-			{
-				//game->currentPeople = 3;
-				//player.Up(10);
 				game->PeopleMove(3);
-			}
-			break;
+				break;
 			case VK_L:
 			{
 				writingMode = true;
@@ -1057,6 +1038,11 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				game->SaveScoreToLeaderBoard();
 				gameOverWindow(hWnd);
 				resetGameOverWindow();
+			}
+			if (game->isFinishGame()) {
+				game->SaveScoreToLeaderBoard();
+				gameWinWindow(hWnd);
+				resetGameWinWindow();
 			}
 			}
 		} break;
