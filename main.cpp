@@ -494,28 +494,14 @@ void saveGameWindow(HWND hWnd) {
 		render_state.drawImage(saveGameBgr, 0, 0, 1);
 
 		// back
-		if (!button1) render_state.drawImage(exitSaveGame, 160, 160, 3, DEFAULT_BACKGROUND_COLOR);
-		else render_state.drawImage(exitSaveGameClicked, 160, 160, 3, DEFAULT_BACKGROUND_COLOR);
+		if (!button1) render_state.drawImage(exitSaveGame, 80, 250, 3, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(exitSaveGameClicked, 80, 250, 3, DEFAULT_BACKGROUND_COLOR);
 
-		if (!button2) render_state.drawImage(saveGameBtn, 465, 130, 3, DEFAULT_BACKGROUND_COLOR);
-		else render_state.drawImage(saveGameBtnClicked, 465, 130, 3, DEFAULT_BACKGROUND_COLOR);
+		if (!button2) render_state.drawImage(saveGameBtn, 490, 220, 3, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(saveGameBtnClicked, 490, 220, 3, DEFAULT_BACKGROUND_COLOR);
 
-		if (!button3) render_state.drawImage(leaveGame, 780, 160, 3, DEFAULT_BACKGROUND_COLOR);
-		else render_state.drawImage(leaveGameClicked, 780, 160, 3, DEFAULT_BACKGROUND_COLOR);
-
-		//if (backSpace) {
-		//	resetCharArray(tempNameChar);
-		//	backSpace = false;
-		//}
-
-		//int index = 0;
-		//for (auto i : tempName) {
-		//	tempNameChar[index] = i;
-		//	index++;
-		//}
-		//tempName[index] = '\0';
-		//render_state.draw_text(tempNameChar, -70, -2, 1, 0x000000);
-		printString(tempName, 130, 282, 14);
+		if (!button3) render_state.drawImage(leaveGame, 880, 250, 3, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(leaveGameClicked, 880, 250, 3, DEFAULT_BACKGROUND_COLOR);
 	}
 	else {
 		render_state.drawImage(continueOrExit, 0, 0, 1);
