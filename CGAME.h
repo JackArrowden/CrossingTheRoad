@@ -88,6 +88,8 @@ public:
 	bool loadNextLevel();
 	bool isFinishGame();
 	int getTotalScore() const;
+	void SetNamePlayer(string);
+	string GetNameOfPlayer();
 
 	static pair<int, vector<pair<string, pair<string, string>>>> getListGames();
 	static string getCurTime();
