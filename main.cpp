@@ -24,6 +24,7 @@ multimap<int, pair<string, string>> leaderAcc;
 
 //// Main window
 bitmapHandMake background1("Image\\mainWindow\\background.bmp");
+bitmapHandMake nameGamePic("Image\\mainWindow\\nameGamePic.bmp");
 bitmapHandMake playBtn("Image\\mainWindow\\playButton.bmp");
 bitmapHandMake leaderBtn("Image\\mainWindow\\leaderButton.bmp");
 bitmapHandMake logoutBtn("Image\\mainWindow\\logOutButton.bmp");
@@ -221,6 +222,8 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	// ########################################################
 	// Create Window Class
 	WNDCLASS window_class = {};
+	HANDLE hIcon = LoadImage(0, _T("Image/road.ico"), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
+	window_class.hIcon = (HICON)hIcon;
 	window_class.style = CS_HREDRAW | CS_VREDRAW;
 	window_class.lpszClassName = L"Game Window Class";
 	window_class.lpfnWndProc = WindowProcedure;
@@ -289,6 +292,8 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 
 void drawWindow1(HWND hWnd) {
 	render_state.drawImage(background1, 0, 0, 1);
+
+	render_state.drawImage(nameGamePic, 130, 470, 4, DEFAULT_BACKGROUND_COLOR);
 
 	if (!button1) render_state.drawImage(setting, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(settingClicked, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
