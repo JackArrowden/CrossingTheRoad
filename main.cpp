@@ -293,7 +293,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 void drawWindow1(HWND hWnd) {
 	render_state.drawImage(background1, 0, 0, 1);
 
-	render_state.drawImage(nameGamePic, 130, 470, 4, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(nameGamePic, 120, 470, 4, DEFAULT_BACKGROUND_COLOR);
 
 	if (!button1) render_state.drawImage(setting, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(settingClicked, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
