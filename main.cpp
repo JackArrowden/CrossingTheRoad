@@ -156,13 +156,9 @@ bitmapHandMake question("Image\\char\\question.bmp");
 bitmapHandMake colon("Image\\char\\colon.bmp");
 
 static bool running = true;
-CPEOPLE player;
-CBIRD Bird(1300, 500, -1);
-CAR Car(1300, 160, -1);
-CAT Cat(1300, 300, -1);
+
 CTRAIN Train(1300, 350, -1, 3);
-CMOUSE Mouse(1300, 300, -1);
-CTRUCK Truck(1300, 50, -1);
+
 enum {
 	BUTTON_UP,
 	BUTTON_DOWN,
@@ -215,7 +211,7 @@ void printString(string str, int x, int y, int size);
 CGAME* game = new CGAME;
 
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
-	game->tell();
+	//game->tell();
 	//ShowCursor(FALSE);
 	// ########################################################
 	//						Window Class
