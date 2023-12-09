@@ -17,7 +17,7 @@ int xBird = 1200;
 int xMouse = 1200;
 int xCat = 1200;
 bool button1 = false, button2 = false, button3 = false, button4 = false, button5 = false, button6 = false;
-bool gameSoundClick = false, objectSoundClick = false, gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false, gameStage1Clicked = false;
+bool gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false, gameStage1Clicked = false;
 bool isDataChanged = false; // This variable is used to check if the user's data is changed or not, if changed, calls sort function
 vector <pair<string, string>> listAcc;
 multimap<int, pair<string, string>> leaderAcc;
@@ -55,13 +55,6 @@ bitmapHandMake objectSoundOffClicked("Image\\soundSetting\\objectSoundOffClicked
 
 // Leaderboard window
 bitmapHandMake background4("Image\\leaderBoard\\leaderBoardBg.bmp");
-bitmapHandMake top1("Image\\leaderBoard\\top1.bmp");
-bitmapHandMake top2("Image\\leaderBoard\\top2.bmp");
-bitmapHandMake top3("Image\\leaderBoard\\top3.bmp");
-bitmapHandMake nameFrame("Image\\leaderBoard\\nameFrame.bmp");
-bitmapHandMake scoreFrame("Image\\leaderBoard\\scoreFrame.bmp");
-bitmapHandMake dateRank("Image\\leaderBoard\\dateRank.bmp");
-bitmapHandMake backClickLeader("Image\\leaderBoard\\backClickLeader.bmp");
 
 // Enter game window
 bool writingMode = false;
@@ -153,29 +146,6 @@ bitmapHandMake colon("Image\\char\\colon.bmp");
 static bool running = true;
 
 CTRAIN Train(1300, 350, -1, 3);
-
-enum {
-	BUTTON_UP,
-	BUTTON_DOWN,
-	BUTTON_W,
-	BUTTON_S,
-	BUTTON_A,
-	BUTTON_D,
-	BUTTON_LEFT,
-	BUTTON_RIGHT,
-	BUTTON_ENTER,
-
-	BUTTON_COUNT, // Should be the last item
-};
-
-struct Button_State {
-	bool is_down;
-	bool changed;
-};
-
-struct Input {
-	Button_State buttons[BUTTON_COUNT];
-};
 
 static Render_State render_state;
 
@@ -413,24 +383,24 @@ void settingWindow(HWND hWnd) {
 	render_state.drawImage(background3, 0, 0, 1);
 
 	// back
-	if (backClick) render_state.drawImage(backClicked, 10, 470, 8, DEFAULT_BACKGROUND_COLOR);
+	if (button1) render_state.drawImage(backClicked, 10, 470, 8, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(backUnclicked, 10, 470, 8, DEFAULT_BACKGROUND_COLOR);
 
 	// game
 	if (gameSound) {
-		if (gameSoundClick) render_state.drawImage(gameSoundOnClicked, 900, 390, 4, DEFAULT_BACKGROUND_COLOR);
+		if (button2) render_state.drawImage(gameSoundOnClicked, 900, 390, 4, DEFAULT_BACKGROUND_COLOR);
 		else render_state.drawImage(gameSoundOn, 900, 390, 4, DEFAULT_BACKGROUND_COLOR);
 	} else {
-		if (gameSoundClick) render_state.drawImage(gameSoundOffClicked, 900, 390, 4, DEFAULT_BACKGROUND_COLOR);
+		if (button2) render_state.drawImage(gameSoundOffClicked, 900, 390, 4, DEFAULT_BACKGROUND_COLOR);
 		else render_state.drawImage(gameSoundOff, 900, 390, 4, DEFAULT_BACKGROUND_COLOR);
 	}
 
 	// object
 	if (objectSound) {
-		if (objectSoundClick) render_state.drawImage(objectSoundOnClicked, 900, 190, 4, DEFAULT_BACKGROUND_COLOR);
+		if (button3) render_state.drawImage(objectSoundOnClicked, 900, 190, 4, DEFAULT_BACKGROUND_COLOR);
 		else render_state.drawImage(objectSoundOn, 900, 190, 4, DEFAULT_BACKGROUND_COLOR);
 	} else {
-		if (objectSoundClick) render_state.drawImage(objectSoundOffClicked, 900, 190, 4, DEFAULT_BACKGROUND_COLOR);
+		if (button3) render_state.drawImage(objectSoundOffClicked, 900, 190, 4, DEFAULT_BACKGROUND_COLOR);
 		else render_state.drawImage(objectSoundOff, 900, 190, 4, DEFAULT_BACKGROUND_COLOR);
 	}
 
@@ -441,34 +411,19 @@ void leaderboardWindow(HWND hWnd) {
 	render_state.drawImage(background4, 0, 0, 1);
 
 	// back
-	render_state.drawImage(backClickLeader, 30, 610, 5, DEFAULT_BACKGROUND_COLOR);
-
-	render_state.drawImage(top1, 70, 405, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(top2, 70, 285, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(top3, 70, 165, 3, DEFAULT_BACKGROUND_COLOR);
-
-	render_state.drawImage(nameFrame, 210, 420, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(nameFrame, 210, 300, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(nameFrame, 210, 180, 3, DEFAULT_BACKGROUND_COLOR);
-
-	render_state.drawImage(scoreFrame, 565, 420, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(scoreFrame, 565, 300, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(scoreFrame, 565, 180, 3, DEFAULT_BACKGROUND_COLOR);
-
-	render_state.drawImage(dateRank, 730, 420, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(dateRank, 730, 300, 3, DEFAULT_BACKGROUND_COLOR);
-	render_state.drawImage(dateRank, 730, 180, 3, DEFAULT_BACKGROUND_COLOR);
+	if (!button1) render_state.drawImage(backUnclicked, 10, 540, 8, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(backClicked, 10, 540, 8, DEFAULT_BACKGROUND_COLOR);
 
 	int size = static_cast<int>(leaderAcc.size()), firstY = 0;
-	if (size == 3) firstY = 190;
-	else if (size == 2) firstY = 310;
-	else if (size == 1) firstY = 430;
+	if (size == 3) firstY = 180;
+	else if (size == 2) firstY = 302;
+	else if (size == 1) firstY = 424;
 
 	for (auto i : leaderAcc) {
-		int size = 16;
+		int size = 20;
 		if (to_string(i.first).length() > 4) size = 22; // small dummy code
-		printString(i.second.first, 235, firstY, 16);
-		printString(to_string(i.first), 585, firstY, size);
+		printString(i.second.first, 369, firstY, 20);
+		printString(to_string(i.first), 612, firstY, size);
 		string strFirst = "", strSecond = "", strTime = i.second.second;
 		bool next = false;
 		for (char c : strTime) {
@@ -479,9 +434,9 @@ void leaderboardWindow(HWND hWnd) {
 			if (!next) strFirst += c;
 			else strSecond += c;
 		}
-		printString(strSecond, 748, firstY, 16);
-		printString(strFirst, 965, firstY, 16);
-		firstY += 120;
+		printString(strSecond, 804, firstY, 20);
+		printString(strFirst, 1034, firstY, 20);
+		firstY += 122;
 	}
 
 	apply(hWnd);
@@ -522,8 +477,6 @@ void resetBtn() {
 
 void resetSettingWindow() {
 	windowState = 3;
-	gameSoundClick = false;
-	objectSoundClick = false;
 	backClick = false;
 	resetBtn();
 }
@@ -1083,7 +1036,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			{
 				switch (curState) {
 				case 0:
-					resetWindow1();
+					if (button1) resetWindow1();
 					break;
 				case 1:
 					gameSound = !gameSound;
@@ -1102,12 +1055,12 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				if (curState > 0) curState--;
 				switch (curState) {
 				case 0:
-					backClick = true;
-					gameSoundClick = false;
+					button1 = true;
+					button2 = false;
 					break;
 				case 1:
-					gameSoundClick = true;
-					objectSoundClick = false;
+					button2 = true;
+					button3 = false;
 					break;
 				default:
 					break;
@@ -1119,12 +1072,12 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				if (curState < 2) curState++;
 				switch (curState) {
 				case 1:
-					gameSoundClick = true;
-					backClick = false;
+					button1 = false;
+					button2 = true;
 					break;
 				case 2:
-					gameSoundClick = false;
-					objectSoundClick = true;
+					button2 = false;
+					button3 = true;
 					break;
 				default:
 					break;
@@ -1133,16 +1086,16 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			break;
 			case VK_LEFT:
 			{
-				gameSoundClick = true;
+				button2 = true;
 				if (curState > 0) curState--;
 				switch (curState) {
 				case 0:
-					backClick = true;
-					gameSoundClick = false;
+					button1 = true;
+					button2 = false;
 					break;
 				case 1:
-					gameSoundClick = true;
-					objectSoundClick = false;
+					button2 = true;
+					button3 = false;
 					break;
 				default:
 					break;
@@ -1154,12 +1107,12 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				if (curState < 2) curState++;
 				switch (curState) {
 				case 1:
-					gameSoundClick = true;
-					backClick = false;
+					button1 = false;
+					button2 = true;
 					break;
 				case 2:
-					gameSoundClick = false;
-					objectSoundClick = true;
+					button2 = false;
+					button3 = true;
 					break;
 				default:
 					break;
@@ -1193,14 +1146,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		case WM_KEYDOWN:
 		{
 			int key = LOWORD(wp);
-			switch (key)
-			{
-			case VK_RETURN:
-				resetWindow1();
-				break;
-			default:
-				break;
-			}
+			if (key == VK_RETURN && button1) resetWindow1();
+			else  if (key == VK_UP || key == VK_DOWN || key == VK_LEFT || key == VK_RIGHT) button1 = !button1;
 		}
 		break;
 		default:
