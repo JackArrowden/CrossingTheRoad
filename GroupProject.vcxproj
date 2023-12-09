@@ -139,7 +139,6 @@
     <ClCompile Include="CTRAIN.cpp" />
     <ClCompile Include="CTRUCK.cpp" />
     <ClCompile Include="CVEHICLE.cpp" />
-    <ClCompile Include="fileHandling.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CMOUSE.cpp" />
   </ItemGroup>
@@ -157,7 +156,6 @@
     <ClInclude Include="CTRUCK.h" />
     <ClInclude Include="CVEHICLE.h" />
     <ClInclude Include="CMOUSE.h" />
-    <ClInclude Include="fileHandling.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Data\Default.txt" />

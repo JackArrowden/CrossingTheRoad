@@ -2,7 +2,6 @@
 //
 #include "BitMap.h"
 #include "CGAME.h"
-#include "fileHandling.h"
 
 #define MAX_LOADSTRING 100
 
@@ -150,6 +149,7 @@ CTRAIN Train(1300, 350, -1, 3);
 static Render_State render_state;
 
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp);
+
 void drawWindow1(HWND);
 void drawWindow2(HWND);
 void drawWindow3(HWND);
@@ -188,6 +188,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	window_class.style = CS_HREDRAW | CS_VREDRAW;
 	window_class.lpszClassName = L"Game Window Class";
 	window_class.lpfnWndProc = WindowProcedure;
+	window_class.hInstance = hInstance;
 
 	// Register Class
 	RegisterClass(&window_class);
@@ -236,9 +237,8 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 		case 8:
 			gameWinWindow(window);
 			break;
-		default:
-			break;
 		}
+		apply(window);
 
 		MSG msg;
 		while (PeekMessage(&msg, window, 0, 0, PM_REMOVE))
@@ -253,7 +253,6 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 
 void drawWindow1(HWND hWnd) {
 	render_state.drawImage(background1, 0, 0, 1);
-
 	render_state.drawImage(nameGamePic, 120, 470, 4, DEFAULT_BACKGROUND_COLOR);
 
 	if (!button1) render_state.drawImage(setting, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
@@ -267,8 +266,6 @@ void drawWindow1(HWND hWnd) {
 
 	if (!button4) render_state.drawImage(logoutBtn, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(logoutRed, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
-
-	apply(hWnd);
 }
 
 void drawWindow2(HWND hWnd) {
@@ -313,8 +310,6 @@ void drawWindow2(HWND hWnd) {
 		render_state.drawImage(level4, xPrint, yPrint, sizePrint, DEFAULT_BACKGROUND_COLOR);
 		break;
 	}
-
-	apply(hWnd);
 }
 
 void enterGameWindow(HWND hWnd) {
@@ -347,8 +342,6 @@ void enterGameWindow(HWND hWnd) {
 
 	printString(choiceUserName, 392, 183, 38);
 	printString(inputUserName, 870, 420, 38);
-
-	apply(hWnd);
 }
 
 void gameOverWindow(HWND hWnd) {
@@ -361,8 +354,6 @@ void gameOverWindow(HWND hWnd) {
 	else render_state.drawImage(leaderClickedWin6, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
 
 	printString(to_string(game->getTotalScore()), 640, 542, 16);
-
-	apply(hWnd);
 }
 
 void gameWinWindow(HWND hWnd) {
@@ -375,8 +366,6 @@ void gameWinWindow(HWND hWnd) {
 	else render_state.drawImage(leaderWinClicked, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
 
 	printString(to_string(game->getTotalScore()), 640, 542, 16);
-
-	apply(hWnd);
 }
 
 void settingWindow(HWND hWnd) {
@@ -403,8 +392,6 @@ void settingWindow(HWND hWnd) {
 		if (button3) render_state.drawImage(objectSoundOffClicked, 900, 190, 4, DEFAULT_BACKGROUND_COLOR);
 		else render_state.drawImage(objectSoundOff, 900, 190, 4, DEFAULT_BACKGROUND_COLOR);
 	}
-
-	apply(hWnd);
 }
 
 void leaderboardWindow(HWND hWnd) {
@@ -438,8 +425,6 @@ void leaderboardWindow(HWND hWnd) {
 		printString(strFirst, 1034, firstY, 20);
 		firstY += 122;
 	}
-
-	apply(hWnd);
 }
 
 void saveGameWindow(HWND hWnd) {
@@ -465,8 +450,6 @@ void saveGameWindow(HWND hWnd) {
 		if (!button6) render_state.drawImage(exitReplayBtn, 650, 165, 4, DEFAULT_BACKGROUND_COLOR);
 		else render_state.drawImage(exitReplayBtnClicked, 650, 165, 4, DEFAULT_BACKGROUND_COLOR);
 	}
-
-	apply(hWnd);
 }
 
 void resetBtn() {
@@ -532,23 +515,23 @@ void stopObjectSound() {
 
 void apply(HWND hWnd) {
 	HDC hdc = GetDC(hWnd);
-	float delta_time = 0.016666f;
-	LARGE_INTEGER frame_begin_time;
-	QueryPerformanceCounter(&frame_begin_time);
+	//float delta_time = 0.016666f;
+	//LARGE_INTEGER frame_begin_time;
+	//QueryPerformanceCounter(&frame_begin_time);
 
-	float performance_frequency;
-	{
-		LARGE_INTEGER perf;
-		QueryPerformanceFrequency(&perf);
-		performance_frequency = (float)perf.QuadPart;
-	}
+	//float performance_frequency;
+	//{
+	//	LARGE_INTEGER perf;
+	//	QueryPerformanceFrequency(&perf);
+	//	performance_frequency = (float)perf.QuadPart;
+	//}
 
 	StretchDIBits(hdc, 0, 0, render_state.width, render_state.height, 0, 0, render_state.width, render_state.height, render_state.memory, &render_state.bitmap_info, DIB_RGB_COLORS, SRCCOPY);
 
-	LARGE_INTEGER frame_end_time;
-	QueryPerformanceCounter(&frame_end_time);
-	delta_time = (float)(frame_end_time.QuadPart - frame_begin_time.QuadPart) / performance_frequency;
-	frame_begin_time = frame_end_time;
+	//LARGE_INTEGER frame_end_time;
+	//QueryPerformanceCounter(&frame_end_time);
+	//delta_time = (float)(frame_end_time.QuadPart - frame_begin_time.QuadPart) / performance_frequency;
+	//frame_begin_time = frame_end_time;
 }
 
 void resetCharArray(char arr[]) {
@@ -927,9 +910,11 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			break;
 			case VK_LEFT:
 			{
-				curState = 1;
-				button1 = false;
-				button2 = true;
+				if (curState == 0) {
+					curState = 1;
+					button1 = false;
+					button2 = true;
+				}
 			}
 			break;
 			default:

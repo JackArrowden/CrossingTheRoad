@@ -54,9 +54,6 @@
     <ClCompile Include="ConsoleHandle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="fileHandling.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BitMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -99,9 +96,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BitMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="fileHandling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
