@@ -150,17 +150,16 @@ static Render_State render_state;
 
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp);
 
-void drawWindow1(HWND);
-void drawWindow2(HWND);
-void drawWindow3(HWND);
+void mainWindow(HWND);
+void gameWindow(HWND);
 void settingWindow(HWND);
 void leaderboardWindow(HWND);
 void enterGameWindow(HWND);
 void gameOverWindow(HWND);
 void gameWinWindow(HWND);
 void saveGameWindow(HWND);
-void resetWindow1();
-void resetWindow2();
+void resetMainWindow();
+void resetGameWindow();
 void resetSettingWindow();
 void resetLeaderboardWindow();
 void resetEnterGameWindow();
@@ -169,7 +168,6 @@ void resetGameWinWindow();
 void resetSaveGameWindow();
 void apply(HWND);
 void resetBtn();
-void resetCharArray(char[]);
 void stopObjectSound();
 void printString(string str, int x, int y, int size);
 
@@ -227,10 +225,10 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 
 		switch (windowState) {
 		case 1:
-			drawWindow1(window);
+			mainWindow(window);
 			break;
 		case 2:
-			drawWindow2(window);
+			gameWindow(window);
 			break;
 		case 3:
 			settingWindow(window);
@@ -270,7 +268,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	return 0;
 }
 
-void drawWindow1(HWND hWnd) {
+void mainWindow(HWND hWnd) {
 	render_state.drawImage(background1, 0, 0, 1);
 	render_state.drawImage(nameGamePic, 120, 470, 4, DEFAULT_BACKGROUND_COLOR);
 
@@ -287,7 +285,7 @@ void drawWindow1(HWND hWnd) {
 	else render_state.drawImage(logoutRed, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
 }
 
-void drawWindow2(HWND hWnd) {
+void gameWindow(HWND hWnd) {
 	if (gameStage1Clicked) {
 		if (objectSound) {
 			game->tell();
@@ -497,12 +495,12 @@ void resetLeaderboardWindow() {
 	resetBtn();
 }
 
-void resetWindow1() {
+void resetMainWindow() {
 	windowState = 1;
 	resetBtn();
 }
 
-void resetWindow2() {
+void resetGameWindow() {
 	windowState = 2;
 	resetBtn();
 }
@@ -551,14 +549,6 @@ void apply(HWND hWnd) {
 	//QueryPerformanceCounter(&frame_end_time);
 	//delta_time = (float)(frame_end_time.QuadPart - frame_begin_time.QuadPart) / performance_frequency;
 	//frame_begin_time = frame_end_time;
-}
-
-void resetCharArray(char arr[]) {
-	int index = 0;
-	while (arr[index] != '\0') {
-		arr[index] = '\0';
-		index++;
-	}
 }
 
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
@@ -966,7 +956,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			int key = LOWORD(wp);
 			switch (key) {
 			case VK_RETURN:
-				resetWindow1();
+				resetMainWindow();
 				stopObjectSound();
 				break;
 			case VK_A:
@@ -1040,7 +1030,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			{
 				switch (curState) {
 				case 0:
-					if (button1) resetWindow1();
+					if (button1) resetMainWindow();
 					break;
 				case 1:
 					gameSound = !gameSound;
@@ -1150,7 +1140,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		case WM_KEYDOWN:
 		{
 			int key = LOWORD(wp);
-			if (key == VK_RETURN && button1) resetWindow1();
+			if (key == VK_RETURN && button1) resetMainWindow();
 			else  if (key == VK_UP || key == VK_DOWN || key == VK_LEFT || key == VK_RIGHT) button1 = !button1;
 		}
 		break;
@@ -1184,7 +1174,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 				case 2:
 					if (choiceUserName.length() == 1 && isdigit(choiceUserName[0])) {
 						game->readFile("Data\\" + choiceUserName + ".txt");
-						resetWindow2();
+						resetGameWindow();
 						choiceUserName = "";
 						inputUserName = "";
 						gameStage1Clicked = true;
@@ -1192,7 +1182,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 						for (int i = 0; i < listAcc.size(); i++) {
 							if (listAcc[i].first == choiceUserName) {
 								game->readFile("Data\\" + to_string(i) + ".txt");
-								resetWindow2();
+								resetGameWindow();
 								choiceUserName = "";
 								inputUserName = "";
 								gameStage1Clicked = true;
@@ -1206,7 +1196,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 						game->SetNamePlayer(inputUserName);
 						choiceUserName = "";
 						inputUserName = "";
-						resetWindow2();
+						resetGameWindow();
 						gameStage1Clicked = true;
 					}
 					break;
@@ -1214,7 +1204,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					tempName = "";
 					choiceUserName = "";
 					inputUserName = "";
-					resetWindow1();
+					resetMainWindow();
 					break;
 				default:
 					break;
@@ -1339,7 +1329,7 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		{
 			int key = LOWORD(wp);
 			if (key == VK_RETURN) {
-				if (curState == 0) resetWindow1();
+				if (curState == 0) resetMainWindow();
 				else if (curState == 1) resetLeaderboardWindow();
 			}
 			else if (key == VK_RIGHT) {
@@ -1378,13 +1368,13 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			int key = LOWORD(wp);
 			if (key == VK_RETURN) {
 				writingMode = false;
-				if (curState == 0 || curState == 3) resetWindow2();
+				if (curState == 0 || curState == 3) resetGameWindow();
 				else if (curState == 1) {
 					game->SaveGame();
 					curState = 3;
 					button4 = button5 = true;
 				}
-				else if (curState == 2 || curState == 4) resetWindow1();
+				else if (curState == 2 || curState == 4) resetMainWindow();
 			}
 			else if (key == VK_RIGHT) {
 				if (curState == 0) {
