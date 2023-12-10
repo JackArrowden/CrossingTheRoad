@@ -199,6 +199,19 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 	style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
 	SetWindowLong(window, GWL_STYLE, style);
 
+	HDC hdc = GetDC(window);
+	float delta_time = 0.016666f;
+	LARGE_INTEGER frame_begin_time;
+	QueryPerformanceCounter(&frame_begin_time);
+
+	float performance_frequency;
+	{
+		LARGE_INTEGER perf;
+		QueryPerformanceFrequency(&perf);
+		performance_frequency = (float)perf.QuadPart;
+	}
+
+
 	while (running) {
 		if (gameSoundClick_temp) {
 			if (gameSound) {
@@ -236,7 +249,6 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 			gameWinWindow(window);
 			break;
 		}
-		apply(window);
 
 		MSG msg;
 		while (PeekMessage(&msg, window, 0, 0, PM_REMOVE))
@@ -244,6 +256,13 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 			TranslateMessage(&msg);
 			DispatchMessageW(&msg);
 		}
+
+		StretchDIBits(hdc, 0, 0, render_state.width, render_state.height, 0, 0, render_state.width, render_state.height, render_state.memory, &render_state.bitmap_info, DIB_RGB_COLORS, SRCCOPY);
+
+		LARGE_INTEGER frame_end_time;
+		QueryPerformanceCounter(&frame_end_time);
+		delta_time = (float)(frame_end_time.QuadPart - frame_begin_time.QuadPart) / performance_frequency;
+		frame_begin_time = frame_end_time;
 	}
 	delete game;
 	return 0;
