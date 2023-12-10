@@ -6,6 +6,7 @@
 #define MAX_LOADSTRING 100
 
 int windowState = 1;
+int countTime = 0;
 int curState = 0;
 int xTrain = 1200;
 int xTrain_p = 1524;        //324
@@ -15,7 +16,7 @@ int xCar = 0;
 int xBird = 1200;
 int xMouse = 1200;
 int xCat = 1200;
-bool button1 = false, button2 = false, button3 = false, button4 = false, button5 = false, button6 = false;
+bool button1 = false, button2 = false, button3 = false, button4 = false, button5 = false, button6 = false, button7 = false, button8 = false, button9 = false;
 bool gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false, gameStage1Clicked = false;
 bool isDataChanged = false; // This variable is used to check if the user's data is changed or not, if changed, calls sort function
 vector <pair<string, string>> listAcc;
@@ -57,34 +58,24 @@ bitmapHandMake background4("Image\\leaderBoard\\leaderBoardBg.bmp");
 
 // Enter game window
 bool writingMode = false;
-string tempName = "teo.txt", choiceUserName = "", inputUserName = "";
+string tempName = "teo.txt", inputUserName = "";
 char tempNameChar[1000] = "\0";
 bool backSpace = false, isErased = false;
-bitmapHandMake background5("Image\\playOrResume\\background5.bmp");
+bitmapHandMake background5("Image\\playOrResume\\backgroundEnter.bmp");
 bitmapHandMake choiceInput("Image\\playOrResume\\choiceInput.bmp");
 bitmapHandMake choiceClicked("Image\\playOrResume\\choiceClicked.bmp");
 bitmapHandMake nameInput("Image\\playOrResume\\nameInput.bmp");
 bitmapHandMake nameClicked("Image\\playOrResume\\nameClicked.bmp");
-bitmapHandMake resumeBtn("Image\\playOrResume\\resumeBtn.bmp");
-bitmapHandMake resumeClicked("Image\\playOrResume\\resumeClicked.bmp");
 bitmapHandMake playUnclicked("Image\\playOrResume\\playBtn.bmp");
 bitmapHandMake playClicked("Image\\playOrResume\\playClicked.bmp");
-bitmapHandMake backWin5("Image\\playOrResume\\backWin5.bmp");
-bitmapHandMake backClickedWin5("Image\\playOrResume\\backClickedWin5.bmp");
 
-// Game over window
-bitmapHandMake background6("Image\\gameOver\\background6.bmp");
-bitmapHandMake backWin6("Image\\gameOver\\backWin6.bmp");
-bitmapHandMake backClickedWin6("Image\\gameOver\\backClickedWin6.bmp");
-bitmapHandMake leaderWin6("Image\\gameOver\\leaderWin6.bmp");
-bitmapHandMake leaderClickedWin6("Image\\gameOver\\leaderClickedWin6.bmp");
-
-// Game win window
-bitmapHandMake backgroundWin("Image\\gameWin\\backgroundWin.bmp");
-bitmapHandMake backWin("Image\\gameWin\\backWin.bmp");
-bitmapHandMake backWinClicked("Image\\gameWin\\backWinClicked.bmp");
-bitmapHandMake leaderWin("Image\\gameWin\\leaderWin.bmp");
-bitmapHandMake leaderWinClicked("Image\\gameWin\\leaderWinClicked.bmp");
+// End game window
+bitmapHandMake backgroundWin("Image\\endGame\\backgroundWin.bmp");
+bitmapHandMake backgroundLose("Image\\endGame\\backgroundLose.bmp");
+bitmapHandMake backEnd("Image\\endGame\\backEnd.bmp");
+bitmapHandMake backEndClicked("Image\\endGame\\backEndClicked.bmp");
+bitmapHandMake leaderEnd("Image\\endGame\\leaderEnd.bmp");
+bitmapHandMake leaderEndClicked("Image\\endGame\\leaderEndClicked.bmp");
 
 // Save game window
 bitmapHandMake saveGameBgr("Image\\saveGame\\saveGameBgr.bmp");
@@ -332,57 +323,92 @@ void gameWindow(HWND hWnd) {
 void enterGameWindow(HWND hWnd) {
 	render_state.drawImage(background5, 0, 0, 1);
 
-	if (!button1) render_state.drawImage(choiceInput, 275, 180, 4, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(choiceClicked, 275, 180, 4, DEFAULT_BACKGROUND_COLOR);
+	if (button1) render_state.drawImage(backClicked, 30, 540, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(backUnclicked, 30, 540, 10, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button2) render_state.drawImage(nameInput, 755, 410, 4, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(nameClicked, 755, 410, 4, DEFAULT_BACKGROUND_COLOR);
+	if (!button2) render_state.drawImage(nameInput, 165, 320, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(nameClicked, 165, 320, 4, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button3) render_state.drawImage(resumeBtn, 350, 120, 4, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(resumeClicked, 350, 120, 4, DEFAULT_BACKGROUND_COLOR);
+	if (!button3) render_state.drawImage(playUnclicked, 260, 220, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(playClicked, 260, 220, 4, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button4) render_state.drawImage(playUnclicked, 835, 350, 4, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(playClicked, 835, 350, 4, DEFAULT_BACKGROUND_COLOR);
+	if (!button4) render_state.drawImage(choiceInput, 735, 430, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(choiceClicked, 735, 430, 4, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button5) render_state.drawImage(backWin5, 740, 120, 4, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(backClickedWin5, 740, 120, 4, DEFAULT_BACKGROUND_COLOR);
+	if (!button5) render_state.drawImage(choiceInput, 735, 365, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(choiceClicked, 735, 365, 4, DEFAULT_BACKGROUND_COLOR);
+
+	if (!button6) render_state.drawImage(choiceInput, 735, 300, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(choiceClicked, 735, 300, 4, DEFAULT_BACKGROUND_COLOR);
+
+	if (!button7) render_state.drawImage(choiceInput, 735, 235, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(choiceClicked, 735, 235, 4, DEFAULT_BACKGROUND_COLOR);
+
+	if (!button8) render_state.drawImage(choiceInput, 735, 170, 4, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(choiceClicked, 735, 170, 4, DEFAULT_BACKGROUND_COLOR);
 
 	////////////////////////////// LIST ACCOUNT /////////////////
-	int firstX = 270, firstY = 475, index = 1;
+	int firstX = 740, firstY = 437, index = 1;
 	for (int i = 0; i < listAcc.size(); i++) {
-		printString(to_string(index) + '.', firstX, firstY, 34);
-		printString(listAcc[i].first, firstX + 25, firstY, 34);
-		printString(listAcc[i].second, firstX + 124, firstY, 34);
-		firstY -= 50;
+		printString(listAcc[i].first, firstX + 25, firstY, 30);
+
+		string strFirst = "", strSecond = "", strTime = listAcc[i].second;
+		bool next = false;
+		for (char c : strTime) {
+			if (c == 'T') {
+				next = true;
+				continue;
+			}
+			if (!next) strFirst += c;
+			else strSecond += c;
+		}
+		printString(strSecond, firstX + 194, firstY, 30);
+		printString(strFirst, firstX + 294, firstY, 30);
+
+		firstY -= 65;
 		index++;
 	}
 
-	printString(choiceUserName, 392, 183, 38);
-	printString(inputUserName, 870, 420, 38);
+	if (inputUserName.length() == 13) {
+		countTime = 250;
+		inputUserName = inputUserName.substr(0, inputUserName.size() - 1);
+	}
+
+	firstX = 120;
+	if (countTime > 0) {
+		printString("MAXIMUM", firstX, 400, 28);
+		printString("LENGTH", firstX + 110, 400, 28);
+		printString("IS", firstX + 200, 400, 28);
+		printString("12", firstX + 230, 400, 28);
+		printString("CHARACTER", firstX + 260, 400, 28);
+		countTime--;
+	}
+
+	printString(inputUserName, 210, 330, 22);
 }
 
 void gameOverWindow(HWND hWnd) {
-	render_state.drawImage(background6, 0, 0, 1);
+	render_state.drawImage(backgroundLose, 0, 0, 1);
 
-	if (!button1) render_state.drawImage(backWin6, 50, 320, 4, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(backClickedWin6, 50, 320, 4, DEFAULT_BACKGROUND_COLOR);
+	if (!button1) render_state.drawImage(backEnd, 30, 320, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(backEndClicked, 30, 320, 10, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button2) render_state.drawImage(leaderWin6, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(leaderClickedWin6, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
+	if (!button2) render_state.drawImage(leaderEnd, 925, 320, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(leaderEndClicked, 925, 320, 10, DEFAULT_BACKGROUND_COLOR);
 
-	printString(to_string(game->getTotalScore()), 640, 542, 16);
+	printString(to_string(game->getTotalScore()), 640, 517, 20);
 }
 
 void gameWinWindow(HWND hWnd) {
 	render_state.drawImage(backgroundWin, 0, 0, 1);
+	
+	if (!button1) render_state.drawImage(backEnd, 30, 320, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(backEndClicked, 30, 320, 10, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button1) render_state.drawImage(backWin, 50, 320, 4, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(backWinClicked, 50, 320, 4, DEFAULT_BACKGROUND_COLOR);
+	if (!button2) render_state.drawImage(leaderEnd, 925, 320, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(leaderEndClicked, 925, 320, 10, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button2) render_state.drawImage(leaderWin, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(leaderWinClicked, 943, 320, 4, DEFAULT_BACKGROUND_COLOR);
-
-	printString(to_string(game->getTotalScore()), 640, 542, 16);
+	printString(to_string(game->getTotalScore()), 640, 517, 20);
 }
 
 void settingWindow(HWND hWnd) {
@@ -472,7 +498,7 @@ void saveGameWindow(HWND hWnd) {
 void resetBtn() {
 	curState = 0;
 	button1 = true;
-	button2 = button3 = button4 = button5 = button6 = false;
+	button2 = button3 = button4 = button5 = button6 = button7 = button8 = false;
 }
 
 void resetSettingWindow() {
@@ -483,7 +509,6 @@ void resetSettingWindow() {
 
 void resetEnterGameWindow() {
 	windowState = 5;
-	writingMode = true;
 	listAcc.clear();
 	fileForGameLoading("Data\\FileName.txt", listAcc);
 	resetBtn();
@@ -559,269 +584,139 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		{
 			running = false;
 			PostQuitMessage(0);
-		}
-		break;
+		} break;
 		case WM_KEYDOWN:
-		{
-			int key = LOWORD(wp);
-			if (button1) {
+		{	
+			if (inputUserName.length() <= 12) {
+				int key = LOWORD(wp);
 				switch (key)
-				{
-				case VK_0:
-					choiceUserName += '0';
-					break;
-				case VK_1:
-					choiceUserName += '1';
-					break;
-				case VK_2:
-					choiceUserName += '2';
-					break;
-				case VK_3:
-					choiceUserName += '3';
-					break;
-				case VK_4:
-					choiceUserName += '4';
-					break;
-				case VK_5:
-					choiceUserName += '5';
-					break;
-				case VK_6:
-					choiceUserName += '6';
-					break;
-				case VK_7:
-					choiceUserName += '7';
-					break;
-				case VK_8:
-					choiceUserName += '8';
-					break;
-				case VK_9:
-					choiceUserName += '9';
-					break;
-				case VK_A:
-					choiceUserName += 'A';
-					break;
-				case VK_B:
-					choiceUserName += 'B';
-					break;
-				case VK_C:
-					choiceUserName += 'C';
-					break;
-				case VK_D:
-					choiceUserName += 'D';
-					break;
-				case VK_E:
-					choiceUserName += 'E';
-					break;
-				case VK_F:
-					choiceUserName += 'F';
-					break;
-				case VK_G:
-					choiceUserName += 'G';
-					break;
-				case VK_H:
-					choiceUserName += 'H';
-					break;
-				case VK_I:
-					choiceUserName += 'I';
-					break;
-				case VK_J:
-					choiceUserName += 'J';
-					break;
-				case VK_K:
-					choiceUserName += 'K';
-					break;
-				case VK_L:
-					choiceUserName += 'L';
-					break;
-				case VK_M:
-					choiceUserName += 'M';
-					break;
-				case VK_N:
-					choiceUserName += 'N';
-					break;
-				case VK_O:
-					choiceUserName += 'O';
-					break;
-				case VK_P:
-					choiceUserName += 'P';
-					break;
-				case VK_Q:
-					choiceUserName += 'Q';
-					break;
-				case VK_R:
-					choiceUserName += 'R';
-					break;
-				case VK_S:
-					choiceUserName += 'S';
-					break;
-				case VK_T:
-					choiceUserName += 'T';
-					break;
-				case VK_U:
-					choiceUserName += 'U';
-					break;
-				case VK_V:
-					choiceUserName += 'V';
-					break;
-				case VK_W:
-					choiceUserName += 'W';
-					break;
-				case VK_X:
-					choiceUserName += 'X';
-					break;
-				case VK_Y:
-					choiceUserName += 'Y';
-					break;
-				case VK_Z:
-					choiceUserName += 'Z';
-					break;
-				case VK_DOC:
-					choiceUserName += '.';
-					break;
-				case VK_SLASH:
-					choiceUserName += '/';
-					break;
-				case VK_BACK:
-					backSpace = true;
-					choiceUserName = choiceUserName.substr(0, choiceUserName.size() - 1);
-					break;
-				case VK_DOWN:
-					writingMode = false;
-					break;
-				default:
-					break;
-				}
+					{
+					case VK_0:
+						inputUserName += '0';
+						break;
+					case VK_1:
+						inputUserName += '1';
+						break;
+					case VK_2:
+						inputUserName += '2';
+						break;
+					case VK_3:
+						inputUserName += '3';
+						break;
+					case VK_4:
+						inputUserName += '4';
+						break;
+					case VK_5:
+						inputUserName += '5';
+						break;
+					case VK_6:
+						inputUserName += '6';
+						break;
+					case VK_7:
+						inputUserName += '7';
+						break;
+					case VK_8:
+						inputUserName += '8';
+						break;
+					case VK_9:
+						inputUserName += '9';
+						break;
+					case VK_A:
+						inputUserName += 'A';
+						break;
+					case VK_B:
+						inputUserName += 'B';
+						break;
+					case VK_C:
+						inputUserName += 'C';
+						break;
+					case VK_D:
+						inputUserName += 'D';
+						break;
+					case VK_E:
+						inputUserName += 'E';
+						break;
+					case VK_F:
+						inputUserName += 'F';
+						break;
+					case VK_G:
+						inputUserName += 'G';
+						break;
+					case VK_H:
+						inputUserName += 'H';
+						break;
+					case VK_I:
+						inputUserName += 'I';
+						break;
+					case VK_J:
+						inputUserName += 'J';
+						break;
+					case VK_K:
+						inputUserName += 'K';
+						break;
+					case VK_L:
+						inputUserName += 'L';
+						break;
+					case VK_M:
+						inputUserName += 'M';
+						break;
+					case VK_N:
+						inputUserName += 'N';
+						break;
+					case VK_O:
+						inputUserName += 'O';
+						break;
+					case VK_P:
+						inputUserName += 'P';
+						break;
+					case VK_Q:
+						inputUserName += 'Q';
+						break;
+					case VK_R:
+						inputUserName += 'R';
+						break;
+					case VK_S:
+						inputUserName += 'S';
+						break;
+					case VK_T:
+						inputUserName += 'T';
+						break;
+					case VK_U:
+						inputUserName += 'U';
+						break;
+					case VK_V:
+						inputUserName += 'V';
+						break;
+					case VK_W:
+						inputUserName += 'W';
+						break;
+					case VK_X:
+						inputUserName += 'X';
+						break;
+					case VK_Y:
+						inputUserName += 'Y';
+						break;
+					case VK_Z:
+						inputUserName += 'Z';
+						break;
+					case VK_DOC:
+						inputUserName += '.';
+						break;
+					case VK_SLASH:
+						inputUserName += '/';
+						break;
+					case VK_BACK:
+						backSpace = true;
+						inputUserName = inputUserName.substr(0, inputUserName.size() - 1);
+						break;
+					case VK_DOWN:
+						writingMode = false;
+						break;
+					default:
+						break;
+					}
 			}
-			else if (button2) {
-				switch (key)
-				{
-				case VK_0:
-					inputUserName += '0';
-					break;
-				case VK_1:
-					inputUserName += '1';
-					break;
-				case VK_2:
-					inputUserName += '2';
-					break;
-				case VK_3:
-					inputUserName += '3';
-					break;
-				case VK_4:
-					inputUserName += '4';
-					break;
-				case VK_5:
-					inputUserName += '5';
-					break;
-				case VK_6:
-					inputUserName += '6';
-					break;
-				case VK_7:
-					inputUserName += '7';
-					break;
-				case VK_8:
-					inputUserName += '8';
-					break;
-				case VK_9:
-					inputUserName += '9';
-					break;
-				case VK_A:
-					inputUserName += 'A';
-					break;
-				case VK_B:
-					inputUserName += 'B';
-					break;
-				case VK_C:
-					inputUserName += 'C';
-					break;
-				case VK_D:
-					inputUserName += 'D';
-					break;
-				case VK_E:
-					inputUserName += 'E';
-					break;
-				case VK_F:
-					inputUserName += 'F';
-					break;
-				case VK_G:
-					inputUserName += 'G';
-					break;
-				case VK_H:
-					inputUserName += 'H';
-					break;
-				case VK_I:
-					inputUserName += 'I';
-					break;
-				case VK_J:
-					inputUserName += 'J';
-					break;
-				case VK_K:
-					inputUserName += 'K';
-					break;
-				case VK_L:
-					inputUserName += 'L';
-					break;
-				case VK_M:
-					inputUserName += 'M';
-					break;
-				case VK_N:
-					inputUserName += 'N';
-					break;
-				case VK_O:
-					inputUserName += 'O';
-					break;
-				case VK_P:
-					inputUserName += 'P';
-					break;
-				case VK_Q:
-					inputUserName += 'Q';
-					break;
-				case VK_R:
-					inputUserName += 'R';
-					break;
-				case VK_S:
-					inputUserName += 'S';
-					break;
-				case VK_T:
-					inputUserName += 'T';
-					break;
-				case VK_U:
-					inputUserName += 'U';
-					break;
-				case VK_V:
-					inputUserName += 'V';
-					break;
-				case VK_W:
-					inputUserName += 'W';
-					break;
-				case VK_X:
-					inputUserName += 'X';
-					break;
-				case VK_Y:
-					inputUserName += 'Y';
-					break;
-				case VK_Z:
-					inputUserName += 'Z';
-					break;
-				case VK_DOC:
-					inputUserName += '.';
-					break;
-				case VK_SLASH:
-					inputUserName += '/';
-					break;
-				case VK_BACK:
-					backSpace = true;
-					inputUserName = inputUserName.substr(0, inputUserName.size() - 1);
-					break;
-				case VK_DOWN:
-					writingMode = false;
-					break;
-				default:
-					break;
-				}
-			}
-		}
-		break;
+		} break;
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
@@ -1170,139 +1065,126 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			{
 			case VK_RETURN:
 			{
-				switch (curState) {
-				case 2:
-					if (choiceUserName.length() == 1 && isdigit(choiceUserName[0])) {
-						game->readFile("Data\\" + choiceUserName + ".txt");
-						resetGameWindow();
-						choiceUserName = "";
-						inputUserName = "";
-						gameStage1Clicked = true;
-					} else {
-						for (int i = 0; i < listAcc.size(); i++) {
-							if (listAcc[i].first == choiceUserName) {
-								game->readFile("Data\\" + to_string(i) + ".txt");
-								resetGameWindow();
-								choiceUserName = "";
-								inputUserName = "";
-								gameStage1Clicked = true;
-							}
-						}
-					}
-					break;
-				case 3:
-					if (inputUserName.length() > 0) {
-						game->readFile("Data\\Default1.txt");
-						game->SetNamePlayer(inputUserName);
-						choiceUserName = "";
-						inputUserName = "";
-						resetGameWindow();
-						gameStage1Clicked = true;
-					}
-					break;
-				case 4:
+				if (curState == 0) {
 					tempName = "";
-					choiceUserName = "";
 					inputUserName = "";
 					resetMainWindow();
-					break;
-				default:
-					break;
+				} else if (curState == 2 && inputUserName.length() > 0) {
+					game->readFile("Data\\Default1.txt");
+					game->SetNamePlayer(inputUserName);
+					inputUserName = "";
+					resetGameWindow();
+					gameStage1Clicked = true;
+				} else if (curState == 3 || curState == 4 || curState == 5 || curState == 6 || curState == 7) {
+					if ((curState - 3) < listAcc.size()) {
+						game->readFile("Data\\" + to_string(curState - 3) + ".txt");
+						inputUserName = "";
+						resetGameWindow();
+						gameStage1Clicked = true;
+					}
 				}
 			}
 			break;
-			case VK_UP:
-			{
+			case VK_UP: {
 				switch (curState) {
-				case 0:
-					writingMode = true;
-					curState = 1;
-					button2 = true;
-					button1 = false;
+				case 1:
+					writingMode = false;
+					curState = 0;
+					button1 = true;
+					button2 = false;
 					break;
 				case 2:
 					writingMode = true;
-					curState = 0;
-					button1 = true;
-					button3 = false;
-					break;
-				case 3:
-					writingMode = true;
 					curState = 1;
 					button2 = true;
-					button4 = false;
+					button3 = false;
 					break;
 				case 4:
-					writingMode = false;
 					curState = 3;
 					button4 = true;
 					button5 = false;
 					break;
-				default:
+				case 5:
+					curState = 4;
+					button5 = true;
+					button6 = false;
+					break;
+				case 6:
+					curState = 5;
+					button6 = true;
+					button7 = false;
+					break;
+				case 7:
+					curState = 6;
+					button7 = true;
+					button8 = false;
 					break;
 				}
-			}
-			break;
-			case VK_DOWN:
-			{
+			} break;
+			case VK_DOWN: {
 				switch (curState) {
 				case 0:
-					writingMode = false;
-					curState = 2;
+					writingMode = true;
+					curState = 1;
 					button1 = false;
-					button3 = true;
+					button2 = true;
 					break;
 				case 1:
 					writingMode = false;
-					curState = 3;
+					curState = 2;
 					button2 = false;
-					button4 = true;
+					button3 = true;
 					break;
 				case 3:
-					writingMode = false;
 					curState = 4;
 					button4 = false;
 					button5 = true;
 					break;
-				default:
+				case 4:
+					curState = 5;
+					button5 = false;
+					button6 = true;
+					break;
+				case 5:
+					curState = 6;
+					button6 = false;
+					button7 = true;
+					break;
+				case 6:
+					curState = 7;
+					button7 = false;
+					button8 = true;
 					break;
 				}
-			}
-			break;
-			case VK_RIGHT:
-			{
+			} break;
+			case VK_RIGHT: {
 				if (curState == 0) {
+					curState = 1;
+					writingMode = true;
+					button1 = false;
+					button2 = true;
+				}
+				else if (curState == 1 || curState == 2) {
+					curState = 3;
+					writingMode = false;
+					button4 = true;
+					button2 = button3 = false;
+				}
+			} break;
+			case VK_LEFT: {
+				if (curState == 1 || curState == 2) {
+					writingMode = false;
+					curState = 0;
+					button1 = true;
+					button2 = button3 = false;
+				}
+				else if (curState == 3 || curState == 4 || curState == 5 || curState == 6 || curState == 7) {
 					writingMode = true;
 					curState = 1;
 					button2 = true;
-					button1 = false;
+					button4 = button5 = button6 = button7 = button8 = false;
 				}
-				else if (curState == 2) {
-					writingMode = false;
-					curState = 4;
-					button5 = true;
-					button3 = false;
-				}
-			}
-			break;
-			case VK_LEFT:
-			{
-				if (curState == 1 || curState == 3) {
-					writingMode = true;
-					curState = 0;
-					button1 = true;
-					button2 = button4 = false;
-				}
-				else if (curState == 4) {
-					writingMode = false;
-					curState = 2;
-					button3 = true;
-					button5 = false;
-				}
-			}
-			break;
-			default:
-				break;
+			} break;
 			}
 		}
 		break;
