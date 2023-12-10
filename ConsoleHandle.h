@@ -20,6 +20,7 @@
 #include <iomanip>
 #include <sstream>
 #include <time.h>
+#include <functional>
 
 using namespace std;
 #define ColorCode_Black			0
