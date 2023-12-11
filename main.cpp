@@ -6,7 +6,8 @@
 #define MAX_LOADSTRING 100
 
 int windowState = 1;
-int countTime = 0;
+//int countTime1 = 0, countTime2 = 0, countTime3 = 0, countTime4 = 0, countTime5 = 0, countTime6 = 0;
+int countTime[6] = { 0 };
 int curState = 0;
 int xTrain = 1200;
 int xTrain_p = 1524;        //324
@@ -370,18 +371,28 @@ void enterGameWindow(HWND hWnd) {
 	}
 
 	if (inputUserName.length() == 13) {
-		countTime = 250;
+		countTime[0] = 250;
 		inputUserName = inputUserName.substr(0, inputUserName.size() - 1);
 	}
 
-	firstX = 120;
-	if (countTime > 0) {
+	firstX = 122;
+	if (countTime[0] > 0) {
 		printString("MAXIMUM", firstX, 400, 28);
 		printString("LENGTH", firstX + 110, 400, 28);
-		printString("IS", firstX + 200, 400, 28);
-		printString("12", firstX + 230, 400, 28);
-		printString("CHARACTER", firstX + 260, 400, 28);
-		countTime--;
+		printString("IS", firstX + 195, 400, 28);
+		printString("12", firstX + 225, 400, 28);
+		printString("CHARACTER", firstX + 255, 400, 28);
+		countTime[0]--;
+	}
+
+	int secondX = 878;
+	for (int i = 1; i < 6; i++) {
+		if (countTime[i] > 0) {
+			printString("NO", secondX, 502 - 65 * i, 28);
+			printString("DATA", secondX + 35, 502 - 65 * i, 28);
+			printString("HERE", secondX + 98, 502 - 65 * i, 28);
+			countTime[i]--;
+		}
 	}
 
 	printString(inputUserName, 210, 330, 22);
@@ -475,23 +486,23 @@ void saveGameWindow(HWND hWnd) {
 		render_state.drawImage(saveGameBgr, 0, 0, 1);
 
 		// back
-		if (!button1) render_state.drawImage(exitSaveGame, 80, 250, 3, DEFAULT_BACKGROUND_COLOR);
-		else render_state.drawImage(exitSaveGameClicked, 80, 250, 3, DEFAULT_BACKGROUND_COLOR);
+		if (!button1) render_state.drawImage(exitSaveGame, 260, 340, 3, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(exitSaveGameClicked, 260, 340, 3, DEFAULT_BACKGROUND_COLOR);
 
-		if (!button2) render_state.drawImage(saveGameBtn, 490, 220, 3, DEFAULT_BACKGROUND_COLOR);
-		else render_state.drawImage(saveGameBtnClicked, 490, 220, 3, DEFAULT_BACKGROUND_COLOR);
+		if (!button2) render_state.drawImage(saveGameBtn, 541, 340, 3, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(saveGameBtnClicked, 541, 340, 3, DEFAULT_BACKGROUND_COLOR);
 
-		if (!button3) render_state.drawImage(leaveGame, 880, 250, 3, DEFAULT_BACKGROUND_COLOR);
-		else render_state.drawImage(leaveGameClicked, 880, 250, 3, DEFAULT_BACKGROUND_COLOR);
+		if (!button3) render_state.drawImage(leaveGame, 825, 340, 3, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(leaveGameClicked, 825, 340, 3, DEFAULT_BACKGROUND_COLOR);
 	}
 	else {
-		render_state.drawImage(continueOrExit, 0, 0, 1);
+		render_state.drawImage(continueOrExit, 138, 150, 3);
 
-		if (!button5) render_state.drawImage(continueBtn, 225, 165, 4, DEFAULT_BACKGROUND_COLOR);
-		else render_state.drawImage(continueClicked, 225, 165, 4, DEFAULT_BACKGROUND_COLOR);
+		if (!button5) render_state.drawImage(continueBtn, 270, 210, 3, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(continueClicked, 270, 210, 3, DEFAULT_BACKGROUND_COLOR);
 
-		if (!button6) render_state.drawImage(exitReplayBtn, 650, 165, 4, DEFAULT_BACKGROUND_COLOR);
-		else render_state.drawImage(exitReplayBtnClicked, 650, 165, 4, DEFAULT_BACKGROUND_COLOR);
+		if (!button6) render_state.drawImage(exitReplayBtn, 690, 210, 3, DEFAULT_BACKGROUND_COLOR);
+		else render_state.drawImage(exitReplayBtnClicked, 690, 210, 3, DEFAULT_BACKGROUND_COLOR);
 	}
 }
 
@@ -850,10 +861,6 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 
 			int key = LOWORD(wp);
 			switch (key) {
-			case VK_RETURN:
-				resetMainWindow();
-				stopObjectSound();
-				break;
 			case VK_A:
 				game->PeopleMove(1);
 				break;
@@ -1081,6 +1088,8 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 						inputUserName = "";
 						resetGameWindow();
 						gameStage1Clicked = true;
+					} else {
+						countTime[curState - 2] = 200;
 					}
 				}
 			}
