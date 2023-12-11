@@ -6,7 +6,6 @@
 #define MAX_LOADSTRING 100
 
 int windowState = 1;
-//int countTime1 = 0, countTime2 = 0, countTime3 = 0, countTime4 = 0, countTime5 = 0, countTime6 = 0;
 int countTime[6] = { 0 };
 int curState = 0;
 int xTrain = 1200;
@@ -399,7 +398,7 @@ void enterGameWindow(HWND hWnd) {
 }
 
 void gameOverWindow(HWND hWnd) {
-	render_state.drawImage(backgroundLose, 0, 0, 1);
+	render_state.drawImage(backgroundLose, 0, 0, 1, DEFAULT_BACKGROUND_COLOR);
 
 	if (!button1) render_state.drawImage(backEnd, 30, 320, 10, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(backEndClicked, 30, 320, 10, DEFAULT_BACKGROUND_COLOR);
@@ -411,7 +410,7 @@ void gameOverWindow(HWND hWnd) {
 }
 
 void gameWinWindow(HWND hWnd) {
-	render_state.drawImage(backgroundWin, 0, 0, 1);
+	render_state.drawImage(backgroundWin, 0, 0, 1, DEFAULT_BACKGROUND_COLOR);
 	
 	if (!button1) render_state.drawImage(backEnd, 30, 320, 10, DEFAULT_BACKGROUND_COLOR);
 	else render_state.drawImage(backEndClicked, 30, 320, 10, DEFAULT_BACKGROUND_COLOR);
@@ -463,7 +462,7 @@ void leaderboardWindow(HWND hWnd) {
 	for (auto i : leaderAcc) {
 		int size = 20;
 		if (to_string(i.first).length() > 4) size = 22; // small dummy code
-		printString(i.second.first, 369, firstY, 20);
+		printString(i.second.first, 315, firstY, 20);
 		printString(to_string(i.first), 612, firstY, size);
 		string strFirst = "", strSecond = "", strTime = i.second.second;
 		bool next = false;
@@ -520,6 +519,7 @@ void resetSettingWindow() {
 
 void resetEnterGameWindow() {
 	windowState = 5;
+	for (int i = 0; i < 6; i++) countTime[i] = 0;
 	listAcc.clear();
 	fileForGameLoading("Data\\FileName.txt", listAcc);
 	resetBtn();
