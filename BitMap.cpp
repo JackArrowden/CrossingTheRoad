@@ -58,6 +58,12 @@ bool bitmapHandMake::readBitmapFile(const std::string& path)
 	unsigned int imageSize = bmpInfoHeader.width * bmpInfoHeader.height * 3;
 	height = bmpInfoHeader.height;
 	width = bmpInfoHeader.width;
+
+	if (memory)
+	{
+		delete[] memory;
+		memory = NULL;
+	}
 	memory = new u32[imageSize / 3];
 
 	// Create a buffer to store the pixel data
