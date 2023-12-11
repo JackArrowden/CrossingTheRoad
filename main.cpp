@@ -861,10 +861,6 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 
 			int key = LOWORD(wp);
 			switch (key) {
-			case VK_RETURN:
-				resetMainWindow();
-				stopObjectSound();
-				break;
 			case VK_A:
 				game->PeopleMove(1);
 				break;
