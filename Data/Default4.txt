@@ -1,5 +1,5 @@
 Person
-image\\gameWindow\\gameBgr_city.bmp
+image\\gameWindow\\gameBgr_city2.bmp
 0 4
 300 0
 6 -400 170 1 100 170 1 600 170 1 250 330 -1 750 330 -1 1250 330 -1
