@@ -400,25 +400,25 @@ void enterGameWindow(HWND hWnd) {
 void gameOverWindow(HWND hWnd) {
 	render_state.drawImage(backgroundLose, 0, 0, 1, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button1) render_state.drawImage(backEnd, 30, 320, 10, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(backEndClicked, 30, 320, 10, DEFAULT_BACKGROUND_COLOR);
+	if (!button1) render_state.drawImage(backEnd, 480, 120, 3, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(backEndClicked, 480, 120, 3, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button2) render_state.drawImage(leaderEnd, 925, 320, 10, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(leaderEndClicked, 925, 320, 10, DEFAULT_BACKGROUND_COLOR);
+	if (!button2) render_state.drawImage(leaderEnd, 700, 120, 3, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(leaderEndClicked, 700, 120, 3, DEFAULT_BACKGROUND_COLOR);
 
-	printString(to_string(game->getTotalScore()), 640, 517, 20);
+	printString(to_string(game->getTotalScore()), 640, 462, 20);
 }
 
 void gameWinWindow(HWND hWnd) {
 	render_state.drawImage(backgroundWin, 0, 0, 1, DEFAULT_BACKGROUND_COLOR);
 	
-	if (!button1) render_state.drawImage(backEnd, 30, 320, 10, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(backEndClicked, 30, 320, 10, DEFAULT_BACKGROUND_COLOR);
+	if (!button1) render_state.drawImage(backEnd, 480, 120, 3, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(backEndClicked, 480, 120, 3, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button2) render_state.drawImage(leaderEnd, 925, 320, 10, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(leaderEndClicked, 925, 320, 10, DEFAULT_BACKGROUND_COLOR);
+	if (!button2) render_state.drawImage(leaderEnd, 700, 120, 3, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(leaderEndClicked, 700, 120, 3, DEFAULT_BACKGROUND_COLOR);
 
-	printString(to_string(game->getTotalScore()), 640, 517, 20);
+	printString(to_string(game->getTotalScore()), 640, 461, 20);
 }
 
 void settingWindow(HWND hWnd) {
