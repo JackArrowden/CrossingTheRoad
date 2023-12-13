@@ -1,7 +1,7 @@
 #pragma once
 #include "CVEHICLE.h"
 
-#define TRUCK_TOP 62
+#define TRUCK_TOP 60
 #define TRUCK_BOTTOM 25
 #define TRUCK_LEFT 10
 #define TRUCK_RIGHT 320
