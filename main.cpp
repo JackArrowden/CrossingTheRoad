@@ -7,7 +7,7 @@
 
 int windowState = 1;
 int countTime[6] = { 0 };
-int curState = 0;
+int curState = 0, curPic = 1;
 int xTrain = 1200;
 int xTrain_p = 1524;        //324
 int xTrain_p1 = 1848;
@@ -24,14 +24,21 @@ multimap<int, pair<string, string>> leaderAcc;
 
 //// Main window
 bitmapHandMake background1("Image\\mainWindow\\background.bmp");
-bitmapHandMake nameGamePic("Image\\mainWindow\\nameGamePic.bmp");
-bitmapHandMake playBtn("Image\\mainWindow\\playButton.bmp");
-bitmapHandMake leaderBtn("Image\\mainWindow\\leaderButton.bmp");
-bitmapHandMake logoutBtn("Image\\mainWindow\\logOutButton.bmp");
-bitmapHandMake playRed("Image\\mainWindow\\redPlayBtn.bmp");
-bitmapHandMake leaderRed("Image\\mainWindow\\redLeaderBtn.bmp");
-bitmapHandMake logoutRed("Image\\mainWindow\\redLogOutBtn.bmp");
+bitmapHandMake aboutUsBgr("Image\\mainWindow\\aboutUsBgr.bmp");
+bitmapHandMake nameGamePic("Image\\mainWindow\\gameName.bmp");
+bitmapHandMake play1("Image\\mainWindow\\play1.bmp");
+bitmapHandMake play2("Image\\mainWindow\\play2.bmp");
+bitmapHandMake leader1("Image\\mainWindow\\leader1.bmp");
+bitmapHandMake leader2("Image\\mainWindow\\leader2.bmp");
+bitmapHandMake exit1("Image\\mainWindow\\exit1.bmp");
+bitmapHandMake exit2("Image\\mainWindow\\exit2.bmp");
+bitmapHandMake about1("Image\\mainWindow\\about1.bmp");
+bitmapHandMake about2("Image\\mainWindow\\about2.bmp");
+bitmapHandMake tip1("Image\\mainWindow\\tip1.bmp");
+bitmapHandMake tip2("Image\\mainWindow\\tip2.bmp");
 bitmapHandMake setting("Image\\mainWindow\\setting.bmp");
+bitmapHandMake setting1("Image\\mainWindow\\setting1.bmp");
+bitmapHandMake setting2("Image\\mainWindow\\setting2.bmp");
 bitmapHandMake settingClicked("Image\\mainWindow\\settingClicked.bmp");
 
 //// Game window
@@ -58,7 +65,7 @@ bitmapHandMake background4("Image\\leaderBoard\\leaderBoardBg.bmp");
 
 // Enter game window
 bool writingMode = false;
-string tempName = "teo.txt", inputUserName = "";
+string inputUserName = "";
 char tempNameChar[1000] = "\0";
 bool backSpace = false, isErased = false;
 bitmapHandMake background5("Image\\playOrResume\\backgroundEnter.bmp");
@@ -90,6 +97,16 @@ bitmapHandMake leaveGame("Image\\saveGame\\leaveGame.bmp");
 bitmapHandMake leaveGameClicked("Image\\saveGame\\leaveGameClicked.bmp");
 bitmapHandMake saveGameBtn("Image\\saveGame\\saveGameBtn.bmp");
 bitmapHandMake saveGameBtnClicked("Image\\saveGame\\saveGameBtnClicked.bmp");
+
+// Instruction window
+bitmapHandMake ins1("Image\\instructionWindow\\ins1.bmp");
+bitmapHandMake ins2("Image\\instructionWindow\\ins2.bmp");
+bitmapHandMake ins3("Image\\instructionWindow\\ins3.bmp");
+bitmapHandMake ins4("Image\\instructionWindow\\ins4.bmp");
+bitmapHandMake nextBtn("Image\\instructionWindow\\next.bmp");
+bitmapHandMake nextClicked("Image\\instructionWindow\\nextClicked.bmp");
+bitmapHandMake prevBtn("Image\\instructionWindow\\prev.bmp");
+bitmapHandMake prevClicked("Image\\instructionWindow\\prevClicked.bmp");
 
 // Char 
 bitmapHandMake aUpper("Image\\char\\aUpper.bmp");
@@ -149,6 +166,8 @@ void enterGameWindow(HWND);
 void gameOverWindow(HWND);
 void gameWinWindow(HWND);
 void saveGameWindow(HWND);
+void insWindow(HWND);
+void aboutWindow(HWND);
 void resetMainWindow();
 void resetGameWindow();
 void resetSettingWindow();
@@ -157,6 +176,8 @@ void resetEnterGameWindow();
 void resetGameOverWindow();
 void resetGameWinWindow();
 void resetSaveGameWindow();
+void resetInsWindow();
+void resetAboutWindow();
 void apply(HWND);
 void resetBtn();
 void stopObjectSound();
@@ -239,6 +260,12 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 		case 8:
 			gameWinWindow(window);
 			break;
+		case 9:
+			insWindow(window);
+			break;
+		case 10:
+			aboutWindow(window);
+			break;
 		}
 
 		MSG msg;
@@ -261,19 +288,25 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 
 void mainWindow(HWND hWnd) {
 	render_state.drawImage(background1, 0, 0, 1);
-	render_state.drawImage(nameGamePic, 120, 470, 4, DEFAULT_BACKGROUND_COLOR);
+	render_state.drawImage(nameGamePic, 180, 490, 4, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button1) render_state.drawImage(setting, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(settingClicked, 1180, 610, 10, DEFAULT_BACKGROUND_COLOR);
+	if (!button1) render_state.drawImage(setting1, 1180, 630, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(setting2, 1180, 630, 10, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button2) render_state.drawImage(playBtn, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(playRed, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
+	if (!button2) render_state.drawImage(tip1, 1180, 550, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(tip2, 1180, 550, 10, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button3) render_state.drawImage(leaderBtn, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(leaderRed, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
+	if (!button3) render_state.drawImage(play1, 490, 350, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(play2, 490, 350, 10, DEFAULT_BACKGROUND_COLOR);
 
-	if (!button4) render_state.drawImage(logoutBtn, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
-	else render_state.drawImage(logoutRed, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
+	if (!button4) render_state.drawImage(leader1, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(leader2, 490, 250, 10, DEFAULT_BACKGROUND_COLOR);
+
+	if (!button5) render_state.drawImage(about1, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(about2, 490, 150, 10, DEFAULT_BACKGROUND_COLOR);
+
+	if (!button6) render_state.drawImage(exit1, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(exit2, 490, 50, 10, DEFAULT_BACKGROUND_COLOR);
 }
 
 void gameWindow(HWND hWnd) {
@@ -505,6 +538,29 @@ void saveGameWindow(HWND hWnd) {
 	}
 }
 
+void insWindow(HWND hWnd) {
+	if (curPic == 1) render_state.drawImage(ins1, 0, 0, 1);
+	else if (curPic == 2) render_state.drawImage(ins2, 0, 0, 1);
+	else if (curPic == 3) render_state.drawImage(ins3, 0, 0, 1);
+	else if (curPic == 4) render_state.drawImage(ins4, 0, 0, 1);
+
+	if (button1) render_state.drawImage(backClicked, 10, 640, 12, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(backUnclicked, 10, 640, 12, DEFAULT_BACKGROUND_COLOR);
+
+	if (!button2) render_state.drawImage(prevBtn, 480, 50, 3, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(prevClicked, 480, 50, 3, DEFAULT_BACKGROUND_COLOR);
+
+	if (!button3) render_state.drawImage(nextBtn, 730, 50, 3, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(nextClicked, 730, 50, 3, DEFAULT_BACKGROUND_COLOR);
+}
+
+void aboutWindow(HWND hWnd) {
+	render_state.drawImage(aboutUsBgr, 0, 0, 1);
+
+	if (!button1) render_state.drawImage(backUnclicked, 10, 540, 8, DEFAULT_BACKGROUND_COLOR);
+	else render_state.drawImage(backClicked, 10, 540, 8, DEFAULT_BACKGROUND_COLOR);
+}
+
 void resetBtn() {
 	curState = 0;
 	button1 = true;
@@ -554,6 +610,16 @@ void resetGameWinWindow() {
 void resetSaveGameWindow() {
 	windowState = 7;
 	writingMode = true;
+	resetBtn();
+}
+
+void resetInsWindow() {
+	windowState = 9;
+	resetBtn();
+}
+
+void resetAboutWindow() {
+	windowState = 10;
 	resetBtn();
 }
 
@@ -768,22 +834,25 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					resetSettingWindow();
 					break;
 				case 1:
-					resetEnterGameWindow();
+					resetInsWindow();
 					break;
 				case 2:
-					resetLeaderboardWindow();
+					resetEnterGameWindow();
 					break;
 				case 3:
+					resetLeaderboardWindow();
+					break;
+				case 4:
+					resetAboutWindow();
+					break;
+				case 5:
 					running = false;
 					PostQuitMessage(0);
-					break;
-				default:
 					break;
 				}
 			}
 			break;
-			case VK_UP:
-			{
+			case VK_UP: {
 				if (curState > 0) curState--;
 				if (curState == 0) {
 					button1 = true;
@@ -797,11 +866,17 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					button3 = true;
 					button4 = false;
 				}
-			}
-			break;
-			case VK_DOWN:
-			{
-				if (curState < 3) curState++;
+				else if (curState == 3) {
+					button4 = true;
+					button5 = false;
+				}
+				else if (curState == 4) {
+					button5 = true;
+					button6 = false;
+				}
+			} break;
+			case VK_DOWN: {
+				if (curState < 5) curState++;
 				if (curState == 1) {
 					button1 = false;
 					button2 = true;
@@ -814,40 +889,51 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					button3 = false;
 					button4 = true;
 				}
-			}
-			break;
-			case VK_RIGHT:
-			{
-				if (curState > 0) curState = 0;
-				button1 = true;
-				button2 = button3 = button4 = false;
-			}
-			break;
-			case VK_LEFT:
-			{
-				if (curState == 0) {
-					curState = 1;
-					button1 = false;
-					button2 = true;
+				else if (curState == 4) {
+					button4 = false;
+					button5 = true;
 				}
-			}
-			break;
-			default:
-				break;
+				else if (curState == 5) {
+					button5 = false;
+					button6 = true;
+				}
+			} break;
+			case VK_RIGHT: {
+				if (curState > 1) {
+					curState = 1;
+					button2 = true;
+					button3 = button4 = button5 = button6 = false;
+				}
+			} break;
+			case VK_LEFT: {
+				if (curState < 2) {
+					curState = 2;
+					button1 = button2 = false;
+					button3 = true;
+				}
+			} break;
 			}
 		}
 		break;
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	}
-	else if (windowState == 2) {
+	} else if (windowState == 2) {
 		switch (msg)
 		{
-		case WM_DESTROY: {
+		case WM_CREATE:
+			mciSendStringA("open Sound/BACKGROUND.wav type waveaudio alias MyFile", NULL, 0, 0);
+			mciSendStringA("play MyFile notify", NULL, 0, hWnd);
+			break;
+		case MM_MCINOTIFY:
+			mciSendStringA("seek MyFile to start", NULL, 0, NULL);
+			mciSendStringA("play MyFile notify", NULL, 0, hWnd);
+			break;
+		case WM_DESTROY:
+			mciSendString(_T("close music"), NULL, 0, NULL);
 			running = false;
 			PostQuitMessage(0);
-		} break;
+			break;
 		case WM_SIZE: {
 			RECT rect;
 			GetClientRect(hWnd, &rect);
@@ -907,14 +993,22 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	}
-	else if (windowState == 3) {
+	} else if (windowState == 3) {
 		switch (msg)
 		{
-		case WM_DESTROY: {
+		case WM_CREATE:
+			mciSendStringA("open Sound/BACKGROUND.wav type waveaudio alias MyFile", NULL, 0, 0);
+			mciSendStringA("play MyFile notify", NULL, 0, hWnd);
+			break;
+		case MM_MCINOTIFY:
+			mciSendStringA("seek MyFile to start", NULL, 0, NULL);
+			mciSendStringA("play MyFile notify", NULL, 0, hWnd);
+			break;
+		case WM_DESTROY:
+			mciSendString(_T("close music"), NULL, 0, NULL);
 			running = false;
 			PostQuitMessage(0);
-		} break;
+			break;
 		case WM_SIZE: {
 			RECT rect;
 			GetClientRect(hWnd, &rect);
@@ -1023,14 +1117,22 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	}
-	else if (windowState == 4) {
+	} else if (windowState == 4 || windowState == 10) {
 		switch (msg)
 		{
-		case WM_DESTROY: {
+		case WM_CREATE:
+			mciSendStringA("open Sound/BACKGROUND.wav type waveaudio alias MyFile", NULL, 0, 0);
+			mciSendStringA("play MyFile notify", NULL, 0, hWnd);
+			break;
+		case MM_MCINOTIFY:
+			mciSendStringA("seek MyFile to start", NULL, 0, NULL);
+			mciSendStringA("play MyFile notify", NULL, 0, hWnd);
+			break;
+		case WM_DESTROY:
+			mciSendString(_T("close music"), NULL, 0, NULL);
 			running = false;
 			PostQuitMessage(0);
-		} break;
+			break;
 		case WM_SIZE: {
 			RECT rect;
 			GetClientRect(hWnd, &rect);
@@ -1049,14 +1151,22 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	}
-	else if (windowState == 5) {
+	} else if (windowState == 5) {
 		switch (msg)
 		{
-		case WM_DESTROY: {
+		case WM_CREATE:
+			mciSendStringA("open Sound/BACKGROUND.wav type waveaudio alias MyFile", NULL, 0, 0);
+			mciSendStringA("play MyFile notify", NULL, 0, hWnd);
+			break;
+		case MM_MCINOTIFY:
+			mciSendStringA("seek MyFile to start", NULL, 0, NULL);
+			mciSendStringA("play MyFile notify", NULL, 0, hWnd);
+			break;
+		case WM_DESTROY:
+			mciSendString(_T("close music"), NULL, 0, NULL);
 			running = false;
 			PostQuitMessage(0);
-		} break;
+			break;
 		case WM_SIZE: {
 			RECT rect;
 			GetClientRect(hWnd, &rect);
@@ -1073,7 +1183,6 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			case VK_RETURN:
 			{
 				if (curState == 0) {
-					tempName = "";
 					inputUserName = "";
 					resetMainWindow();
 				} else if (curState == 2 && inputUserName.length() > 0) {
@@ -1200,14 +1309,22 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	}
-	else if (windowState == 6 || windowState == 8) {
+	} else if (windowState == 6 || windowState == 8) {
 		switch (msg)
 		{
-		case WM_DESTROY: {
+		case WM_CREATE:
+			mciSendStringA("open Sound/BACKGROUND.wav type waveaudio alias MyFile", NULL, 0, 0);
+			mciSendStringA("play MyFile notify", NULL, 0, hWnd);
+			break;
+		case MM_MCINOTIFY:
+			mciSendStringA("seek MyFile to start", NULL, 0, NULL);
+			mciSendStringA("play MyFile notify", NULL, 0, hWnd);
+			break;
+		case WM_DESTROY:
+			mciSendString(_T("close music"), NULL, 0, NULL);
 			running = false;
 			PostQuitMessage(0);
-		} break;
+			break;
 		case WM_SIZE: {
 			RECT rect;
 			GetClientRect(hWnd, &rect);
@@ -1238,14 +1355,22 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		default:
 			return DefWindowProcW(hWnd, msg, wp, lp);
 		}
-	}
-	else if (windowState == 7) {
+	} else if (windowState == 7) {
 		switch (msg)
 		{
-		case WM_DESTROY: {
+		case WM_CREATE:
+			mciSendStringA("open Sound/BACKGROUND.wav type waveaudio alias MyFile", NULL, 0, 0);
+			mciSendStringA("play MyFile notify", NULL, 0, hWnd);
+			break;
+		case MM_MCINOTIFY:
+			mciSendStringA("seek MyFile to start", NULL, 0, NULL);
+			mciSendStringA("play MyFile notify", NULL, 0, hWnd);
+			break;
+		case WM_DESTROY:
+			mciSendString(_T("close music"), NULL, 0, NULL);
 			running = false;
 			PostQuitMessage(0);
-		} break;
+			break;
 		case WM_SIZE: {
 			RECT rect;
 			GetClientRect(hWnd, &rect);
@@ -1258,7 +1383,6 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		{
 			int key = LOWORD(wp);
 			if (key == VK_RETURN) {
-				writingMode = false;
 				if (curState == 0 || curState == 3) resetGameWindow();
 				else if (curState == 1) {
 					game->SaveGame();
@@ -1299,6 +1423,67 @@ LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 					curState = 3;
 					button5 = true;
 					button6 = false;
+				}
+			}
+		}
+		break;
+		default:
+			return DefWindowProcW(hWnd, msg, wp, lp);
+		}
+	} else if (windowState == 9) {
+		switch (msg)
+		{
+		case WM_CREATE:
+			mciSendStringA("open Sound/BACKGROUND.wav type waveaudio alias MyFile", NULL, 0, 0);
+			mciSendStringA("play MyFile notify", NULL, 0, hWnd);
+			break;
+		case MM_MCINOTIFY:
+			mciSendStringA("seek MyFile to start", NULL, 0, NULL);
+			mciSendStringA("play MyFile notify", NULL, 0, hWnd);
+			break;
+		case WM_DESTROY:
+			mciSendString(_T("close music"), NULL, 0, NULL);
+			running = false;
+			PostQuitMessage(0);
+			break;
+		case WM_SIZE: {
+			RECT rect;
+			GetClientRect(hWnd, &rect);
+			int newWidth = rect.right - rect.left;
+			int newHeight = rect.bottom - rect.top;
+			render_state.resize(newHeight, newWidth);
+
+		} break;
+		case WM_KEYDOWN:
+		{
+			int key = LOWORD(wp);
+			if (key == VK_RETURN) {
+				if (curState == 0) resetMainWindow();
+				else if (curState == 1 && curPic > 1) curPic--;
+				else if (curState == 2 && curPic < 4) curPic++;
+			}
+			else if (key == VK_RIGHT || key == VK_DOWN) {
+				if (curState == 0) {
+					curState = 1;
+					button1 = false;
+					button2 = true;
+				}
+				else if (curState == 1) {
+					curState = 2;
+					button2 = false;
+					button3 = true;
+				}
+			}
+			else if (key == VK_LEFT || key == VK_UP) {
+				if (curState == 1) {
+					curState = 0;
+					button1 = true;
+					button2 = false;
+				}
+				else if (curState == 2) {
+					curState = 1;
+					button2 = true;
+					button3 = false;
 				}
 			}
 		}
