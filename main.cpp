@@ -1,9 +1,5 @@
-// WindowsProject2.cpp : Defines the entry point for the application.
-//
 #include "BitMap.h"
 #include "CGAME.h"
-
-#define MAX_LOADSTRING 100
 
 int windowState = 1;
 int countTime[6] = { 0 };
@@ -58,8 +54,7 @@ bitmapHandMake background4("Image\\leaderBoard\\leaderBoardBg.bmp");
 // Enter game window
 bool writingMode = false;
 string inputUserName = "";
-char tempNameChar[1000] = "\0";
-bool backSpace = false, isErased = false;
+bool backSpace = false;
 bitmapHandMake background5("Image\\playOrResume\\backgroundEnter.bmp");
 bitmapHandMake choiceInput("Image\\playOrResume\\choiceInput.bmp");
 bitmapHandMake choiceClicked("Image\\playOrResume\\choiceClicked.bmp");
