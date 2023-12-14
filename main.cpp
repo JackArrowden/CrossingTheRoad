@@ -8,14 +8,6 @@
 int windowState = 1;
 int countTime[6] = { 0 };
 int curState = 0, curPic = 1;
-int xTrain = 1200;
-int xTrain_p = 1524;        //324
-int xTrain_p1 = 1848;
-int xTrain_e = 2172;
-int xCar = 0;
-int xBird = 1200;
-int xMouse = 1200;
-int xCat = 1200;
 bool button1 = false, button2 = false, button3 = false, button4 = false, button5 = false, button6 = false, button7 = false, button8 = false, button9 = false;
 bool gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false, gameStage1Clicked = false;
 bool isDataChanged = false; // This variable is used to check if the user's data is changed or not, if changed, calls sort function
@@ -329,7 +321,7 @@ void gameWindow(HWND hWnd) {
 		game->run();
 	}
 
-	if (game->CheckStatePepple() == 1 || game->CheckStatePepple() == 2) {
+	if (!game->checkState()) {
 		resetGameOverWindow();
 		game->SaveScoreToLeaderBoard();
 	}
