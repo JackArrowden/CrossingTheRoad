@@ -178,7 +178,6 @@ void resetGameWinWindow();
 void resetSaveGameWindow();
 void resetInsWindow();
 void resetAboutWindow();
-void apply(HWND);
 void resetBtn();
 void stopObjectSound();
 void printString(string str, int x, int y, int size);
@@ -630,27 +629,6 @@ void stopObjectSound() {
 	mciSendStringA("close Cat", NULL, 0, NULL);
 	mciSendStringA("close Mouse", NULL, 0, NULL);
 	mciSendStringA("close Truck", NULL, 0, NULL);
-}
-
-void apply(HWND hWnd) {
-	HDC hdc = GetDC(hWnd);
-	//float delta_time = 0.016666f;
-	//LARGE_INTEGER frame_begin_time;
-	//QueryPerformanceCounter(&frame_begin_time);
-
-	//float performance_frequency;
-	//{
-	//	LARGE_INTEGER perf;
-	//	QueryPerformanceFrequency(&perf);
-	//	performance_frequency = (float)perf.QuadPart;
-	//}
-
-	StretchDIBits(hdc, 0, 0, render_state.width, render_state.height, 0, 0, render_state.width, render_state.height, render_state.memory, &render_state.bitmap_info, DIB_RGB_COLORS, SRCCOPY);
-
-	//LARGE_INTEGER frame_end_time;
-	//QueryPerformanceCounter(&frame_end_time);
-	//delta_time = (float)(frame_end_time.QuadPart - frame_begin_time.QuadPart) / performance_frequency;
-	//frame_begin_time = frame_end_time;
 }
 
 LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
