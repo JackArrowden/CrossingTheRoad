@@ -5,3 +5,4 @@ WELCOME TO THIS REPOSITORY
   + mciapi.h to handle audio files when playing them as background music.
   + Windows.h to use win32 api.
   + And some others library.
+- The music part is not ready, when get into the game, the background sound is suddenly stopped, notice us if you have any idea
