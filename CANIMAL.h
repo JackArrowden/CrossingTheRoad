@@ -1,11 +1,10 @@
-//#include "CGAME.h"
-
 #pragma once
 #pragma comment(lib, "winmm.lib")
 #include "ConsoleHandle.h"
 #include "BitMap.h"
 
 using namespace std;
+
 class CANIMAL {
 protected:
     int mX;
@@ -31,4 +30,3 @@ public:
     friend istream& operator>>(istream& in, CANIMAL& x);
     friend ostream& operator<<(ostream& out, const CANIMAL& x);
 };
-

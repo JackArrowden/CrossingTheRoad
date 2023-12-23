@@ -1,7 +1,6 @@
 #pragma once
 #include "CVEHICLE.h"
 
-
 #define CAR_TOP 50
 #define CAR_BOTTOM 30
 #define CAR_RIGHT 190
@@ -21,4 +20,3 @@ public:
 	int getRightX() const;
 	int getLeftX() const;
 };
-

@@ -1,14 +1,12 @@
 #include "CGAME.h"
 #include <conio.h>
 
-
 bitmapHandMake CGAME::gameBackground("image\\gameWindow\\gameBgr.bmp");
 const int CGAME::MAX_LEVEL = 5;
 const int CGAME::LEFT = 0;
 const int CGAME::RIGHT = 1280;
 const int CGAME::BOTTOM = 0;
 const int CGAME::TOP = 680;
-
 
 CGAME::CGAME()
 {
@@ -225,7 +223,6 @@ void CGAME::PeopleMove(int direc)
 		if (mainChar->GetmY() < CGAME::BOTTOM) mainChar->Up(CGAME::BOTTOM - mainChar->GetmY());
 	}
 
-
 	if (CheckStatePepple()) mainChar->setDead();
 	else if (mainChar->GetmY() > this->TOP) loadNextLevel();
 }
@@ -289,39 +286,12 @@ void CGAME::run()
 	for (int i = 0; i < numOfMouses; i++) mouse[i].Move(speed);
 
 	if (CheckStatePepple()) mainChar->setDead();
-
 }
 
 void CGAME::tell()
 {
-	//if (PlaySound(TEXT("Sound\\BACKGROUND.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC)) 
-	//{
-	//	// Sound started playing successfully
-	//	// You can add additional code here if needed
-	//	//getch();
-	//	//PlaySound(0, 0, 0);
-	//	//getch();
-	//}
-	//else {
-	//	// Error handling
-	//	DWORD error = GetLastError();
-	//	if (error != MMSYSERR_NOERROR) {
-	//		// Handle the error
-	//		// You can print an error message or perform other actions
-	//	}
-	//}
 	mciSendStringA("open Sound/BACKGROUND.wav type waveaudio alias MyFile", NULL, 0, 0);
-	// Play the audio
-	mciSendStringA("play MyFile", NULL, 0, NULL);	//std::cerr << "Error playing the sound." << std::endl;
-	
-
-	// You might want to add some delay to let the sound play before closing
-	// For example, using Sleep function (don't forget to include Windows.h)
-	// Sleep(5000); // Sleep for 5000 milliseconds (5 seconds)
-
-	// Close the audio file
-	//mciSendStringA("close MyFile", NULL, 0, NULL);
-
+	mciSendStringA("play MyFile", NULL, 0, NULL);
 }
 
 std::string CGAME::getName() const
@@ -374,7 +344,7 @@ void CGAME::Draw(Render_State& screen)
 	}
 }
 
-int CGAME::CheckStatePepple() // 0: ko va cham, 1: va cham vehicle, 2: va cham animal
+int CGAME::CheckStatePepple() // 0: No collision, 1: Vehicle collision, 2: Animal collision
 {
 	for (const auto& it : m)
 	{
@@ -401,8 +371,6 @@ int CGAME::CheckStatePepple() // 0: ko va cham, 1: va cham vehicle, 2: va cham a
 
 	return 0;
 }
-
-
 
 void fileForGameLoading(string fileName, vector <pair<string, string>>& vect) {
 	ifstream ifs;
@@ -440,9 +408,9 @@ std::multimap<int, pair<string, string>> CGAME::GetLeaderBoard()
 	return res;
 
 }
+
 bool CGAME::SaveScoreToLeaderBoard()
 {
-	
 	multimap<int, pair<string, string>> res  = GetLeaderBoard();
 	auto it = res.begin();
 	if (res.size() != 0 && it->first > CurrentScore) return true;
@@ -465,6 +433,7 @@ bool CGAME::SaveScoreToLeaderBoard()
 	out.close();
 	return true;
 }
+
 int CGAME::getLevelScore() const
 {
 	return (this->m_currentLevel + 1) * 100;
@@ -540,6 +509,7 @@ pair<int, vector<pair<string, pair<string, string>>>> CGAME::getListGames()
 	ifs.close();
 	return res;
 }
+
 void millisecondsToHoursMinutesSeconds(long long milliseconds, int& hours, int& minutes, int& seconds) {
 	
 	seconds = static_cast<int>(milliseconds / 1000);
@@ -550,19 +520,14 @@ void millisecondsToHoursMinutesSeconds(long long milliseconds, int& hours, int& 
 	seconds = seconds % 60;
 }
 
-
 void millisecondsToDateTime(long long milliseconds, int& year, int& month, int& day, int& hours, int& minutes, int& seconds) {
-	
 	auto timePoint = std::chrono::system_clock::time_point(std::chrono::milliseconds(milliseconds));
 
-	
 	std::time_t time = std::chrono::system_clock::to_time_t(timePoint);
 	std::tm timeinfo;
 
-	
 	localtime_s(&timeinfo, &time);
 
-	
 	year = timeinfo.tm_year + 1900; 
 	month = timeinfo.tm_mon + 1;    
 	day = timeinfo.tm_mday;
@@ -570,6 +535,7 @@ void millisecondsToDateTime(long long milliseconds, int& year, int& month, int& 
 	minutes = timeinfo.tm_min;
 	seconds = timeinfo.tm_sec;
 }
+
 string CGAME::getCurTime()
 {
 	string res;
@@ -585,5 +551,4 @@ string CGAME::getCurTime()
 	
 	res = to_string(year) + "/" + to_string(month) + "/" + to_string(day) + "T" + to_string(hours) + ":" + to_string(minutes) + ":" + to_string(seconds);
 	return res;
-
 }

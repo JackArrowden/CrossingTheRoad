@@ -122,27 +122,8 @@ class ConsoleHandle
 public:
 	static const int getSizeHelper = 1000;
 	static const int rightShift = 20;
-//private:
-//	int m_width;
-//	int m_height;
-//
 	void resizeConsole(int, int);
-//	int getSize();
-//	string getClipboardText();
-//	void printString(string, int, int, int, size_t, size_t);
 public:
-//	ConsoleHandle();
-//	ConsoleHandle(int, int);
-//	~ConsoleHandle();
 	void textcolor(int x);
 	void fixConsoleWindow();
-//	void gotoXY(int x, int y);
-//	void clrscr();
-//	void hideCursor();
-//	void showCursor();
-//	int width() { return m_width; }
-//	int height() { return m_height; }
-//	int midVertical() const;
-//	int midHorizontal() const;
-//	string textEdit(int row, int begin, int end);
 };

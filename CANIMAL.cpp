@@ -33,8 +33,6 @@ void CANIMAL::setDirection(int newDirec)
     direc = newDirec;
 }
 
-
-
 pair<pair<int, int>, pair<int, int>> CANIMAL::objectZone() const
 {
     pair<pair<int, int>, pair<int, int>> res;
@@ -42,7 +40,6 @@ pair<pair<int, int>, pair<int, int>> CANIMAL::objectZone() const
     res.second = make_pair(getRightX(), mY + topY);
     return res;
 }
-
 
 void CANIMAL::tell()
 {

@@ -6,7 +6,6 @@ int countTime[6] = { 0 };
 int curState = 0, curPic = 1;
 bool button1 = false, button2 = false, button3 = false, button4 = false, button5 = false, button6 = false, button7 = false, button8 = false, button9 = false;
 bool gameSound = true, objectSound = true, backClick = false, gameSoundClick_temp = false, gameStage1Clicked = false;
-bool isDataChanged = false; // This variable is used to check if the user's data is changed or not, if changed, calls sort function
 vector <pair<string, string>> listAcc;
 multimap<int, pair<string, string>> leaderAcc;
 
@@ -171,6 +170,7 @@ void printString(string str, int x, int y, int size);
 
 CGAME* game = new CGAME;
 
+// Main function
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
 	//game->tell();
 	//ShowCursor(FALSE);
@@ -208,7 +208,6 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 		QueryPerformanceFrequency(&perf);
 		performance_frequency = (float)perf.QuadPart;
 	}
-
 
 	while (running) {
 		if (gameSoundClick_temp) {
@@ -268,6 +267,7 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 		delta_time = (float)(frame_end_time.QuadPart - frame_begin_time.QuadPart) / performance_frequency;
 		frame_begin_time = frame_end_time;
 	}
+
 	delete game;
 	return 0;
 }

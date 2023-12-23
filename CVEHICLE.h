@@ -11,7 +11,6 @@
 #define STOP_MODE 0
 #endif // !STOP_MODE
 
-
 using namespace std;
 
 class CVEHICLE {
@@ -39,7 +38,4 @@ public:
 	
 	friend istream& operator>>(istream& in, CVEHICLE& x);
 	friend ostream& operator<<(ostream& out, const CVEHICLE& x);
-
 };
-
-

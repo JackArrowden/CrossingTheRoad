@@ -23,11 +23,14 @@ using namespace std;
 class CGAME
 {
 private:
+	// Player
 	string NameOfPlayer;
 	int CurrentScore;
 	int m_isRunning;
 	int m_currentLevel;
 	CPEOPLE* mainChar;
+
+	// Vehicle
 	int numOfCars;
 	CAR* car;
 	int numOfTrucks;
@@ -35,6 +38,7 @@ private:
 	int numOfTrains;
 	CTRAIN* train;
 
+	// Animal
 	int numOfBirds;
 	CBIRD* bird;
 	int numOfCats;
@@ -45,18 +49,8 @@ private:
 	static bitmapHandMake gameBackground;
 	std::map<int, vector<pair<void*, int>>> m;
 	string FileBackGround;
-
-	//void copyGame(const CGAME&);
-
-	//static void drawRectangle(ConsoleHandle*, int, int, int, int);//Vẽ hình chữ nhật bao quanh 2 đỉnh tham số (trái trên, phải dưới)
-	//static void removeRectangle(ConsoleHandle*, int, int, int, int);
-	//void soundSetting(ConsoleHandle*, bool&);
-	//int levelSetting(ConsoleHandle*, int);
-	//int crashPos(CANIMAL, int);
-	//int crashPos(CVEHICLE*, int);
-	//int crashPos();
 public:
-	//Tọa độ khung game
+	//Frame's coordinate
 	static const int MAX_LEVEL;
 	static const int LEFT;
 	static const int RIGHT;

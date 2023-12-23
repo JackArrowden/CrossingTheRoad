@@ -11,13 +11,11 @@
 class CPEOPLE {
 	static const bitmapHandMake image;
 	int mX, mY;
-	bool mState; // DEAD = 0
-
+	bool mState; // State == 0: DEAD
 	bool isInRange(int l, int val, int r);
 public:
 	bool isImpact(CVEHICLE* x);
 	bool isImpact(CANIMAL* x);
-	//bool isFinish();
 	bool isDead() const;
 	void setDead();
 	CPEOPLE();
@@ -34,4 +32,3 @@ public:
 	friend istream& operator>>(istream& in, CPEOPLE& x);
 	friend ostream& operator<<(ostream& out, const CPEOPLE& x);
 };
-

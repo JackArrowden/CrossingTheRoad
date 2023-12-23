@@ -11,7 +11,6 @@ typedef unsigned char u8;
 #define UNCOLOR_NUMBER 2147483648
 #endif // !UNCOLOR_NUMBER
 
-
 #pragma pack(2)
 struct BMPHeader {
 	unsigned short signature; // "BM" for a valid BMP file
@@ -45,7 +44,6 @@ public:
 	~bitmapHandMake();
 	bool readBitmapFile(const std::string& path);
 };
-
 
 class Render_State {
 	

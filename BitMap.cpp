@@ -19,9 +19,9 @@ bitmapHandMake::~bitmapHandMake()
 		width = 0;
 }
 
-// return false if there are any error when read file
-// if read file is fail, the bitmapHandMake object would have value {memory(NULL), height(0), width(0)}
-// this function would clear the data of the old image if any.
+// Return false if there are any error when read file
+// If read file is fail, the bitmapHandMake object would have value {memory(NULL), height(0), width(0)}
+// This function would clear the data of the old image if any.
 bool bitmapHandMake::readBitmapFile(const std::string& path)
 {
 	std::ifstream file(path, std::ios::binary);
@@ -79,15 +79,12 @@ bool bitmapHandMake::readBitmapFile(const std::string& path)
 		unsigned char blue = static_cast<unsigned char>(imageData[i]);
 		unsigned char green = static_cast<unsigned char>(imageData[i + 1]);
 		unsigned char red = static_cast<unsigned char>(imageData[i + 2]);
-		//std::cout << "Pixel at position " << i / 3 << ": ";
 		unsigned int ARGB = (static_cast<int>(red) << 16) | (static_cast<int>(green) << 8) | static_cast<int>(blue);
 		memory[(int)i / 3] = ARGB;
-		//std::cout << static_cast<int>(red) << "," << static_cast<int>(green) << "," << static_cast<int>(blue) << std::endl;
 	}
 	return true;
 }
 
-/////////////////////////////////////////////
 Render_State:: Render_State() : memory(NULL), width(0), height(0) {
 	bitmap_info.bmiHeader.biSize = sizeof(bitmap_info.bmiHeader);
 	bitmap_info.bmiHeader.biWidth = width;
@@ -107,9 +104,6 @@ Render_State::~Render_State()
 		height = 0;
 		width = 0;
 	}
-	/*for (int i = 0; i < 203; i++)
-		delete letters[i];
-	delete[] letters;*/
 }
 
 void Render_State::resize(int newHeight, int newWidth)
@@ -126,7 +120,7 @@ void Render_State::resize(int newHeight, int newWidth)
 
 void Render_State::drawReac2P(int leftX, int rightX, int bottomY, int topY, u32 color)
 {
-	//check and fix the input data
+	// Check and fix the input data
 	leftX = clamp(0, leftX, width);
 	rightX = clamp(0, rightX, width);
 	bottomY = clamp(0, bottomY, height);
@@ -174,7 +168,6 @@ void Render_State::drawImage(const bitmapHandMake& image, int leftX, int bottomY
 			idxInImage += perPixel;
 		}
 	}
-
 }
 
 void Render_State::drawReverseImage(const bitmapHandMake& image, int leftX, int bottomY, int perPixel, u32 backgroundColor)
@@ -195,7 +188,6 @@ void Render_State::drawReverseImage(const bitmapHandMake& image, int leftX, int 
 			idxInImage -= perPixel;
 		}
 	}
-
 }
 
 void Render_State::dynamicDrawReac(double dynamicCenterX, double dynamicCenterY, double dynamicHalfSizeX, double dynamicHalfSizeY, u32 color) {
@@ -209,10 +201,10 @@ void Render_State::dynamicDrawReac(double dynamicCenterX, double dynamicCenterY,
 	centerY += height / 2.0;
 
 	// Change to pixels
-	int leftX = centerX - halfSizeX;
-	int rightX = centerX + halfSizeX;
-	int bottomY = centerY - halfSizeY;
-	int topY = centerY + halfSizeY;
+	int leftX = static_cast<int>(centerX - halfSizeX);
+	int rightX = static_cast<int>(centerX + halfSizeX);
+	int bottomY = static_cast<int>(centerY - halfSizeY);
+	int topY = static_cast<int>(centerY + halfSizeY);
 
 	drawReac2P(leftX, rightX, bottomY, topY, color);
 }

@@ -20,4 +20,3 @@ public:
 	int getRightX() const;
 	int getLeftX() const;
 };
-

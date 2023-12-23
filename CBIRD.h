@@ -21,4 +21,3 @@ public:
 	int getLeftX() const;
 	//void DropShit(); // Thả shit tác động người chơi
 };
-

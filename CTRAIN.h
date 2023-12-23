@@ -30,4 +30,3 @@ public:
 	friend istream& operator>>(istream& in, CTRAIN& x);
 	friend ostream& operator<<(ostream& out, const CTRAIN& x);
 };
-

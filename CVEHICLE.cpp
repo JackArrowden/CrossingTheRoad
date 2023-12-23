@@ -33,13 +33,8 @@ void CVEHICLE::setDirection(int newDirec)
     direc = newDirec;
 }
 
-
 void CVEHICLE::tell()
 {
-    //PlaySound(TEXT("Sound/birds.wav"), NULL, SND_FILENAME | SND_ASYNC);
-    //const char* soundFilePath = "Sound\\birds.wav";
-
-    // Use PlaySound to play the sound file
     if (PlaySound(TEXT("Sound\\TRUCK.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC)) 
     {
         // Sound started playing successfully
@@ -53,7 +48,6 @@ void CVEHICLE::tell()
             // You can print an error message or perform other actions
         }
     }
-
 }
 
 pair<pair<int, int>, pair<int, int>> CVEHICLE::objectZone() const
