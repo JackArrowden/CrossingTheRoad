@@ -1,10 +1,10 @@
-line 1: ten_nhan_vat
-Link file background
-line 2: CurrentScore  m_currentLevel
-line 3: mX mY // (main char)
-line 4: numOfCars [mX mY direc] ... [mX mY direc] // numCars is the number of elements
-line 5: numOfTrucks [mX mY direc] ... [mX mY direc]
-line 6: numOfTrains [mx mY direc numCarriges] ...[mx mY direc numCarriges]
-line 7:	numOfBirds [mX mY direc] ... [mX mY direc]
-line 8: numOfCats [mX mY direc] ... [mX mY direc]
-line 9: numOfMouse [mX mY direc] ... [mX mY direc]
+line 1: <username>
+Line 2: <the link to the file of background image>
+line 3: <current score>  m_currentLevel
+line 4: mX mY // Character's coordinate
+line 5: <the number of cars> [mX mY direc] ... [mX mY direc]
+line 6: <the number of trucks> [mX mY direc] ... [mX mY direc]
+line 7: <the number of trains> [mx mY direc numCarriges] ...[mx mY direc numCarriges]
+line 8:	<the number of birds> [mX mY direc] ... [mX mY direc]
+line 9: <the number of cats> [mX mY direc] ... [mX mY direc]
+line 10: <the number of mouses> [mX mY direc] ... [mX mY direc]
